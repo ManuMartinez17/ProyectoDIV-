@@ -1,0 +1,185 @@
+<ContentPage x:Class="ProyectoDIV1.Views.PerfilCandidato"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	Title="inicio">
+	<ContentPage.Content>
+		<ScrollView>
+		<AbsoluteLayout>
+			<BoxView x:Name="_bg__perfil"
+				Color="#ffffff"
+				AbsoluteLayout.LayoutBounds="0,0,360,640" />
+			<BoxView x:Name="rect_ngulo_8"
+				Color="#2b2831"
+				AbsoluteLayout.LayoutBounds="0,48,360,132" />
+			<Image x:Name="enmascarar_grupo_3"
+				Source="enmascarar_grupo_3.png"
+				AbsoluteLayout.LayoutBounds="123,114,132,132" />
+			<Label x:Name="nombre_y_apellido"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				FontSize="14"
+				TextColor="#707070"
+				AbsoluteLayout.LayoutBounds="25.25,271,327,30"
+				Text="Nombre y Apellido"
+			 />
+			<Label x:Name="ciudad_pais"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				FontSize="14"
+				TextColor="#707070"
+				AbsoluteLayout.LayoutBounds="25.75,334,327,27"
+				Text="Ciudad/Pais"
+			 />
+			<Label x:Name="email"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				FontSize="14"
+				TextColor="#707070"
+				AbsoluteLayout.LayoutBounds="25.75,404,326,27"
+				Text="Email"
+			 />
+			<Label x:Name="usuario"
+				FontFamily="Lato"
+				FontSize="12"
+				TextColor="#707070"
+				AbsoluteLayout.LayoutBounds="48,296,303,27"
+				Text="Usuario"
+			 />
+			<Label x:Name="texto"
+				FontFamily="Lato"
+				FontSize="12"
+				TextColor="#707070"
+				AbsoluteLayout.LayoutBounds="48,363,303,27"
+				Text="Texto"
+			 />
+			<Label x:Name="usurario_"
+				FontFamily="Lato"
+				FontSize="12"
+				TextColor="#707070"
+				AbsoluteLayout.LayoutBounds="48,429,302,27"
+				Text="usurario@"
+			 />
+			<Image x:Name="l_nea_13"
+				Source="l_nea_13.png"
+				AbsoluteLayout.LayoutBounds="25.25,319.5,285.01,3" />
+			<Image x:Name="l_nea_14"
+				Source="l_nea_14.png"
+				AbsoluteLayout.LayoutBounds="26.25,386.5,285.01,3" />
+			<Image x:Name="l_nea_15"
+				Source="l_nea_15.png"
+				AbsoluteLayout.LayoutBounds="26.25,455.5,284,2" />
+
+			<AbsoluteLayout x:Name="cabecera"
+				 AbsoluteLayout.LayoutBounds="0,0,360,48"
+				 >
+
+				<BoxView x:Name="rect_ngulo_5"
+					Color="#f6810d"
+					AbsoluteLayout.LayoutBounds="0,0,360,48" />
+
+				<AbsoluteLayout x:Name="retroceder"
+					 AbsoluteLayout.LayoutBounds="26,16,22.65673828125,16.956119537354"
+					 >
+
+					<Image x:Name="trazado_1"
+						Source="trazado_1.png"
+						AbsoluteLayout.LayoutBounds="-1,-1,11.31,19.78" />
+					<Image x:Name="trazado_2"
+						Source="trazado_2.png"
+						AbsoluteLayout.LayoutBounds="-1,7,24.32,2" />
+				</AbsoluteLayout>
+
+
+				<AbsoluteLayout x:Name="btn_sandwish"
+					 AbsoluteLayout.LayoutBounds="309,19,22.323974609375,10"
+					 >
+
+					<Image x:Name="trazado_2_ek1"
+						Source="trazado_2_ek1.png"
+						AbsoluteLayout.LayoutBounds="-1,4,24.32,2" />
+					<Image x:Name="trazado_4"
+						Source="trazado_4.png"
+						AbsoluteLayout.LayoutBounds="-1,-1,24.32,2" />
+					<Image x:Name="trazado_3"
+						Source="trazado_3.png"
+						AbsoluteLayout.LayoutBounds="-1,9,24.32,2" />
+				</AbsoluteLayout>
+
+				<Label x:Name="perfil_candidato"
+					FontFamily="Lato"
+					FontAttributes="Bold"
+					HorizontalTextAlignment="Center"
+					FontSize="14"
+					TextColor="#ffffff"
+					AbsoluteLayout.LayoutBounds="71,15,213,28"
+					Text="Perfil Candidato"
+				 />
+			</AbsoluteLayout>
+
+
+			<AbsoluteLayout x:Name="menu_inferior"
+				 AbsoluteLayout.LayoutBounds="0,592,360,48"
+				 >
+
+				<BoxView x:Name="rect_ngulo_12"
+					Color="#2b2831"
+					AbsoluteLayout.LayoutBounds="0,0,360,48" />
+				<Image x:Name="_home"
+					Source="_home.png"
+					AbsoluteLayout.LayoutBounds="52,14,27.01,21" />
+				<Image x:Name="corazon_blanco"
+					Source="corazon_blanco.png"
+					AbsoluteLayout.LayoutBounds="166,10,28,28" />
+				<Image x:Name="user"
+					Source="user.png"
+					AbsoluteLayout.LayoutBounds="283,14,18.38,21" />
+			</AbsoluteLayout>
+
+			<Label x:Name="celular"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				FontSize="14"
+				TextColor="#707070"
+				AbsoluteLayout.LayoutBounds="25,480,326,27"
+				Text="Celular"
+			 />
+			<Image x:Name="l_nea_17"
+				Source="l_nea_17.png"
+				AbsoluteLayout.LayoutBounds="25,532.5,285.01,3" />
+			<Label x:Name="usuario_ek1"
+				FontFamily="Lato"
+				FontSize="12"
+				TextColor="#707070"
+				AbsoluteLayout.LayoutBounds="47,509,303,27"
+				Text="Usuario"
+			 />
+
+			<AbsoluteLayout x:Name="boton"
+				 AbsoluteLayout.LayoutBounds="102,547,156,35"
+				 >
+
+				<BoxView x:Name="rect_ngulo_2"
+					CornerRadius="10"
+					Color="#ffffff"
+					AbsoluteLayout.LayoutBounds="0,0,158,37" />
+				<Label x:Name="siguiente"
+					FontFamily="Lato"
+					FontAttributes="Bold"
+					HorizontalTextAlignment="Center"
+				
+					FontSize="14"
+					TextColor="#f6810d"
+					AbsoluteLayout.LayoutBounds="-2,8,156,29"
+					Text="Siguiente"
+				 />
+			</AbsoluteLayout>
+
+		</AbsoluteLayout>
+
+		</ScrollView>
+
+	</ContentPage.Content>
+</ContentPage>

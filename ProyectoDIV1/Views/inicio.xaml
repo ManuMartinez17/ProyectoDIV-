@@ -1,0 +1,113 @@
+<ContentPage x:Class="ProyectoDIV1.Views.inicio"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:viewmodels="clr-namespace:ProyectoDIV1.ViewModels" x:DataType="viewmodels:InicioViewModel"
+             mc:Ignorable="d"
+	Title="inicio">
+	<ContentPage.Content>
+		<ScrollView>
+		<AbsoluteLayout>
+			<BoxView x:Name="_bg__ingresar"
+				Color="#ffffff"
+				AbsoluteLayout.LayoutBounds="0,0,360,640" />
+			<Image x:Name="inicio_1"
+				Source="inicio_1.png"
+				AbsoluteLayout.LayoutBounds="0,0,360,640" />
+			<BoxView x:Name="rect_ngulo_1"
+				Opacity="0.6"
+				Color="#be5e1e"
+				AbsoluteLayout.LayoutBounds="0,0,360,640" />
+			<Label x:Name="__te_damos_la_bienvenida_"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				HorizontalTextAlignment="Center"
+				FontSize="24"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="13,192,327,56"
+				Text="Te damos la bienvenida!"
+			 />
+			<Label x:Name="reg_strate_y_descubre_las_mejores_oportunidades_de_empleo"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				HorizontalTextAlignment="Center"
+				FontSize="14"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="57.5,253,227,53"
+				Text="Regstrate y descubre las mejores oportunidades de empleo"
+			 />
+			<Entry x:Name="usuario"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				FontSize="14"
+                   Placeholder="usuario"
+                   PlaceholderColor="Azure"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="31,330,312,40"
+				Text="{Binding Apodo}"
+			 />
+			<Entry x:Name="contrase_a"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				FontSize="14"
+				TextColor="#ffffff"
+                Placeholder="clave"
+                IsPassword="True"
+                PlaceholderColor="Azure"
+				AbsoluteLayout.LayoutBounds="31.5,374,312,40"
+				Text="{Binding Password}"
+			 />
+			<Label x:Name="__olvidaste_tu_contrase_a_"
+				FontFamily="Lato"
+				HorizontalTextAlignment="Right"
+				FontSize="12"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="14,418,327,27"
+				Text="Olvidaste tu contrasea?"
+			 />
+			<Label x:Name="si_aun_no_tienes_una_cuenta_registrate"
+				FontFamily="Lato"
+				HorizontalTextAlignment="Center"
+				FontSize="12"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="14.5,546,327,27"
+				Text="si aun no tienes una cuenta REGISTRATE"
+			 />
+			<Image x:Name="l_nea_1"
+				Source="l_nea_1.png"
+				AbsoluteLayout.LayoutBounds="16,357.5,327.01,3" />
+			<Image x:Name="l_nea_2"
+				Source="l_nea_2.png"
+				AbsoluteLayout.LayoutBounds="16.5,401.5,327.01,3" />
+
+			<AbsoluteLayout x:Name="boton"
+				 AbsoluteLayout.LayoutBounds="88,489,156,35"
+				 >
+
+				<BoxView x:Name="rect_ngulo_2"
+					CornerRadius="10"
+					Color="#ffffff"
+					AbsoluteLayout.LayoutBounds="0,0,158,37" />
+                
+                
+				<Button x:Name="ingresar"
+					FontFamily="Lato"
+					FontAttributes="Bold"
+					HorizontalOptions="Center"
+					Command="{Binding LoginCommand}"
+					FontSize="14"
+					TextColor="#f6810d"
+					AbsoluteLayout.LayoutBounds="-2,8,200,40"
+					Text="INGRESAR"
+				 />
+			</AbsoluteLayout>
+
+			<Image x:Name="div2"
+				Source="div2.png"
+				AbsoluteLayout.LayoutBounds="81,18,199,152" />
+		</AbsoluteLayout>
+
+		</ScrollView>
+
+	</ContentPage.Content>
+</ContentPage>

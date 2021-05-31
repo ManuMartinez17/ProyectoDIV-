@@ -1,0 +1,25 @@
+<ContentPage x:Class="ProyectoDIV1.Views.inicioPortada"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	Title="inicio">
+	<ContentPage.Content>
+		<ScrollView>
+		<AbsoluteLayout>
+			<BoxView x:Name="_bg__inicio"
+				Color="#ffffff"
+				AbsoluteLayout.LayoutBounds="0,0,360,640" />
+			<BoxView x:Name="_rect_ngulo_1"
+				Color="#2b2831"
+				AbsoluteLayout.LayoutBounds="0,0,360,640" />
+			<Image x:Name="divv"
+				Source="divv.png"
+				AbsoluteLayout.LayoutBounds="-15,129,365,362" />
+		</AbsoluteLayout>
+
+		</ScrollView>
+
+	</ContentPage.Content>
+</ContentPage>

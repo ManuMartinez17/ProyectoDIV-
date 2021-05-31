@@ -1,0 +1,92 @@
+<ContentPage x:Class="ProyectoDIV1.Views.inicioVinculacion"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	Title="inicio">
+	<ContentPage.Content>
+		<ScrollView>
+		<AbsoluteLayout>
+			<BoxView x:Name="_bg__slider_3"
+				Color="#ffffff"
+				AbsoluteLayout.LayoutBounds="0,0,360,640" />
+			<Image x:Name="inicio_1"
+				Source="inicio_6.png"
+				AbsoluteLayout.LayoutBounds="0,0,360,640" />
+			<BoxView x:Name="rect_ngulo_1"
+				Opacity="0.6"
+				Color="#be5e1e"
+				AbsoluteLayout.LayoutBounds="0,0,360,640" />
+			<BoxView x:Name="elipse_1"
+				Color="#f6810d"
+				AbsoluteLayout.LayoutBounds="65,205,230,230" />
+			<Label x:Name="vinculaci_n"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				HorizontalTextAlignment="Center"
+				FontSize="24"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="69.5,275,213,56"
+				Text="Vinculacin"
+			 />
+			<Label x:Name="ser_el_mejor_en_lo_que_haces_es_tu_desici_n"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				HorizontalTextAlignment="Center"
+				FontSize="14"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="71.5,320,213,68"
+				Text="Ser el mejor en lo que haces es tu desicin"
+			 />
+			<Label x:Name="_omitir"
+				FontFamily="Lato"
+				FontSize="12"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="16.5,590,99,27"
+				Text="Omitir"
+			 />
+			<Label x:Name="_siguiente"
+				FontFamily="Lato"
+				HorizontalTextAlignment="Right"
+				FontSize="12"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="242,590,99,27"
+				Text="Siguiente"
+			 />
+
+			<AbsoluteLayout x:Name="slider"
+				 AbsoluteLayout.LayoutBounds="130,587,24,24"
+				 >
+
+				<BoxView x:Name="elipse_2"
+					Color="#ffffff"
+					AbsoluteLayout.LayoutBounds="0,0,26,26" />
+			</AbsoluteLayout>
+
+
+			<AbsoluteLayout x:Name="slider_ek1"
+				 AbsoluteLayout.LayoutBounds="168.5,587,24,24"
+				 >
+
+				<BoxView x:Name="elipse_2_ek1"
+					Color="#ffffff"
+					AbsoluteLayout.LayoutBounds="0,0,26,26" />
+			</AbsoluteLayout>
+
+
+			<AbsoluteLayout x:Name="slider_ek2"
+				 AbsoluteLayout.LayoutBounds="207.5,587,24,24"
+				 >
+
+				<BoxView x:Name="elipse_2_ek2"
+					Color="#f6810d"
+					AbsoluteLayout.LayoutBounds="0,0,26,26" />
+			</AbsoluteLayout>
+
+		</AbsoluteLayout>
+
+		</ScrollView>
+
+	</ContentPage.Content>
+</ContentPage>

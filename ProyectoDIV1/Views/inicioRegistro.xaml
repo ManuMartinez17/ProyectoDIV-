@@ -1,0 +1,142 @@
+<ContentPage x:Class="ProyectoDIV1.Views.inicioRegistro"
+	xmlns="http://xamarin.com/schemas/2014/forms"
+	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+	xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	Title="inicio">
+	<ContentPage.Content>
+		<ScrollView>
+		<AbsoluteLayout>
+			<BoxView x:Name="_bg__me_gusta"
+				Color="#ffffff"
+				AbsoluteLayout.LayoutBounds="0,0,360,640" />
+			<BoxView x:Name="rect_ngulo_13"
+				Opacity="0.6"
+				Color="#be5e1e"
+				AbsoluteLayout.LayoutBounds="1,0,360,640" />
+			<Label x:Name="_5"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				Opacity="0"
+				FontSize="20"
+				TextColor="#f6810d"
+				AbsoluteLayout.LayoutBounds="189,362,12,38"
+				Text="5"
+			 />
+
+			<AbsoluteLayout x:Name="menu_inferior"
+				 AbsoluteLayout.LayoutBounds="0,592,360,48"
+				 >
+
+				<BoxView x:Name="rect_ngulo_12"
+					Color="#eb6a00"
+					AbsoluteLayout.LayoutBounds="0,0,360,48" />
+				<Image x:Name="_home"
+					Source="_home.png"
+					AbsoluteLayout.LayoutBounds="52,14,27.01,21" />
+				<Image x:Name="corazon_blanco"
+					Source="corazon_blanco.png"
+					AbsoluteLayout.LayoutBounds="167,11,26,26" />
+				<Image x:Name="_user"
+					Source="_user.png"
+					AbsoluteLayout.LayoutBounds="283,14,18.38,21" />
+			</AbsoluteLayout>
+
+
+			<AbsoluteLayout x:Name="cabecera"
+				 AbsoluteLayout.LayoutBounds="0,0,360,48"
+				 >
+
+				<BoxView x:Name="rect_ngulo_5"
+					Color="#f6810d"
+					AbsoluteLayout.LayoutBounds="0,0,360,48" />
+
+				<AbsoluteLayout x:Name="retroceder"
+					 AbsoluteLayout.LayoutBounds="26,16,22.65673828125,16.956115722656"
+					 >
+
+					<Image x:Name="trazado_1"
+						Source="trazado_1.png"
+						AbsoluteLayout.LayoutBounds="-1,-1,11.31,19.78" />
+					<Image x:Name="trazado_2"
+						Source="trazado_2.png"
+						AbsoluteLayout.LayoutBounds="-1,7,24.32,2" />
+				</AbsoluteLayout>
+
+
+				<AbsoluteLayout x:Name="btn_sandwish"
+					 AbsoluteLayout.LayoutBounds="309,19,22.323974609375,10"
+					 >
+
+					<Image x:Name="trazado_2_ek1"
+						Source="trazado_2_ek1.png"
+						AbsoluteLayout.LayoutBounds="-1,4,24.32,2" />
+					<Image x:Name="trazado_4"
+						Source="trazado_4.png"
+						AbsoluteLayout.LayoutBounds="-1,-1,24.32,2" />
+					<Image x:Name="trazado_3"
+						Source="trazado_3.png"
+						AbsoluteLayout.LayoutBounds="-1,9,24.32,2" />
+				</AbsoluteLayout>
+
+				<Label x:Name="registgrate"
+					FontFamily="Lato"
+					FontAttributes="Bold"
+					HorizontalTextAlignment="Center"
+					FontSize="14"
+					TextColor="#ffffff"
+					AbsoluteLayout.LayoutBounds="71,15,213,28"
+					Text="Registgrate"
+				 />
+			</AbsoluteLayout>
+
+			<Image x:Name="div3"
+				Source="div3.png"
+				AbsoluteLayout.LayoutBounds="37,121,287,219" />
+
+			<AbsoluteLayout x:Name="boton"
+				 AbsoluteLayout.LayoutBounds="79,393,202,35"
+				 >
+
+				<BoxView x:Name="rect_ngulo_2"
+					CornerRadius="10"
+					Color="#ffffff"
+					AbsoluteLayout.LayoutBounds="0,0,204,37" />
+				<Label x:Name="candidato"
+					FontFamily="Lato"
+					FontAttributes="Bold"
+					HorizontalTextAlignment="Center"
+					FontSize="14"
+					TextColor="#f6810d"
+					AbsoluteLayout.LayoutBounds="23,9,152,28"
+					Text="Candidato"
+				 />
+			</AbsoluteLayout>
+
+
+			<AbsoluteLayout x:Name="boton_ek1"
+				 AbsoluteLayout.LayoutBounds="79,460,202,35"
+				 >
+
+				<BoxView x:Name="rect_ngulo_2_ek1"
+					CornerRadius="10"
+					Color="#ffffff"
+					AbsoluteLayout.LayoutBounds="0,0,204,37" />
+				<Label x:Name="empresa"
+					FontFamily="Lato"
+					FontAttributes="Bold"
+					HorizontalTextAlignment="Center"
+					FontSize="14"
+					TextColor="#f6810d"
+					AbsoluteLayout.LayoutBounds="23,9,152,28"
+					Text="Empresa"
+				 />
+			</AbsoluteLayout>
+
+		</AbsoluteLayout>
+
+		</ScrollView>
+
+	</ContentPage.Content>
+</ContentPage>
