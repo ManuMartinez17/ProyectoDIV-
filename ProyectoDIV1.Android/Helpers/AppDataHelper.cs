@@ -22,10 +22,10 @@ namespace ProyectoDIV1.Droid.Helpers
 
             if(app == null)
             {
-                var option = new FirebaseOptions.Builder()
+                var option = new Firebase.FirebaseOptions.Builder()
                     .SetApplicationId("proyectodiv-d53ed")
                     .SetApiKey("AIzaSyBtaSAuQU_iOWSr-kRKVUmCKN7HbH3nKaI")
-                    .SetDatabaseUrl("https://proyectodiv-d53ed-default-rtdb.firebaseio.com")
+                    .SetDatabaseUrl("https://proyectodiv-d53ed-default-rtdb.firebaseio.com/")
                     .SetStorageBucket("proyectodiv-d53ed.appspot.com")
                     .Build();
 

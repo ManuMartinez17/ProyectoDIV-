@@ -12,7 +12,7 @@
 				Color="#ffffff"
 				AbsoluteLayout.LayoutBounds="0,0,360,640" />
 			<Image x:Name="inicio_1"
-				Source="inicio_1.png"
+				Source="inicio_1.jpg"
 				AbsoluteLayout.LayoutBounds="-5,0,363,646" />
 			<BoxView x:Name="rect_ngulo_1"
 				Opacity="0.6"

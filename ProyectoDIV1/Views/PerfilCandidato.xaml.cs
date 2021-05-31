@@ -17,6 +17,7 @@ namespace ProyectoDIV1.Views
         public PerfilCandidato()
         {
             InitializeComponent();
+
         }
     }
 }
