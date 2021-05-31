@@ -1,24 +1,24 @@
 {
   "format": 1,
   "restore": {
-    "D:\\ProyectoDIV1\\ProyectoDIV1.iOS\\ProyectoDIV1.iOS.csproj": {}
+    "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1.iOS\\ProyectoDIV1.iOS.csproj": {}
   },
   "projects": {
-    "D:\\ProyectoDIV1\\ProyectoDIV1.iOS\\ProyectoDIV1.iOS.csproj": {
+    "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1.iOS\\ProyectoDIV1.iOS.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ProyectoDIV1\\ProyectoDIV1.iOS\\ProyectoDIV1.iOS.csproj",
+        "projectUniqueName": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1.iOS\\ProyectoDIV1.iOS.csproj",
         "projectName": "ProyectoDIV1.iOS",
-        "projectPath": "D:\\ProyectoDIV1\\ProyectoDIV1.iOS\\ProyectoDIV1.iOS.csproj",
-        "packagesPath": "C:\\Users\\LaurayDiego\\.nuget\\packages\\",
-        "outputPath": "D:\\ProyectoDIV1\\ProyectoDIV1.iOS\\obj\\",
+        "projectPath": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1.iOS\\ProyectoDIV1.iOS.csproj",
+        "packagesPath": "C:\\Users\\SuperUs\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1.iOS\\obj\\",
         "projectStyle": "PackageReference",
         "skipContentFileWrite": true,
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\LaurayDiego\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\SuperUs\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],
@@ -32,8 +32,8 @@
         "frameworks": {
           "xamarinios10": {
             "projectReferences": {
-              "D:\\ProyectoDIV1\\ProyectoDIV1\\ProyectoDIV1.csproj": {
-                "projectPath": "D:\\ProyectoDIV1\\ProyectoDIV1\\ProyectoDIV1.csproj"
+              "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1\\ProyectoDIV1.csproj": {
+                "projectPath": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1\\ProyectoDIV1.csproj"
               }
             }
           }
@@ -81,20 +81,20 @@
         }
       }
     },
-    "D:\\ProyectoDIV1\\ProyectoDIV1\\ProyectoDIV1.csproj": {
+    "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1\\ProyectoDIV1.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "D:\\ProyectoDIV1\\ProyectoDIV1\\ProyectoDIV1.csproj",
+        "projectUniqueName": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1\\ProyectoDIV1.csproj",
         "projectName": "ProyectoDIV1",
-        "projectPath": "D:\\ProyectoDIV1\\ProyectoDIV1\\ProyectoDIV1.csproj",
-        "packagesPath": "C:\\Users\\LaurayDiego\\.nuget\\packages\\",
-        "outputPath": "D:\\ProyectoDIV1\\ProyectoDIV1\\obj\\",
+        "projectPath": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1\\ProyectoDIV1.csproj",
+        "packagesPath": "C:\\Users\\SuperUs\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1\\obj\\",
         "projectStyle": "PackageReference",
         "fallbackFolders": [
           "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
         ],
         "configFilePaths": [
-          "C:\\Users\\LaurayDiego\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\SuperUs\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
         ],

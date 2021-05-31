@@ -1904,23 +1904,23 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\LaurayDiego\\.nuget\\packages\\": {},
+    "C:\\Users\\SuperUs\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "D:\\ProyectoDIV1\\ProyectoDIV1\\ProyectoDIV1.csproj",
+      "projectUniqueName": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1\\ProyectoDIV1.csproj",
       "projectName": "ProyectoDIV1",
-      "projectPath": "D:\\ProyectoDIV1\\ProyectoDIV1\\ProyectoDIV1.csproj",
-      "packagesPath": "C:\\Users\\LaurayDiego\\.nuget\\packages\\",
-      "outputPath": "D:\\ProyectoDIV1\\ProyectoDIV1\\obj\\",
+      "projectPath": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1\\ProyectoDIV1.csproj",
+      "packagesPath": "C:\\Users\\SuperUs\\.nuget\\packages\\",
+      "outputPath": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\LaurayDiego\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\SuperUs\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
