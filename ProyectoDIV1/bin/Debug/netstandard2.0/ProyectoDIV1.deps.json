@@ -11,9 +11,9 @@
         "dependencies": {
           "FirebaseAuthentication.net": "3.7.1",
           "FirebaseDatabase.net": "4.0.6",
-          "MvvmLightLibs": "5.4.1.1",
           "NETStandard.Library": "2.0.3",
           "Newtonsoft.Json": "13.0.1",
+          "Syncfusion.Xamarin.SfComboBox": "19.1.0.65",
           "Xamarin.Essentials": "1.6.1",
           "Xamarin.Forms": "4.8.0.1821",
           "sqlite-net-pcl": "1.7.335"
@@ -61,26 +61,6 @@
       },
       "Microsoft.NETCore.Platforms/1.1.0": {},
       "Microsoft.NETCore.Targets/1.1.0": {},
-      "MvvmLightLibs/5.4.1.1": {
-        "runtime": {
-          "lib/net45/GalaSoft.MvvmLight.Extras.dll": {
-            "assemblyVersion": "5.4.1.0",
-            "fileVersion": "5.4.1.0"
-          },
-          "lib/net45/GalaSoft.MvvmLight.Platform.dll": {
-            "assemblyVersion": "5.4.1.0",
-            "fileVersion": "5.4.1.0"
-          },
-          "lib/net45/GalaSoft.MvvmLight.dll": {
-            "assemblyVersion": "5.4.1.0",
-            "fileVersion": "5.4.1.0"
-          },
-          "lib/net45/System.Windows.Interactivity.dll": {
-            "assemblyVersion": "4.5.0.0",
-            "fileVersion": "3.0.40218.0"
-          }
-        }
-      },
       "NETStandard.Library/2.0.3": {
         "dependencies": {
           "Microsoft.NETCore.Platforms": "1.1.0"
@@ -138,6 +118,38 @@
           "lib/netstandard2.0/SQLitePCLRaw.provider.e_sqlite3.dll": {
             "assemblyVersion": "2.0.3.851",
             "fileVersion": "2.0.3.851"
+          }
+        }
+      },
+      "Syncfusion.Licensing/19.1.0.65": {
+        "runtime": {
+          "lib/netstandard2.0/Syncfusion.Licensing.dll": {
+            "assemblyVersion": "19.1.0.65",
+            "fileVersion": "19.1.0.65"
+          }
+        }
+      },
+      "Syncfusion.Xamarin.Core/19.1.0.65": {
+        "dependencies": {
+          "Syncfusion.Licensing": "19.1.0.65",
+          "Xamarin.Forms": "4.8.0.1821"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Syncfusion.Core.XForms.dll": {
+            "assemblyVersion": "19.1451.0.65",
+            "fileVersion": "19.1451.0.65"
+          }
+        }
+      },
+      "Syncfusion.Xamarin.SfComboBox/19.1.0.65": {
+        "dependencies": {
+          "Syncfusion.Xamarin.Core": "19.1.0.65",
+          "Xamarin.Forms": "4.8.0.1821"
+        },
+        "runtime": {
+          "lib/netstandard2.0/Syncfusion.SfComboBox.XForms.dll": {
+            "assemblyVersion": "19.1451.0.65",
+            "fileVersion": "19.1451.0.65"
           }
         }
       },
@@ -327,13 +339,6 @@
       "path": "microsoft.netcore.targets/1.1.0",
       "hashPath": "microsoft.netcore.targets.1.1.0.nupkg.sha512"
     },
-    "MvvmLightLibs/5.4.1.1": {
-      "type": "package",
-      "serviceable": true,
-      "sha512": "sha512-xYpVzOYnIz/M6T0pdc3w5t0vrt2ZKspSS+CZjQ+pZE+5yHv9qXSWkncHJXb6D7Egstalso4ivnIUkA1xEClViw==",
-      "path": "mvvmlightlibs/5.4.1.1",
-      "hashPath": "mvvmlightlibs.5.4.1.1.nupkg.sha512"
-    },
     "NETStandard.Library/2.0.3": {
       "type": "package",
       "serviceable": true,
@@ -382,6 +387,27 @@
       "sha512": "sha512-f2bwfPhD91dJ6KnjOw01KDT68zl7qpeX4+lC0mmKa+eA91Huya8hdNan73B3q7jEDLMFU/dkv7l5wqrqGB4QoQ==",
       "path": "sqlitepclraw.provider.e_sqlite3/2.0.3",
       "hashPath": "sqlitepclraw.provider.e_sqlite3.2.0.3.nupkg.sha512"
+    },
+    "Syncfusion.Licensing/19.1.0.65": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-8EcKVkFjNawxghmLdkw/9uDdPtdlcACzNid/rWyngI5JocZaKINnufakOsULmcseHHzJgUzoCRYRXvmOH8FKaw==",
+      "path": "syncfusion.licensing/19.1.0.65",
+      "hashPath": "syncfusion.licensing.19.1.0.65.nupkg.sha512"
+    },
+    "Syncfusion.Xamarin.Core/19.1.0.65": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6XJiJKYZBr5QHZLrPMcqCac1EIou33xZmqoBxECtAIxOF/PgMSb/qgO2YlBp5TlAyHDCW65kn3KVPgyRaoHsww==",
+      "path": "syncfusion.xamarin.core/19.1.0.65",
+      "hashPath": "syncfusion.xamarin.core.19.1.0.65.nupkg.sha512"
+    },
+    "Syncfusion.Xamarin.SfComboBox/19.1.0.65": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-j66OlMGfTtc8QOMzuui1443y/06fiLqSU1gG603J1Okr2Y9qxR7BXfZFYRExHeZ2kVjQFZFeJMpTTE6Qvjkblw==",
+      "path": "syncfusion.xamarin.sfcombobox/19.1.0.65",
+      "hashPath": "syncfusion.xamarin.sfcombobox.19.1.0.65.nupkg.sha512"
     },
     "System.Buffers/4.4.0": {
       "type": "package",

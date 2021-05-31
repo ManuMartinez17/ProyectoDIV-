@@ -1,6 +1,7 @@
 FormsViewGroup.dll
-GalaSoft.MvvmLight.Platform.dll
 SQLitePCLRaw.lib.e_sqlite3.android.dll
+Syncfusion.Core.XForms.Android.dll
+Syncfusion.SfComboBox.XForms.Android.dll
 Xamarin.AndroidX.Activity.dll
 Xamarin.AndroidX.Annotation.dll
 Xamarin.AndroidX.AppCompat.AppCompatResources.dll

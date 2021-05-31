@@ -16,12 +16,25 @@ namespace ProyectoDIV1.Models
         private int edad;
         private string foto;
         private string curriculum;
+        private string password;
+        private string categoria;
         public string Nombre
         {
             get { return this.nombre; }
             set { SetValue(ref this.nombre, value); }
         }
 
+        public string Categoria
+        {
+            get { return this.categoria; }
+            set { SetValue(ref this.categoria, value); }
+        }
+
+        public string Password
+        {
+            get { return this.password; }
+            set { SetValue(ref this.password, value); }
+        }
         public string Apellido
         {
             get { return this.apellido; }

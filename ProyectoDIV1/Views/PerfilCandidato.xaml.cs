@@ -1,3 +1,4 @@
+using ProyectoDIV1.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -17,7 +18,7 @@ namespace ProyectoDIV1.Views
         public PerfilCandidato()
         {
             InitializeComponent();
-
+            BindingContext = new PersonViewModels();
         }
     }
 }

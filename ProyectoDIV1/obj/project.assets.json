@@ -60,21 +60,6 @@
           "lib/netstandard1.0/_._": {}
         }
       },
-      "MvvmLightLibs/5.4.1.1": {
-        "type": "package",
-        "compile": {
-          "lib/net45/GalaSoft.MvvmLight.Extras.dll": {},
-          "lib/net45/GalaSoft.MvvmLight.Platform.dll": {},
-          "lib/net45/GalaSoft.MvvmLight.dll": {},
-          "lib/net45/System.Windows.Interactivity.dll": {}
-        },
-        "runtime": {
-          "lib/net45/GalaSoft.MvvmLight.Extras.dll": {},
-          "lib/net45/GalaSoft.MvvmLight.Platform.dll": {},
-          "lib/net45/GalaSoft.MvvmLight.dll": {},
-          "lib/net45/System.Windows.Interactivity.dll": {}
-        }
-      },
       "NETStandard.Library/2.0.3": {
         "type": "package",
         "dependencies": {
@@ -206,6 +191,41 @@
         },
         "runtime": {
           "lib/netstandard2.0/SQLitePCLRaw.provider.e_sqlite3.dll": {}
+        }
+      },
+      "Syncfusion.Licensing/19.1.0.65": {
+        "type": "package",
+        "compile": {
+          "lib/netstandard2.0/Syncfusion.Licensing.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Syncfusion.Licensing.dll": {}
+        }
+      },
+      "Syncfusion.Xamarin.Core/19.1.0.65": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.Licensing": "19.1.0.65",
+          "Xamarin.Forms": "4.5.0.617"
+        },
+        "compile": {
+          "lib/netstandard2.0/Syncfusion.Core.XForms.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Syncfusion.Core.XForms.dll": {}
+        }
+      },
+      "Syncfusion.Xamarin.SfComboBox/19.1.0.65": {
+        "type": "package",
+        "dependencies": {
+          "Syncfusion.Xamarin.Core": "19.1.0.65",
+          "Xamarin.Forms": "4.5.0.617"
+        },
+        "compile": {
+          "lib/netstandard2.0/Syncfusion.SfComboBox.XForms.dll": {}
+        },
+        "runtime": {
+          "lib/netstandard2.0/Syncfusion.SfComboBox.XForms.dll": {}
         }
       },
       "System.Buffers/4.4.0": {
@@ -461,128 +481,6 @@
         "runtime.json"
       ]
     },
-    "MvvmLightLibs/5.4.1.1": {
-      "sha512": "xYpVzOYnIz/M6T0pdc3w5t0vrt2ZKspSS+CZjQ+pZE+5yHv9qXSWkncHJXb6D7Egstalso4ivnIUkA1xEClViw==",
-      "type": "package",
-      "path": "mvvmlightlibs/5.4.1.1",
-      "files": [
-        ".nupkg.metadata",
-        ".signature.p7s",
-        "lib/SL5/GalaSoft.MvvmLight.Extras.dll",
-        "lib/SL5/GalaSoft.MvvmLight.Extras.pdb",
-        "lib/SL5/GalaSoft.MvvmLight.Extras.xml",
-        "lib/SL5/GalaSoft.MvvmLight.dll",
-        "lib/SL5/GalaSoft.MvvmLight.pdb",
-        "lib/SL5/GalaSoft.MvvmLight.xml",
-        "lib/SL5/System.Windows.Interactivity.dll",
-        "lib/monoandroid1/GalaSoft.MvvmLight.Extras.XML",
-        "lib/monoandroid1/GalaSoft.MvvmLight.Extras.dll",
-        "lib/monoandroid1/GalaSoft.MvvmLight.Extras.dll.mdb",
-        "lib/monoandroid1/GalaSoft.MvvmLight.Extras.pdb",
-        "lib/monoandroid1/GalaSoft.MvvmLight.Platform.XML",
-        "lib/monoandroid1/GalaSoft.MvvmLight.Platform.dll",
-        "lib/monoandroid1/GalaSoft.MvvmLight.Platform.dll.mdb",
-        "lib/monoandroid1/GalaSoft.MvvmLight.Platform.pdb",
-        "lib/monoandroid1/GalaSoft.MvvmLight.XML",
-        "lib/monoandroid1/GalaSoft.MvvmLight.dll",
-        "lib/monoandroid1/GalaSoft.MvvmLight.dll.mdb",
-        "lib/monoandroid1/GalaSoft.MvvmLight.pdb",
-        "lib/net35/GalaSoft.MvvmLight.Extras.dll",
-        "lib/net35/GalaSoft.MvvmLight.Extras.pdb",
-        "lib/net35/GalaSoft.MvvmLight.Extras.xml",
-        "lib/net35/GalaSoft.MvvmLight.dll",
-        "lib/net35/GalaSoft.MvvmLight.pdb",
-        "lib/net35/GalaSoft.MvvmLight.xml",
-        "lib/net35/System.Windows.Interactivity.dll",
-        "lib/net35/System.Windows.Interactivity.xml",
-        "lib/net40/GalaSoft.MvvmLight.Extras.dll",
-        "lib/net40/GalaSoft.MvvmLight.Extras.pdb",
-        "lib/net40/GalaSoft.MvvmLight.Extras.xml",
-        "lib/net40/GalaSoft.MvvmLight.dll",
-        "lib/net40/GalaSoft.MvvmLight.pdb",
-        "lib/net40/GalaSoft.MvvmLight.xml",
-        "lib/net40/System.Windows.Interactivity.dll",
-        "lib/net40/System.Windows.Interactivity.xml",
-        "lib/net45/GalaSoft.MvvmLight.Extras.dll",
-        "lib/net45/GalaSoft.MvvmLight.Extras.pdb",
-        "lib/net45/GalaSoft.MvvmLight.Extras.xml",
-        "lib/net45/GalaSoft.MvvmLight.Platform.dll",
-        "lib/net45/GalaSoft.MvvmLight.Platform.pdb",
-        "lib/net45/GalaSoft.MvvmLight.Platform.xml",
-        "lib/net45/GalaSoft.MvvmLight.dll",
-        "lib/net45/GalaSoft.MvvmLight.pdb",
-        "lib/net45/GalaSoft.MvvmLight.xml",
-        "lib/net45/System.Windows.Interactivity.dll",
-        "lib/portable-net45+wp8+wpa81+netcore45+monoandroid1+xamarin.ios10/GalaSoft.MvvmLight.Extras.XML",
-        "lib/portable-net45+wp8+wpa81+netcore45+monoandroid1+xamarin.ios10/GalaSoft.MvvmLight.Extras.dll",
-        "lib/portable-net45+wp8+wpa81+netcore45+monoandroid1+xamarin.ios10/GalaSoft.MvvmLight.Extras.pdb",
-        "lib/portable-net45+wp8+wpa81+netcore45+monoandroid1+xamarin.ios10/GalaSoft.MvvmLight.XML",
-        "lib/portable-net45+wp8+wpa81+netcore45+monoandroid1+xamarin.ios10/GalaSoft.MvvmLight.dll",
-        "lib/portable-net45+wp8+wpa81+netcore45+monoandroid1+xamarin.ios10/GalaSoft.MvvmLight.pdb",
-        "lib/uap10.0/GalaSoft.MvvmLight.Extras.dll",
-        "lib/uap10.0/GalaSoft.MvvmLight.Extras.pdb",
-        "lib/uap10.0/GalaSoft.MvvmLight.Extras.xml",
-        "lib/uap10.0/GalaSoft.MvvmLight.Platform.dll",
-        "lib/uap10.0/GalaSoft.MvvmLight.Platform.pdb",
-        "lib/uap10.0/GalaSoft.MvvmLight.Platform.pri",
-        "lib/uap10.0/GalaSoft.MvvmLight.Platform.xml",
-        "lib/uap10.0/GalaSoft.MvvmLight.dll",
-        "lib/uap10.0/GalaSoft.MvvmLight.pdb",
-        "lib/uap10.0/GalaSoft.MvvmLight.xml",
-        "lib/windows81/GalaSoft.MvvmLight.Extras.dll",
-        "lib/windows81/GalaSoft.MvvmLight.Extras.pdb",
-        "lib/windows81/GalaSoft.MvvmLight.Extras.xml",
-        "lib/windows81/GalaSoft.MvvmLight.Platform.dll",
-        "lib/windows81/GalaSoft.MvvmLight.Platform.pdb",
-        "lib/windows81/GalaSoft.MvvmLight.Platform.pri",
-        "lib/windows81/GalaSoft.MvvmLight.Platform.xml",
-        "lib/windows81/GalaSoft.MvvmLight.dll",
-        "lib/windows81/GalaSoft.MvvmLight.pdb",
-        "lib/windows81/GalaSoft.MvvmLight.xml",
-        "lib/wp8/GalaSoft.MvvmLight.Extras.dll",
-        "lib/wp8/GalaSoft.MvvmLight.Extras.pdb",
-        "lib/wp8/GalaSoft.MvvmLight.Extras.xml",
-        "lib/wp8/GalaSoft.MvvmLight.Platform.dll",
-        "lib/wp8/GalaSoft.MvvmLight.Platform.pdb",
-        "lib/wp8/GalaSoft.MvvmLight.Platform.xml",
-        "lib/wp8/GalaSoft.MvvmLight.dll",
-        "lib/wp8/GalaSoft.MvvmLight.pdb",
-        "lib/wp8/GalaSoft.MvvmLight.xml",
-        "lib/wp8/System.Windows.Interactivity.dll",
-        "lib/wp81/GalaSoft.MvvmLight.Extras.dll",
-        "lib/wp81/GalaSoft.MvvmLight.Extras.pdb",
-        "lib/wp81/GalaSoft.MvvmLight.Extras.xml",
-        "lib/wp81/GalaSoft.MvvmLight.Platform.dll",
-        "lib/wp81/GalaSoft.MvvmLight.Platform.pdb",
-        "lib/wp81/GalaSoft.MvvmLight.Platform.xml",
-        "lib/wp81/GalaSoft.MvvmLight.dll",
-        "lib/wp81/GalaSoft.MvvmLight.pdb",
-        "lib/wp81/GalaSoft.MvvmLight.xml",
-        "lib/wp81/System.Windows.Interactivity.dll",
-        "lib/wpa81/GalaSoft.MvvmLight.Extras.XML",
-        "lib/wpa81/GalaSoft.MvvmLight.Extras.dll",
-        "lib/wpa81/GalaSoft.MvvmLight.Extras.pdb",
-        "lib/wpa81/GalaSoft.MvvmLight.Platform.XML",
-        "lib/wpa81/GalaSoft.MvvmLight.Platform.dll",
-        "lib/wpa81/GalaSoft.MvvmLight.Platform.pdb",
-        "lib/wpa81/GalaSoft.MvvmLight.Platform.pri",
-        "lib/wpa81/GalaSoft.MvvmLight.XML",
-        "lib/wpa81/GalaSoft.MvvmLight.dll",
-        "lib/wpa81/GalaSoft.MvvmLight.pdb",
-        "lib/xamarin.ios10/GalaSoft.MvvmLight.Extras.XML",
-        "lib/xamarin.ios10/GalaSoft.MvvmLight.Extras.dll",
-        "lib/xamarin.ios10/GalaSoft.MvvmLight.Extras.dll.mdb",
-        "lib/xamarin.ios10/GalaSoft.MvvmLight.Extras.pdb",
-        "lib/xamarin.ios10/GalaSoft.MvvmLight.Platform.XML",
-        "lib/xamarin.ios10/GalaSoft.MvvmLight.Platform.dll",
-        "lib/xamarin.ios10/GalaSoft.MvvmLight.XML",
-        "lib/xamarin.ios10/GalaSoft.MvvmLight.dll",
-        "lib/xamarin.ios10/GalaSoft.MvvmLight.dll.mdb",
-        "lib/xamarin.ios10/GalaSoft.MvvmLight.pdb",
-        "mvvmlightlibs.5.4.1.1.nupkg.sha512",
-        "mvvmlightlibs.nuspec"
-      ]
-    },
     "NETStandard.Library/2.0.3": {
       "sha512": "st47PosZSHrjECdjeIzZQbzivYBJFv6P2nv4cj2ypdI204DO+vZ7l5raGMiX4eXMJ53RfOIg+/s4DHVZ54Nu2A==",
       "type": "package",
@@ -824,6 +722,104 @@
         "lib/uap10.0/SQLitePCLRaw.provider.e_sqlite3.dll",
         "sqlitepclraw.provider.e_sqlite3.2.0.3.nupkg.sha512",
         "sqlitepclraw.provider.e_sqlite3.nuspec"
+      ]
+    },
+    "Syncfusion.Licensing/19.1.0.65": {
+      "sha512": "8EcKVkFjNawxghmLdkw/9uDdPtdlcACzNid/rWyngI5JocZaKINnufakOsULmcseHHzJgUzoCRYRXvmOH8FKaw==",
+      "type": "package",
+      "path": "syncfusion.licensing/19.1.0.65",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/MonoAndroid10.0/Syncfusion.Licensing.dll",
+        "lib/MonoAndroid90/Syncfusion.Licensing.dll",
+        "lib/Xamarin.Mac/Syncfusion.Licensing.dll",
+        "lib/Xamarin.iOS10/Syncfusion.Licensing.dll",
+        "lib/net20/Syncfusion.Licensing.dll",
+        "lib/net35/Syncfusion.Licensing.dll",
+        "lib/net40/Syncfusion.Licensing.dll",
+        "lib/net45/Syncfusion.Licensing.dll",
+        "lib/net451/Syncfusion.Licensing.dll",
+        "lib/net46/Syncfusion.Licensing.dll",
+        "lib/net5.0/Syncfusion.Licensing.dll",
+        "lib/netcoreapp3.1/Syncfusion.Licensing.dll",
+        "lib/netstandard1.0/Syncfusion.Licensing.dll",
+        "lib/netstandard1.2/Syncfusion.Licensing.dll",
+        "lib/netstandard1.4/Syncfusion.Licensing.dll",
+        "lib/netstandard2.0/Syncfusion.Licensing.dll",
+        "lib/portable-win+net45+wp80+win81+wpa81/Syncfusion.Licensing.dll",
+        "lib/uap10.0/Syncfusion.Licensing.dll",
+        "syncfusion.licensing.19.1.0.65.nupkg.sha512",
+        "syncfusion.licensing.nuspec"
+      ]
+    },
+    "Syncfusion.Xamarin.Core/19.1.0.65": {
+      "sha512": "6XJiJKYZBr5QHZLrPMcqCac1EIou33xZmqoBxECtAIxOF/PgMSb/qgO2YlBp5TlAyHDCW65kn3KVPgyRaoHsww==",
+      "type": "package",
+      "path": "syncfusion.xamarin.core/19.1.0.65",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/MonoAndroid10.0/Syncfusion.Core.XForms.Android.dll",
+        "lib/MonoAndroid10.0/Syncfusion.Core.XForms.dll",
+        "lib/MonoAndroid10.0/Syncfusion.Core.XForms.xml",
+        "lib/MonoAndroid90/Syncfusion.Core.XForms.Android.dll",
+        "lib/MonoAndroid90/Syncfusion.Core.XForms.dll",
+        "lib/MonoAndroid90/Syncfusion.Core.XForms.xml",
+        "lib/Xamarin.Mac/Syncfusion.Core.XForms.dll",
+        "lib/Xamarin.Mac/Syncfusion.Core.XForms.macOS.dll",
+        "lib/Xamarin.iOS10/Syncfusion.Core.XForms.dll",
+        "lib/Xamarin.iOS10/Syncfusion.Core.XForms.iOS.dll",
+        "lib/Xamarin.iOS10/Syncfusion.Core.XForms.xml",
+        "lib/netstandard2.0/Syncfusion.Core.XForms.dll",
+        "lib/netstandard2.0/Syncfusion.Core.XForms.xml",
+        "lib/portable-win+net45+wp80+win81+wpa81/Syncfusion.Core.XForms.dll",
+        "lib/portable-win+net45+wp80+win81+wpa81/Syncfusion.Core.XForms.xml",
+        "lib/uap10.0/Syncfusion.Core.XForms.UWP.dll",
+        "lib/uap10.0/Syncfusion.Core.XForms.UWP.pri",
+        "lib/uap10.0/Syncfusion.Core.XForms.UWP/Syncfusion.Core.XForms.UWP.xr.xml",
+        "lib/uap10.0/Syncfusion.Core.XForms.UWP/TILRenderer/ToggleIcons/ClearButtonViewVisibleIcon.xaml",
+        "lib/uap10.0/Syncfusion.Core.XForms.UWP/TILRenderer/ToggleIcons/DropDownIcon.xaml",
+        "lib/uap10.0/Syncfusion.Core.XForms.UWP/TILRenderer/ToggleIcons/ToggleCollapsedIcon.xaml",
+        "lib/uap10.0/Syncfusion.Core.XForms.UWP/TILRenderer/ToggleIcons/ToggleVisibleIcon.xaml",
+        "lib/uap10.0/Syncfusion.Core.XForms.dll",
+        "lib/uap10.0/Syncfusion.Core.XForms.xml",
+        "syncfusion.xamarin.core.19.1.0.65.nupkg.sha512",
+        "syncfusion.xamarin.core.nuspec"
+      ]
+    },
+    "Syncfusion.Xamarin.SfComboBox/19.1.0.65": {
+      "sha512": "j66OlMGfTtc8QOMzuui1443y/06fiLqSU1gG603J1Okr2Y9qxR7BXfZFYRExHeZ2kVjQFZFeJMpTTE6Qvjkblw==",
+      "type": "package",
+      "path": "syncfusion.xamarin.sfcombobox/19.1.0.65",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "lib/MonoAndroid10.0/Syncfusion.SfComboBox.XForms.Android.dll",
+        "lib/MonoAndroid10.0/Syncfusion.SfComboBox.XForms.XML",
+        "lib/MonoAndroid10.0/Syncfusion.SfComboBox.XForms.dll",
+        "lib/MonoAndroid90/Syncfusion.SfComboBox.XForms.Android.dll",
+        "lib/MonoAndroid90/Syncfusion.SfComboBox.XForms.XML",
+        "lib/MonoAndroid90/Syncfusion.SfComboBox.XForms.dll",
+        "lib/Xamarin.iOS10/Syncfusion.SfComboBox.XForms.XML",
+        "lib/Xamarin.iOS10/Syncfusion.SfComboBox.XForms.dll",
+        "lib/Xamarin.iOS10/Syncfusion.SfComboBox.XForms.iOS.dll",
+        "lib/netstandard2.0/Syncfusion.SfComboBox.XForms.XML",
+        "lib/netstandard2.0/Syncfusion.SfComboBox.XForms.dll",
+        "lib/portable-win+net45+wp80+win81+wpa81/Syncfusion.SfComboBox.XForms.XML",
+        "lib/portable-win+net45+wp80+win81+wpa81/Syncfusion.SfComboBox.XForms.dll",
+        "lib/uap10.0/Syncfusion.SfComboBox.XForms.UWP.XML",
+        "lib/uap10.0/Syncfusion.SfComboBox.XForms.UWP.dll",
+        "lib/uap10.0/Syncfusion.SfComboBox.XForms.UWP.pri",
+        "lib/uap10.0/Syncfusion.SfComboBox.XForms.UWP/Properties/Syncfusion.SfComboBox.XForms.UWP.rd.xml",
+        "lib/uap10.0/Syncfusion.SfComboBox.XForms.UWP/Syncfusion.SfComboBox.XForms.UWP.xr.xml",
+        "lib/uap10.0/Syncfusion.SfComboBox.XForms.UWP/Themes/Generic.xaml",
+        "lib/uap10.0/Syncfusion.SfComboBox.XForms.UWP/darkthemeimage.png",
+        "lib/uap10.0/Syncfusion.SfComboBox.XForms.UWP/dropdownbuttonimage.png",
+        "lib/uap10.0/Syncfusion.SfComboBox.XForms.XML",
+        "lib/uap10.0/Syncfusion.SfComboBox.XForms.dll",
+        "syncfusion.xamarin.sfcombobox.19.1.0.65.nupkg.sha512",
+        "syncfusion.xamarin.sfcombobox.nuspec"
       ]
     },
     "System.Buffers/4.4.0": {
@@ -1899,32 +1895,32 @@
     ".NETStandard,Version=v2.0": [
       "FirebaseAuthentication.net >= 3.7.1",
       "FirebaseDatabase.net >= 4.0.6",
-      "MvvmLightLibs >= 5.4.1.1",
       "NETStandard.Library >= 2.0.3",
       "Newtonsoft.Json >= 13.0.1",
+      "Syncfusion.Xamarin.SfComboBox >= 19.1.0.65",
       "Xamarin.Essentials >= 1.6.1",
       "Xamarin.Forms >= 4.8.0.1821",
       "sqlite-net-pcl >= 1.7.335"
     ]
   },
   "packageFolders": {
-    "C:\\Users\\SuperUs\\.nuget\\packages\\": {},
+    "C:\\Users\\LaurayDiego\\.nuget\\packages\\": {},
     "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1\\ProyectoDIV1.csproj",
+      "projectUniqueName": "D:\\ProyectoDIV1\\ProyectoDIV1\\ProyectoDIV1.csproj",
       "projectName": "ProyectoDIV1",
-      "projectPath": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1\\ProyectoDIV1.csproj",
-      "packagesPath": "C:\\Users\\SuperUs\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\SuperUs\\Desktop\\ProyectoDiv\\ProyectoDIV-\\ProyectoDIV1\\obj\\",
+      "projectPath": "D:\\ProyectoDIV1\\ProyectoDIV1\\ProyectoDIV1.csproj",
+      "packagesPath": "C:\\Users\\LaurayDiego\\.nuget\\packages\\",
+      "outputPath": "D:\\ProyectoDIV1\\ProyectoDIV1\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
       ],
       "configFilePaths": [
-        "C:\\Users\\SuperUs\\AppData\\Roaming\\NuGet\\NuGet.Config",
+        "C:\\Users\\LaurayDiego\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
       ],
@@ -1959,10 +1955,6 @@
             "target": "Package",
             "version": "[4.0.6, )"
           },
-          "MvvmLightLibs": {
-            "target": "Package",
-            "version": "[5.4.1.1, )"
-          },
           "NETStandard.Library": {
             "suppressParent": "All",
             "target": "Package",
@@ -1972,6 +1964,10 @@
           "Newtonsoft.Json": {
             "target": "Package",
             "version": "[13.0.1, )"
+          },
+          "Syncfusion.Xamarin.SfComboBox": {
+            "target": "Package",
+            "version": "[19.1.0.65, )"
           },
           "Xamarin.Essentials": {
             "target": "Package",
@@ -1999,17 +1995,5 @@
         "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.203\\RuntimeIdentifierGraph.json"
       }
     }
-  },
-  "logs": [
-    {
-      "code": "NU1701",
-      "level": "Warning",
-      "warningLevel": 1,
-      "message": "El paquete \"MvvmLightLibs 5.4.1.1\" se restauró con \".NETFramework,Version=v4.6.1, .NETFramework,Version=v4.6.2, .NETFramework,Version=v4.7, .NETFramework,Version=v4.7.1, .NETFramework,Version=v4.7.2, .NETFramework,Version=v4.8\" en lugar de la plataforma de destino del proyecto \".NETStandard,Version=v2.0\". Puede que el paquete no sea totalmente compatible con el proyecto.",
-      "libraryId": "MvvmLightLibs",
-      "targetGraphs": [
-        ".NETStandard,Version=v2.0"
-      ]
-    }
-  ]
+  }
 }

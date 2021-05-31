@@ -19,7 +19,7 @@
                         VerticalOptions="CenterAndExpand">
                 <Image x:Name="div3"
                            Grid.Row="0"
-				Source="div3.png" WidthRequest="30" HeightRequest="30"
+				Source="div3.png" WidthRequest="80" HeightRequest="80"
 				AbsoluteLayout.LayoutBounds="400,400,350,350" />
                     <Label x:Name="__te_damos_la_bienvenida_"
                            Grid.Row="1"

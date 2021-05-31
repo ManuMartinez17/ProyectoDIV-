@@ -1,7 +1,6 @@
 ﻿using ProyectoDIV1.Views;
-using System;
+using Syncfusion.Licensing;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace ProyectoDIV1
 {
@@ -9,6 +8,7 @@ namespace ProyectoDIV1
     {
         public App()
         {
+            SyncfusionLicenseProvider.RegisterLicense("MzA4MzU5QDMxMzgyZTMyMmUzMEZqYjJ2Tms5TkxMaUl3QWF5UHEwUldRQnRQYVNGWXAvM1JhandUKzYydUk9");
             InitializeComponent();
             MainPage = new NavigationPage(new inicioPortada());
         }

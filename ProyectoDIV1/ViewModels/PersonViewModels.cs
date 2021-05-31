@@ -1,12 +1,10 @@
-﻿using GalaSoft.MvvmLight.Command;
-using ProyectoDIV1.Models;
+﻿using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Input;
+using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels
 {
@@ -16,67 +14,52 @@ namespace ProyectoDIV1.ViewModels
 
         #region Attributes
 
-        public string nombre;
-        public string apellido;
-        private string email;
-        private string ciudad;
-        private string celular;
-        private int edad;
-        private string foto;
-        private string curriculum;
+        private Candidato _candidato;
         public bool isRefreshing = false;
         public object listViewSource;
+        private ObservableCollection<string> _tiposDeCategoria;
         #endregion
 
 
+        #region Constructor
+        public PersonViewModels()
+        {
+            LoadTiposCategoria();
+            _candidato = new Candidato();
+            InsertCommand = new Command(InsertMethod);
+        }
+
+        private void LoadTiposCategoria()
+        {
+            List<string> lista = new List<string>
+            {
+                "Ingeniero de sistemas",
+                "administrador de empresas",
+                "Contador"
+            };
+            _tiposDeCategoria = new ObservableCollection<string>(lista);
+        }
+        #endregion
+
+        #region Commands
+        public Command InsertCommand { get; }
+
+        #endregion
+
         #region Properties
-        public string Nombre
+
+        public ObservableCollection<string> TiposDeCategoria
         {
-            get { return this.Nombre; }
-            set { SetValue(ref this.nombre, value); }
+            get { return _tiposDeCategoria; }
+            set { SetValue(ref _tiposDeCategoria, value); }
         }
 
-        public string Apellido
+        public Candidato Candidato
         {
-            get { return this.apellido; }
-            set { SetValue(ref this.apellido, value); }
+            get { return _candidato; }
+            set { SetValue(ref _candidato, value); }
         }
 
-        public string Email
-        {
-            get { return this.email; }
-            set { SetValue(ref this.email, value); }
-        }
-
-        public string Ciudad
-        {
-            get { return this.ciudad; }
-            set { SetValue(ref this.ciudad, value); }
-        }
-
-        public string Celular
-        {
-            get { return this.celular; }
-            set { SetValue(ref this.celular, value); }
-        }
-
-        public int Edad
-        {
-            get { return this.edad; }
-            set { SetValue(ref this.edad, value); }
-        }
-
-        public string Foto
-        {
-            get { return this.foto; }
-            set { SetValue(ref this.foto, value); }
-        }
-
-        public string Curriculum
-        {
-            get { return this.curriculum; }
-            set { SetValue(ref this.curriculum, value); }
-        }
         public bool IsRefreshing
         {
             get { return isRefreshing; }
@@ -93,39 +76,17 @@ namespace ProyectoDIV1.ViewModels
             }
         }
         #endregion
-
-        #region Commands
-        public ICommand InsertCommand
-        {
-            get
-            {
-                return new RelayCommand(InsertMethod);
-            }
-        }
-        #endregion
         #region Methods
         private async void InsertMethod()
         {
-            var candidatos = new Candidato
-            {
-
-                Nombre = nombre,
-                Apellido = apellido,
-                Email = email,
-                Ciudad = ciudad,
-                Celular = celular,
-                Edad = edad,
-                Foto = foto,
-                Curriculum = curriculum
-            };
-
-            await firebaseHelper.AddPerson(candidatos);
+            var candidato = Candidato;
+            await firebaseHelper.AddPerson(Candidato);
 
             this.IsRefreshing = true;
 
             await Task.Delay(1000);
 
-            LoadData();
+            await LoadData();
 
             this.IsRefreshing = false;
         }
@@ -136,7 +97,7 @@ namespace ProyectoDIV1.ViewModels
         }
         #endregion
 
-        #region .
+        #region
         public ObservableCollection<Candidato> IngredientsCollection = new ObservableCollection<Candidato>();
 
         private async Task TestListViewBindingAsync()
@@ -153,14 +114,9 @@ namespace ProyectoDIV1.ViewModels
 
         }
         #endregion
-        #region Constructor
-        public PersonViewModels()
-        {
-            LoadData();
-            TestListViewBindingAsync();
-        }
-        #endregion
+
+
     }
 }
-    
+
 

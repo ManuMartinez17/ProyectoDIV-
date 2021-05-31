@@ -2,8 +2,8 @@
 	xmlns="http://xamarin.com/schemas/2014/forms"
 	xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
 	xmlns:d="http://xamarin.com/schemas/2014/forms/design"
-	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-	mc:Ignorable="d"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:viewmodels="clr-namespace:ProyectoDIV1.ViewModels" xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms" x:DataType="viewmodels:PersonViewModels"
+             mc:Ignorable="d"
 	Title="Perfil Candidato">
 	<ContentPage.Content>
         <ScrollView>
@@ -32,7 +32,7 @@
                     PlaceholderColor="Black"
 					TextColor="White"
 					AbsoluteLayout.LayoutBounds="31,330,312,40"
-					Text="{Binding Nombre}"
+					Text="{Binding Candidato.Nombre}"
 				/>
                     <Entry x:Name="apellido"
 					Grid.Row="2"
@@ -43,7 +43,7 @@
                     PlaceholderColor="Black"
 					TextColor="White"
 					AbsoluteLayout.LayoutBounds="31,330,312,40"
-					Text="{Binding Apellido}"
+					Text="{Binding Candidato.Apellido}"
 				/>
                     <Entry x:Name="email"
 					Grid.Row="3"
@@ -54,7 +54,7 @@
                     PlaceholderColor="Black"
 					TextColor="White"
 					AbsoluteLayout.LayoutBounds="31,330,312,40"
-					Text="{Binding Email}"
+					Text="{Binding Candidato.Email}"
 				/>
                     <Entry x:Name="ciudad"
 					Grid.Row="4"
@@ -65,7 +65,7 @@
                     PlaceholderColor="Black"
 					TextColor="White"
 					AbsoluteLayout.LayoutBounds="31,330,312,40"
-					Text="{Binding Ciudad}"
+					Text="{Binding Candidato.Ciudad}"
 				/>
                     <Entry x:Name="celular"
 					Grid.Row="5"
@@ -76,7 +76,7 @@
                     PlaceholderColor="Black"
 					TextColor="White"
 					AbsoluteLayout.LayoutBounds="31,330,312,40"
-					Text="{Binding Celular}"
+					Text="{Binding Candidato.Celular}"
 				/>
                     <Entry x:Name="edad"
 					Grid.Row="6"
@@ -87,18 +87,7 @@
                     PlaceholderColor="Black"
 					TextColor="White"
 					AbsoluteLayout.LayoutBounds="31,330,312,40"
-					Text="{Binding Edad}"
-				/>
-                    <Entry x:Name="foto"
-					Grid.Row="7"
-					FontFamily="Lato"
-					FontAttributes="Bold"
-					FontSize="14"
-                    Placeholder="Foto"
-                    PlaceholderColor="Black"
-					TextColor="White"
-					AbsoluteLayout.LayoutBounds="31,330,312,40"
-					Text="{Binding Foto}"
+					Text="{Binding Candidato.Edad}"
 				/>
                     <Entry x:Name="curriculum"
 					Grid.Row="8"
@@ -109,9 +98,12 @@
                     PlaceholderColor="Black"
 					TextColor="White"
 					AbsoluteLayout.LayoutBounds="31,330,312,40"
-					Text="{Binding Curriculum}"
+					Text="{Binding  Candidato.Curriculum}"
 				/>
-
+                    <inputLayout:SfTextInputLayout Hint="tipo de gravedad" HeightRequest="80" ContainerType="Outlined" OutlineCornerRadius="8">
+                        <combobox:SfComboBox SelectedItem="{Binding Candidato.Categoria}" DataSource="{Binding TiposDeCategoria}">
+                        </combobox:SfComboBox>
+                    </inputLayout:SfTextInputLayout>
                     <AbsoluteLayout x:Name="botonEmpresa"
                                 Grid.Row="9"
 				 AbsoluteLayout.LayoutBounds="79,393,202,35"
