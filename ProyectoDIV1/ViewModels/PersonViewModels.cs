@@ -3,6 +3,7 @@ using ProyectoDIV1.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -18,6 +19,8 @@ namespace ProyectoDIV1.ViewModels
         public bool isRefreshing = false;
         public object listViewSource;
         private ObservableCollection<string> _tiposDeCategoria;
+        private ObservableCollection<string> _departamentosLista;
+        private ObservableCollection<string> _ciudadesLista;
         #endregion
 
 
@@ -25,6 +28,7 @@ namespace ProyectoDIV1.ViewModels
         public PersonViewModels()
         {
             LoadTiposCategoria();
+            LoadDepartamentos();
             _candidato = new Candidato();
             InsertCommand = new Command(InsertMethod);
         }
@@ -33,13 +37,46 @@ namespace ProyectoDIV1.ViewModels
         {
             List<string> lista = new List<string>
             {
+
                 "Ingeniero de sistemas",
                 "administrador de empresas",
                 "Contador"
             };
             _tiposDeCategoria = new ObservableCollection<string>(lista);
         }
+
+        private async void LoadDepartamentos()
+        {
+           
+            List<string> lista = new List<string>();
+            var colombia = await new JsonColombia().DeserializarJsonColombia();
+            colombia.ForEach(x => lista.Add(x.Departamento));
+            _departamentosLista = new ObservableCollection<string>(lista);
+            LoadCiudades(colombia);
+        }
+
+
+
+        private void LoadCiudades(List<JsonColombia> colombia)
+        {
+            if (Candidato != null)
+            {
+                JsonColombia ciudadescolombia = colombia.Where(x => x.Departamento.Equals(Candidato.Departamento)).FirstOrDefault();
+                List<string> ciudades = new List<string>();
+
+                foreach (var item in ciudadescolombia.Ciudades)
+                {
+                    ciudades.Add(item);
+                }
+                _ciudadesLista = new ObservableCollection<string>(ciudades);
+            }     
+        }
+
         #endregion
+
+
+
+
 
         #region Commands
         public Command InsertCommand { get; }
@@ -54,6 +91,19 @@ namespace ProyectoDIV1.ViewModels
             set { SetValue(ref _tiposDeCategoria, value); }
         }
 
+
+        public ObservableCollection<string> CiudadesLista
+        {
+            get { return _ciudadesLista; }
+            set { SetValue(ref _ciudadesLista, value); }
+        }
+
+
+        public ObservableCollection<string> DepartamentosLista
+        {
+            get { return _departamentosLista; }
+            set { SetValue(ref _departamentosLista, value); }
+        }
         public Candidato Candidato
         {
             get { return _candidato; }

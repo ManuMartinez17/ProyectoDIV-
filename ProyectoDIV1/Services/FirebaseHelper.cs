@@ -24,7 +24,25 @@ namespace ProyectoDIV1.Services
                 Ciudad = item.Object.Ciudad,
                 Celular = item.Object.Celular,
                 Edad = item.Object.Edad,
-                Foto = item.Object.Curriculum
+                Foto = item.Object.Curriculum,
+                Password = item.Object.Password
+
+            }).ToList();
+        }
+
+        public async Task<List<Empresa>> GetEmpresa()
+        {
+            return (await firebase
+            .Child("Empresa")
+            .OnceAsync<Empresa>()).Select(item => new Empresa
+            {
+                UsuarioId = item.Object.UsuarioId,
+                Nombre = item.Object.Nombre,
+                Nit = item.Object.Nit,
+                Email = item.Object.Email,
+                Ciudad = item.Object.Ciudad,
+                Celular = item.Object.Celular,
+                Password = item.Object.Password
 
             }).ToList();
         }
@@ -44,7 +62,24 @@ namespace ProyectoDIV1.Services
                 Celular = _candidatos.Celular,
                 Edad = _candidatos.Edad,
                 Foto = _candidatos.Foto,
-                Curriculum = _candidatos.Curriculum
+                Curriculum = _candidatos.Curriculum,
+                Password = _candidatos.Password
+            });
+        }
+
+        public async Task AddPerson(Empresa _empresa)
+        {
+            await firebase
+            .Child("Empresas")
+            .PostAsync(new Empresa()
+            {
+                UsuarioId = Guid.NewGuid(),
+                Nombre = _empresa.Nombre,
+                Nit = _empresa.Nit,
+                Email = _empresa.Email,
+                Ciudad = _empresa.Ciudad,
+                Celular = _empresa.Celular,
+                Password = _empresa.Password
             });
         }
 
@@ -67,7 +102,8 @@ namespace ProyectoDIV1.Services
                   Celular = _candidatos.Celular,
                   Edad = _candidatos.Edad,
                   Foto = _candidatos.Foto,
-                  Curriculum = _candidatos.Curriculum
+                  Curriculum = _candidatos.Curriculum,
+                  Password = _candidatos.Password
               });
         }
 
@@ -80,6 +116,7 @@ namespace ProyectoDIV1.Services
             await firebase.Child("Candidatos").Child(toDeletePerson.Key).DeleteAsync();
 
         }
+
 
         FirebaseClient firebase;
         public FirebaseHelper()

@@ -40,3 +40,5 @@ D:\ProyectoDIV1\ProyectoDIV1\obj\Debug\netstandard2.0\XamlC.stamp
 D:\ProyectoDIV1\ProyectoDIV1\obj\Debug\netstandard2.0\ProyectoDIV1.dll
 D:\ProyectoDIV1\ProyectoDIV1\obj\Debug\netstandard2.0\ref\ProyectoDIV1.dll
 D:\ProyectoDIV1\ProyectoDIV1\obj\Debug\netstandard2.0\ProyectoDIV1.pdb
+C:\Users\SuperUs\Desktop\ProyectoDiv\ProyectoDIV-\ProyectoDIV1\obj\Debug\netstandard2.0\Views\menu.xaml.g.cs
+C:\Users\SuperUs\Desktop\ProyectoDiv\ProyectoDIV-\ProyectoDIV1\obj\Debug\netstandard2.0\Views\serviciosUsuario.xaml.g.cs

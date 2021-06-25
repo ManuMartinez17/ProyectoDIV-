@@ -4,8 +4,8 @@
 	xmlns:d="http://xamarin.com/schemas/2014/forms/design"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:viewmodels="clr-namespace:ProyectoDIV1.ViewModels" xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms" x:DataType="viewmodels:PersonViewModels"
              mc:Ignorable="d"
-	Title="Perfil Candidato">
-	<ContentPage.Content>
+	Title="Perfil">
+    <ContentPage.Content>
         <ScrollView>
             <StackLayout BackgroundColor="#be5e1e"
                          Spacing="40"
@@ -17,13 +17,11 @@
                RowDefinitions="Auto, Auto, Auto, Auto, Auto"
                RowSpacing="24"
                VerticalOptions="CenterAndExpand">
-             
                     <Image x:Name="enmascarar_grupo_3"
                 Grid.Row="0"
 				Source="iconuser.jpg" HeightRequest="100" WidthRequest="100"
 				AbsoluteLayout.LayoutBounds="123,114,132,132" />
-
-                <Entry x:Name="nombre"
+                    <Entry x:Name="nombre"
 					Grid.Row="1"
 					FontFamily="Lato"
 					FontAttributes="Bold"
@@ -56,17 +54,7 @@
 					AbsoluteLayout.LayoutBounds="31,330,312,40"
 					Text="{Binding Candidato.Email}"
 				/>
-                    <Entry x:Name="ciudad"
-					Grid.Row="4"
-					FontFamily="Lato"
-					FontAttributes="Bold"
-					FontSize="14"
-                    Placeholder="Ciudad"
-                    PlaceholderColor="Black"
-					TextColor="White"
-					AbsoluteLayout.LayoutBounds="31,330,312,40"
-					Text="{Binding Candidato.Ciudad}"
-				/>
+
                     <Entry x:Name="celular"
 					Grid.Row="5"
 					FontFamily="Lato"
@@ -89,8 +77,25 @@
 					AbsoluteLayout.LayoutBounds="31,330,312,40"
 					Text="{Binding Candidato.Edad}"
 				/>
+
+                    <inputLayout:SfTextInputLayout Hint="Profesion" Grid.Row="7" HeightRequest="80" ContainerType="Outlined" OutlineCornerRadius="8">
+                        <combobox:SfComboBox SelectedItem="{Binding Candidato.Categoria}" DataSource="{Binding TiposDeCategoria}">
+                        </combobox:SfComboBox>
+                    </inputLayout:SfTextInputLayout>
+                    <inputLayout:SfTextInputLayout Hint="Departamento" HeightRequest="80" Grid.Row="8"  ContainerType="Outlined" OutlineCornerRadius="8">
+                        <combobox:SfComboBox SelectedItem="{Binding Candidato.Departamento}" DataSource="{Binding DepartamentosLista}">
+                        </combobox:SfComboBox>
+                    </inputLayout:SfTextInputLayout>
+                    <inputLayout:SfTextInputLayout Hint="Ciudad" HeightRequest="80" Grid.Row="9"  ContainerType="Outlined" OutlineCornerRadius="8">
+                        <combobox:SfComboBox SelectedItem="{Binding Candidato.Ciudad}" DataSource="{Binding CiudadesLista}">
+                        </combobox:SfComboBox>
+                    </inputLayout:SfTextInputLayout>
+
+
+
+
                     <Entry x:Name="curriculum"
-					Grid.Row="8"
+					Grid.Row="10"
 					FontFamily="Lato"
 					FontAttributes="Bold"
 					FontSize="14"
@@ -100,14 +105,22 @@
 					AbsoluteLayout.LayoutBounds="31,330,312,40"
 					Text="{Binding  Candidato.Curriculum}"
 				/>
-                    <inputLayout:SfTextInputLayout Hint="tipo de gravedad" HeightRequest="80" ContainerType="Outlined" OutlineCornerRadius="8">
-                        <combobox:SfComboBox SelectedItem="{Binding Candidato.Categoria}" DataSource="{Binding TiposDeCategoria}">
-                        </combobox:SfComboBox>
-                    </inputLayout:SfTextInputLayout>
+                    <Entry x:Name="contrase_a"
+                            Grid.Row="11"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				FontSize="14"
+				TextColor="#ffffff"
+                Placeholder="clave"
+                IsPassword="True"
+                PlaceholderColor="Azure"
+				AbsoluteLayout.LayoutBounds="31.5,374,312,40"
+				Text="{Binding Candidato.Password}">
+                    </Entry>
+                   
                     <AbsoluteLayout x:Name="botonEmpresa"
-                                Grid.Row="9"
-				 AbsoluteLayout.LayoutBounds="79,393,202,35"
-				 >
+                                Grid.Row="12"
+				 AbsoluteLayout.LayoutBounds="79,393,202,35">
                         <Button x:Name="insertar"
 						FontFamily="Lato"
 						FontAttributes="Bold"
@@ -117,12 +130,9 @@
 						TextColor="#f6810d"
 						BackgroundColor="White"
 						AbsoluteLayout.LayoutBounds="-2,8,200,40"
-						Text="REGISTRAR"
-				 />
-
+						Text="REGISTRAR"/>
                     </AbsoluteLayout>
-
-            </Grid>
+                </Grid>
             </StackLayout>
         </ScrollView>
     </ContentPage.Content>

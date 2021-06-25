@@ -18,6 +18,11 @@ namespace ProyectoDIV1.ViewModels
         {
             InitializeComponent();
         }
+
+        private void InitializeComponent()
+        {
+            throw new NotImplementedException();
+        }
     }
 }
 	

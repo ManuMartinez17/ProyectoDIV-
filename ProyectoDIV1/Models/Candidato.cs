@@ -11,6 +11,7 @@ namespace ProyectoDIV1.Models
         private string nombre;
         private string apellido;
         private string email;
+        private string departamento;
         private string ciudad;
         private string celular;
         private int edad;
@@ -51,6 +52,12 @@ namespace ProyectoDIV1.Models
         {
             get { return this.ciudad; }
             set { SetValue(ref this.ciudad, value); }
+        }
+
+        public string Departamento
+        {
+            get { return this.departamento; }
+            set { SetValue(ref this.departamento, value); }
         }
 
         public string Celular

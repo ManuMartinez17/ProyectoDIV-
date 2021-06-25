@@ -108,7 +108,7 @@
 					FontFamily="Lato"
 					FontAttributes="Bold"
 					HorizontalTextAlignment="Center"
-					CharacterCasing="Upper"
+					
 					FontSize="14"
 					TextColor="#f6810d"
 					AbsoluteLayout.LayoutBounds="-2,6,112,26"
