@@ -24,7 +24,6 @@ namespace ProyectoDIV1.Services
                 Ciudad = item.Object.Ciudad,
                 Celular = item.Object.Celular,
                 Edad = item.Object.Edad,
-                Foto = item.Object.Curriculum,
                 Password = item.Object.Password
 
             }).ToList();
@@ -61,8 +60,6 @@ namespace ProyectoDIV1.Services
                 Ciudad = _candidatos.Ciudad,
                 Celular = _candidatos.Celular,
                 Edad = _candidatos.Edad,
-                Foto = _candidatos.Foto,
-                Curriculum = _candidatos.Curriculum,
                 Password = _candidatos.Password
             });
         }
@@ -101,8 +98,6 @@ namespace ProyectoDIV1.Services
                   Ciudad = _candidatos.Ciudad,
                   Celular = _candidatos.Celular,
                   Edad = _candidatos.Edad,
-                  Foto = _candidatos.Foto,
-                  Curriculum = _candidatos.Curriculum,
                   Password = _candidatos.Password
               });
         }

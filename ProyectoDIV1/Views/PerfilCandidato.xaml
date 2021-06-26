@@ -78,33 +78,28 @@
 					Text="{Binding Candidato.Edad}"
 				/>
 
-                    <inputLayout:SfTextInputLayout Hint="Profesion" Grid.Row="7" HeightRequest="80" ContainerType="Outlined" OutlineCornerRadius="8">
+                    <inputLayout:SfTextInputLayout Hint="Profesion"   FocusedColor="#0450C2" Grid.Row="7" HeightRequest="80" ContainerType="Outlined" OutlineCornerRadius="8"  ContainerBackgroundColor="White">
                         <combobox:SfComboBox SelectedItem="{Binding Candidato.Categoria}" DataSource="{Binding TiposDeCategoria}">
                         </combobox:SfComboBox>
                     </inputLayout:SfTextInputLayout>
-                    <inputLayout:SfTextInputLayout Hint="Departamento" HeightRequest="80" Grid.Row="8"  ContainerType="Outlined" OutlineCornerRadius="8">
-                        <combobox:SfComboBox SelectedItem="{Binding Candidato.Departamento}" DataSource="{Binding DepartamentosLista}">
-                        </combobox:SfComboBox>
+                   
+                    <inputLayout:SfTextInputLayout Hint="Departamento" Grid.Row="8"
+                                                   ContainerType="Outlined"  ContainerBackgroundColor="White">
+                        <Picker
+                                ItemsSource="{Binding DepartamentosLista}"
+                                SelectedItem="{Binding Candidato.Departamento}"
+                               />
                     </inputLayout:SfTextInputLayout>
-                    <inputLayout:SfTextInputLayout Hint="Ciudad" HeightRequest="80" Grid.Row="9"  ContainerType="Outlined" OutlineCornerRadius="8">
-                        <combobox:SfComboBox SelectedItem="{Binding Candidato.Ciudad}" DataSource="{Binding CiudadesLista}">
-                        </combobox:SfComboBox>
+
+                    <inputLayout:SfTextInputLayout Hint="Ciudad" Grid.Row="9"
+                                                   ContainerType="Outlined" ContainerBackgroundColor="White">
+                        <Picker ItemDisplayBinding="{Binding Nombre}"
+                                ItemsSource="{Binding CiudadesLista}"
+                                SelectedItem="{Binding Ciudad}"
+                               />
                     </inputLayout:SfTextInputLayout>
 
 
-
-
-                    <Entry x:Name="curriculum"
-					Grid.Row="10"
-					FontFamily="Lato"
-					FontAttributes="Bold"
-					FontSize="14"
-                    Placeholder="Curriculum"
-                    PlaceholderColor="Black"
-					TextColor="White"
-					AbsoluteLayout.LayoutBounds="31,330,312,40"
-					Text="{Binding  Candidato.Curriculum}"
-				/>
                     <Entry x:Name="contrase_a"
                             Grid.Row="11"
 				FontFamily="Lato"

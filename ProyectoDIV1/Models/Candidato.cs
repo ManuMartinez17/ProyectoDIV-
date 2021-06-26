@@ -4,7 +4,7 @@ using System;
 
 namespace ProyectoDIV1.Models
 {
-    class Candidato : BaseViewModel
+    public class Candidato : BaseViewModel
     {
         [PrimaryKey, AutoIncrement]
         public Guid UsuarioId { get; set; }
