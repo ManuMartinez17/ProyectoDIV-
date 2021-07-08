@@ -18,6 +18,7 @@ namespace ProyectoDIV1.ViewModels
         private string _email;
         private string _password;
         public ValidatableObject<string> EmailValid { get; set; } = new ValidatableObject<string>();
+
         #region Commands
         public Command LoginCommand { get; }
         public Command InicioRegistroCommand { get; }
@@ -46,8 +47,6 @@ namespace ProyectoDIV1.ViewModels
             return !String.IsNullOrWhiteSpace(Email)
                 && !String.IsNullOrWhiteSpace(Password);
         }
-
-    
 
         public string Email
         {

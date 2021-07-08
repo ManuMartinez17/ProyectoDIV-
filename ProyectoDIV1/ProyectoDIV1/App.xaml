@@ -7,6 +7,7 @@
     -->
     <Application.Resources>
         <ResourceDictionary>
+            <x:String x:Key="IconDefault">https://i.postimg.cc/BQmWRFDZ/iconuser.jpg</x:String>
             <Style TargetType="Label" x:Key="ErrorTextStyle">
                 <Setter Property="TextColor" Value = "Red"   />
                 <Setter Property="FontSize" Value = "12"   />

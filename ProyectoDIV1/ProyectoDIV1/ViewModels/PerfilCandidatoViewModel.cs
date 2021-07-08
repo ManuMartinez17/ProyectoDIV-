@@ -1,9 +1,15 @@
-﻿using ProyectoDIV1.Models;
+﻿using Acr.UserDialogs;
+using Firebase.Storage;
+using Plugin.Media;
+using Plugin.Media.Abstractions;
+using ProyectoDIV1.Helpers.Funciones;
+using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
 using ProyectoDIV1.Validators.Rules;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
 using Xamarin.Forms;
@@ -16,6 +22,8 @@ namespace ProyectoDIV1.ViewModels
         private FirebaseHelper _firebaseHelper;
 
         private List<JsonColombia> colombia;
+        private ImageSource _imagen;
+        private MediaFile _ImagenArchivo;
         private Ciudades _ciudad;
         private Candidato _candidato;
         public object listViewSource;
@@ -33,17 +41,25 @@ namespace ProyectoDIV1.ViewModels
             _candidato = new Candidato();
             _ciudad = new Ciudades();
             AddValidationRules();
+            Imagen = App.Current.Resources["IconDefault"].ToString();
+            this.cambiarImagenCommand = new Command(this.cambiarImagenAsync);
             InsertCommand = new Command(AgregarCandidatoOnclicked);
         }
         #endregion
 
         #region Commands
         public Command InsertCommand { get; }
-
+        public Command cambiarImagenCommand { get; set; }
         #endregion
 
 
         #region Properties
+
+        public ImageSource Imagen
+        {
+            get => _imagen;
+            set => SetProperty(ref _imagen, value);
+        }
 
         public ObservableCollection<string> TiposDeCategoria
         {
@@ -98,29 +114,82 @@ namespace ProyectoDIV1.ViewModels
         #endregion
 
         #region Methods
+        private async void cambiarImagenAsync()
+        {
+            await CrossMedia.Current.Initialize();
 
+            string source = await Application.Current.MainPage.DisplayActionSheet(
+                "¿Donde quieres tomar tu foto?",
+                "Cancelar",
+                null,
+                "Galería",
+               "Cámara");
+
+            if (source == "Cancelar")
+            {
+                _ImagenArchivo = null;
+                return;
+            }
+
+            if (source == "Cámara")
+            {
+                if (!CrossMedia.Current.IsCameraAvailable)
+                {
+                    await App.Current.MainPage.DisplayAlert("error", "No soporta la Cámara.", "Aceptar");
+                    return;
+                }
+
+                _ImagenArchivo = await CrossMedia.Current.TakePhotoAsync(
+                    new StoreCameraMediaOptions
+                    {
+                        Directory = "Sample",
+                        Name = "test.jpg",
+                        PhotoSize = PhotoSize.Small,
+                    }
+                );
+            }
+            else
+            {
+                if (!CrossMedia.Current.IsPickPhotoSupported)
+                {
+                    await App.Current.MainPage.DisplayAlert("error", "No hay galeria.", "Aceptar");
+                    return;
+                }
+
+                _ImagenArchivo = await CrossMedia.Current.PickPhotoAsync();
+            }
+
+            if (_ImagenArchivo != null)
+            {
+                Imagen = ImageSource.FromStream(() =>
+                {
+                    Stream stream = _ImagenArchivo.GetStream();
+                    return stream;
+                });
+            }
+        }
         public void AddValidationRules()
         {
-            Candidato.Nombre.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "First Name Required" });
-            Candidato.Apellido.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Last Name Required" });
-            Candidato.Departamento.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Departamento requerido" });
-            Candidato.Ciudad.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Ciudad requerida" });
-            Candidato.FechaDeNacimiento.Validations.Add(new HasValidAgeRule<DateTime> { ValidationMessage = "You must be 18 years of age or older" });
-            Candidato.Celular.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Phone Number Required" });
+            Candidato.Nombre.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Nombre requerido." });
+            Candidato.Apellido.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Apellido requerido." });
+            Candidato.Departamento.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Departamento requerido." });
+            Candidato.Ciudad.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Ciudad requerida." });
+            Candidato.FechaDeNacimiento.Validations.Add(new HasValidAgeRule<DateTime> { ValidationMessage = "Debes tener 18 años o más." });
+            Candidato.Celular.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Celular requerido." });
             Candidato.Celular.Validations.Add(new IsLenghtValidRule<string> { ValidationMessage = "El celular debe tener 10 digitos", MaximunLenght = 10, MinimunLenght = 10 });
 
             //Email Validation Rules
-            Candidato.Email.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Email Required" });
-
+            Candidato.Email.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Email Requerido." });
+            Candidato.Email.Validations.Add(new IsValidEmailRule<string> { ValidationMessage = "Email invalido." });
             //Password Validation Rules
-            Candidato.Password.Item1.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Password Required" });
-            Candidato.Password.Item1.Validations.Add(new IsValidPasswordRule<string> { ValidationMessage = "Password between 8-20 characters; must contain at least one lowercase letter, one uppercase letter, one numeric digit, and one special character" });
-            Candidato.Password.Item2.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Confirm password required" });
-            Candidato.Password.Validations.Add(new MatchPairValidationRule<string> { ValidationMessage = "Password and confirm password don't match" });
+            Candidato.Password.Item1.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Contraseña Requerida." });
+            Candidato.Password.Item1.Validations.Add(new IsValidPasswordRule<string> { ValidationMessage = "Contraseña entre 8-20 caracteres; debe contener al menos una letra minúscula, una letra mayúscula, un dígito numérico y un carácter especial " });
+            Candidato.Password.Item2.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Confirme la contraseña requerida." });
+            Candidato.Password.Validations.Add(new MatchPairValidationRule<string> { ValidationMessage = "La contraseña y la contraseña de confirmación no coinciden." });
 
         }
 
-        bool AreFieldsValid()
+        bool validarFormulario()
         {
             bool isFirstNameValid = Candidato.Nombre.Validate();
             bool isLastNameValid = Candidato.Apellido.Validate();
@@ -172,11 +241,24 @@ namespace ProyectoDIV1.ViewModels
 
         private async void AgregarCandidatoOnclicked()
         {
-           
-           _candidato.Ciudad.Value = _ciudad.Nombre;
-            if (AreFieldsValid())
+
+            _candidato.Ciudad.Value = _ciudad.Nombre;
+            if (validarFormulario())
             {
+             
+                UserDialogs.Instance.ShowLoading("Cargando...");
+                if (_ImagenArchivo != null)
+                {
+                    string nombreImagen = $"{Candidato.UsuarioId}.{Path.GetExtension(_ImagenArchivo.Path)}";
+                    var subirImagen = new FirebaseStorage("https://proyectodiv-d53ed-default-rtdb.firebaseio.com")
+                     .Child("ImagenesDePerfil")
+                     .Child(nombreImagen)
+                     .PutAsync(_ImagenArchivo.GetStream());
+                }
+              
+
                 await _firebaseHelper.AddPerson(Candidato);
+                UserDialogs.Instance.HideLoading();
             }
         }
 
