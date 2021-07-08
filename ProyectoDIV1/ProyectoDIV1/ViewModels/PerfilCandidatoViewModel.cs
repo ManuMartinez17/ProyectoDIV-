@@ -242,20 +242,23 @@ namespace ProyectoDIV1.ViewModels
         private async void AgregarCandidatoOnclicked()
         {
 
-            _candidato.Ciudad.Value = _ciudad.Nombre;
+            _candidato.Ciudad.Value = string.IsNullOrWhiteSpace(_ciudad.Nombre) ? string.Empty : _ciudad.Nombre;
             if (validarFormulario())
             {
-             
+
                 UserDialogs.Instance.ShowLoading("Cargando...");
                 if (_ImagenArchivo != null)
                 {
+                    byte[] Imagen = FuncionesEstaticas.ConvertirABytes(_ImagenArchivo.GetStream());
+                    Candidato.UsuarioId = Guid.NewGuid();
+                    Stream stream = new MemoryStream(Imagen);
                     string nombreImagen = $"{Candidato.UsuarioId}.{Path.GetExtension(_ImagenArchivo.Path)}";
-                    var subirImagen = new FirebaseStorage("https://proyectodiv-d53ed-default-rtdb.firebaseio.com")
-                     .Child("ImagenesDePerfil")
+                    var subirImagen = new FirebaseStorage("proyectodiv-d53ed.appspot.com")
+                     .Child("imagenesdeperfil")
                      .Child(nombreImagen)
-                     .PutAsync(_ImagenArchivo.GetStream());
+                     .PutAsync(stream);
                 }
-              
+
 
                 await _firebaseHelper.AddPerson(Candidato);
                 UserDialogs.Instance.HideLoading();

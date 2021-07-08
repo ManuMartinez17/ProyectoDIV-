@@ -16,7 +16,7 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"
-                     AbsoluteLayout.LayoutFlags="All" Margin="15,0"
+                     AbsoluteLayout.LayoutFlags="All" Margin="1,0"
                      Spacing="40"
                        Padding="15,15,15,15">
             <ScrollView>

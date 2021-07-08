@@ -1,5 +1,6 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
+using ProyectoDIV1.Entidades;
 using ProyectoDIV1.Models;
 using System;
 using System.Collections.Generic;
@@ -49,18 +50,21 @@ namespace ProyectoDIV1.Services
 
         public async Task AddPerson(Candidato _candidatos)
         {
+            DateTime today = DateTime.Today;
+            int age = today.Year - _candidatos.FechaDeNacimiento.Value.Year;
             await firebase
             .Child("Candidatos")
-            .PostAsync(new Candidato()
+            .PostAsync(new ECandidato()
             {
-                UsuarioId = Guid.NewGuid(),
-                Nombre = _candidatos.Nombre,
-                Apellido = _candidatos.Apellido,
-                Email = _candidatos.Email,
-                Ciudad = _candidatos.Ciudad,
-                Celular = _candidatos.Celular,
-                Edad = _candidatos.Edad,
-                Password = _candidatos.Password
+                UsuarioId = _candidatos.UsuarioId,
+                Departamento = _candidatos.Departamento.Value,
+                Nombre = _candidatos.Nombre.Value,
+                Apellido = _candidatos.Apellido.Value,
+                Email = _candidatos.Email.Value,
+                Ciudad = _candidatos.Ciudad.Value,
+                Celular = _candidatos.Celular.Value,
+                Edad = age,
+                Password = _candidatos.Password.Item1.Value
             });
         }
 
