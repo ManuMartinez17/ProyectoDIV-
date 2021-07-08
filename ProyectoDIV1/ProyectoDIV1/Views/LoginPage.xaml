@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters"
+             xmlns:behaviour="clr-namespace:ProyectoDIV1.Helpers.Behaviours" 
+             mc:Ignorable="d"
+             Visual="Material"
+             x:Class="ProyectoDIV1.Views.LoginPage"
+             Title="Login" BackgroundImage="inicio_1.jpg">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <converter:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <ScrollView>
+            <StackLayout BackgroundColor="#E08C67"
+                         Spacing="40"
+                         Margin="30,0"
+                         Opacity="0.9" 
+                         Padding="10,10,10,10" 
+                         VerticalOptions="Center">
+                <Grid
+                        RowDefinitions="Auto, Auto, Auto, Auto, Auto"
+                        RowSpacing="24"
+                        VerticalOptions="CenterAndExpand">
+                    <Image x:Name="div3"
+                           Grid.Row="0"
+				Source="div3.png" WidthRequest="80" HeightRequest="80"
+				AbsoluteLayout.LayoutBounds="400,400,350,350" />
+                    <Label Grid.Row="1"
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				HorizontalTextAlignment="Center"
+				FontSize="24"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="13,192,327,56"
+				Text="Te damos la bienvenida!"
+			 />
+                <Label FontFamily="Lato"
+                Grid.Row="2"
+				FontAttributes="Bold"
+				HorizontalTextAlignment="Center"
+				FontSize="14"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="57.5,253,227,53"
+				Text="Regstrate y descubre las mejores oportunidades de empleo"
+			 />
+
+                    <Entry Text="{Binding Email, Mode=TwoWay}" 
+                            Grid.Row="3"
+                           FontFamily="Lato"
+				            FontSize="14"
+                            Placeholder="email"
+				            TextColor="Black"
+				            AbsoluteLayout.LayoutBounds="31,330,312,40">
+                        <Entry.Behaviors>
+                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding EmailValid.IsValid}"/>
+                        </Entry.Behaviors>
+                    </Entry>
+                    <Label Grid.Row="4"
+                        Text="{Binding EmailValid.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                        IsVisible="{Binding EmailValid.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                         Style="{StaticResource ErrorTextStyle}"/>
+                    <Entry  Grid.Row="5"
+				            FontFamily="Lato"
+				            FontSize="14"
+				            TextColor="Black"
+                            Placeholder="contraseña"
+                            IsPassword="True"          
+				            AbsoluteLayout.LayoutBounds="31.5,374,312,40"
+				            Text="{Binding Password, Mode=TwoWay}"/>
+                        <Label HorizontalTextAlignment="Center"
+                             Grid.Row="6">
+                            <Label.FormattedText>
+                                <FormattedString>
+                                    <Span Text="¿si aun no tienes una cuenta?" 
+                                TextColor="White"
+                                          FontAttributes="Italic"
+                                 />
+                                <Span Text="       "/>
+                                <Span Text="REGISTRATE"
+                                         
+								TextColor="#705E78"
+                                          FontAttributes="Bold"
+								TextDecorations="Underline">
+                                        <Span.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding InicioRegistroCommand}"
+                                          />
+                                        </Span.GestureRecognizers>
+                                    </Span>
+                                </FormattedString>
+                            </Label.FormattedText>
+                        </Label>
+
+                        <Button x:Name="ingresar"
+                             Grid.Row="7"
+					FontFamily="Lato"
+                                
+					FontAttributes="Bold"
+					HorizontalOptions="Center"
+					Command="{Binding LoginCommand}"
+					FontSize="14"
+					TextColor="White"
+                    BackgroundColor="#705E78"
+					AbsoluteLayout.LayoutBounds="-2,8,200,40"
+					Text="INGRESAR"
+				 />
+
+                </Grid>
+            </StackLayout>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
