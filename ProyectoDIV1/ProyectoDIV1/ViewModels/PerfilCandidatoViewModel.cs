@@ -2,6 +2,7 @@
 using Firebase.Storage;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+using ProyectoDIV1.Entidades;
 using ProyectoDIV1.Helpers.Funciones;
 using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
@@ -20,7 +21,7 @@ namespace ProyectoDIV1.ViewModels
     {
         #region Attributes
         private FirebaseHelper _firebaseHelper;
-
+        private FirebaseStorageHelper _firebaseStorage;
         private List<JsonColombia> colombia;
         private ImageSource _imagen;
         private MediaFile _ImagenArchivo;
@@ -36,6 +37,7 @@ namespace ProyectoDIV1.ViewModels
         public PerfilCandidatoViewModel()
         {
             _firebaseHelper = new FirebaseHelper();
+            _firebaseStorage = new FirebaseStorageHelper();
             LoadDepartamentos();
             LoadTiposCategoria();
             _candidato = new Candidato();
@@ -241,26 +243,37 @@ namespace ProyectoDIV1.ViewModels
 
         private async void AgregarCandidatoOnclicked()
         {
-
-            _candidato.Ciudad.Value = string.IsNullOrWhiteSpace(_ciudad.Nombre) ? string.Empty : _ciudad.Nombre;
+            if (!string.IsNullOrWhiteSpace(_ciudad.Nombre))
+            {
+                _candidato.Ciudad.Value = _ciudad.Nombre;
+            }
             if (validarFormulario())
             {
-
                 UserDialogs.Instance.ShowLoading("Cargando...");
                 if (_ImagenArchivo != null)
                 {
-                    byte[] Imagen = FuncionesEstaticas.ConvertirABytes(_ImagenArchivo.GetStream());
                     Candidato.UsuarioId = Guid.NewGuid();
-                    Stream stream = new MemoryStream(Imagen);
                     string nombreImagen = $"{Candidato.UsuarioId}.{Path.GetExtension(_ImagenArchivo.Path)}";
-                    var subirImagen = new FirebaseStorage("proyectodiv-d53ed.appspot.com")
-                     .Child("imagenesdeperfil")
-                     .Child(nombreImagen)
-                     .PutAsync(stream);
+                    await _firebaseStorage.UploadFile(_ImagenArchivo.GetStream(), nombreImagen, "imagenesdeperfil");
                 }
 
+                DateTime today = DateTime.Today;
+                int age = today.Year - Candidato.FechaDeNacimiento.Value.Year;
 
-                await _firebaseHelper.AddPerson(Candidato);
+                var entidad = new ECandidato
+                {
+                    UsuarioId = Candidato.UsuarioId,
+                    Departamento = Candidato.Departamento.Value,
+                    Nombre = Candidato.Nombre.Value,
+                    Apellido = Candidato.Apellido.Value,
+                    Email = Candidato.Email.Value,
+                    Ciudad = Candidato.Ciudad.Value,
+                    Celular = Candidato.Celular.Value,
+                    Edad = age,
+                    Password = Candidato.Password.Item1.Value
+
+                };
+                await _firebaseHelper.CrearAsync<ECandidato>(entidad, "Candidatos");
                 UserDialogs.Instance.HideLoading();
             }
         }
