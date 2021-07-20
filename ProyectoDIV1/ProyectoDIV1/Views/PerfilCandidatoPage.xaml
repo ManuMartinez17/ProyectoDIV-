@@ -6,8 +6,9 @@
              xmlns:viewmodels="clr-namespace:ProyectoDIV1.ViewModels" xmlns:behaviour="clr-namespace:ProyectoDIV1.Helpers.Behaviours" 
              xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters" x:DataType="viewmodels:PerfilCandidatoViewModel"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             x:Class="ProyectoDIV1.Views.PerfilCandidatoPage">
+             xmlns:ListCollection="clr-namespace:System.Collections.Generic;assembly=netstandard"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms" xmlns:behavioursPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
+             x:Class="ProyectoDIV1.Views.PerfilCandidatoPage" BackgroundImage="registro.jpg">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
@@ -17,7 +18,7 @@
     <ContentPage.Content>
         <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"
                      AbsoluteLayout.LayoutFlags="All" Margin="1,0"
-                     Spacing="40"
+                     Spacing="15"
                        Padding="15,15,15,15">
             <ScrollView>
                 <StackLayout Spacing="10">
@@ -28,159 +29,160 @@
                                                 Margin="5"
                                                 RetryCount= "3"
                                                 RetryDelay= "600">
-                    <ffimageloading:CachedImage.Transformations>
-                        <fftransformations:CircleTransformation />
-                    </ffimageloading:CachedImage.Transformations>
-                    <ffimageloading:CachedImage.GestureRecognizers>
-                            <TapGestureRecognizer Command="{Binding cambiarImagenCommand}"/>
-                    </ffimageloading:CachedImage.GestureRecognizers>
+                        <ffimageloading:CachedImage.Transformations>
+                            <fftransformations:CircleTransformation />
+                        </ffimageloading:CachedImage.Transformations>
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CambiarImagenCommand}"/>
+                        </ffimageloading:CachedImage.GestureRecognizers>
                     </ffimageloading:CachedImage>
+                    <Label Text="{Binding TextoUpload}" TextColor="White" FontSize="Medium" HorizontalTextAlignment="Center" FontAttributes="Bold" IsVisible="{Binding VisibleUpload}">
+                    </Label>
 
+                    <buttons:SfButton x:Name="SfButton" Text="{Binding TextoButtonUpload}" TextColor="Black" CornerRadius="3" HeightRequest="50" 
+                                      WidthRequest="4" BorderWidth="2" BorderColor="Black" ImageWidth="40" Command="{Binding UploadCurriculumCommand}"
+                                      ShowIcon="True" BackgroundColor="#cdfff4" ImageSource="iconUpload.png"/>
                     <!--nombre-->
-                    <inputLayout:SfTextInputLayout Hint="Nombres" 
-                                                   ContainerType="Outlined">
-                        <Entry Text="{Binding Candidato.Nombre.Value}" 
-                         Placeholder="Nombre">
-                        <Entry.Behaviors>
-                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Nombre.IsValid}"/>
-                        </Entry.Behaviors>
-                    </Entry>
-                    </inputLayout:SfTextInputLayout>
                     <Label Text="{Binding Candidato.Nombre.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding Candidato.Nombre.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Nombres"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Entry Text="{Binding Candidato.Nombre.Value}">
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Nombre.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </inputLayout:SfTextInputLayout>
+
                     <!--/nombre-->
 
                     <!--apellido-->
-                    <inputLayout:SfTextInputLayout Hint="Apellidos" 
-                                                   ContainerType="Outlined">
-                        <Entry Text="{Binding Candidato.Apellido.Value}" 
-                         Placeholder="Apellido">
-                        <Entry.Behaviors>
-                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Apellido.IsValid}"/>
-                        </Entry.Behaviors>
-                    </Entry>
-                    </inputLayout:SfTextInputLayout>
                     <Label Text="{Binding Candidato.Apellido.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding Candidato.Apellido.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Apellidos"  FocusedColor="Black"
+                                                    ContainerBackgroundColor="#edf8f6">
+                        <Entry Text="{Binding Candidato.Apellido.Value}">
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Apellido.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </inputLayout:SfTextInputLayout>
+
                     <!--/apellido-->
 
                     <!--email-->
-                    <inputLayout:SfTextInputLayout Hint="Email" 
-                                                   ContainerType="Outlined">
-                    <Entry Text="{Binding Candidato.Email.Value}" 
-                         Placeholder="Email">
-                        <Entry.Behaviors>
-                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding  Candidato.Email.IsValid}"/>
-                        </Entry.Behaviors>
-                    </Entry>
-                    </inputLayout:SfTextInputLayout>
                     <Label Text="{Binding  Candidato.Email.Errors,  Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding  Candidato.Email.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Email" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Entry Text="{Binding Candidato.Email.Value}">
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding  Candidato.Email.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </inputLayout:SfTextInputLayout>
+
                     <!--/Last Name-->
 
-                    <!--email-->
-                    <inputLayout:SfTextInputLayout Hint="Celular" 
-                                                   ContainerType="Outlined">
-                    <Entry Text="{Binding Candidato.Celular.Value}" 
-                         Keyboard="Telephone"  MaxLength="10"
-                          Placeholder="Celular">
-                        <Entry.Behaviors>
-                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding  Candidato.Celular.IsValid}"/>
-                        </Entry.Behaviors>
-                    </Entry>
-                    </inputLayout:SfTextInputLayout>
-
-                    <Label Text="{Binding  Candidato.Celular.Errors,  Converter={StaticResource FirstValidationErrorConverter}}" 
-                        IsVisible="{Binding  Candidato.Celular.IsValid, Converter={StaticResource InverseBoolConverter}}"
-                        Style="{StaticResource ErrorTextStyle}"/>
-                    <!--/email-->
-
                     <!--fecha de nacimiento-->
-                    <inputLayout:SfTextInputLayout Hint="Fecha de nacimiento" 
-                                                   ContainerType="Outlined">
-                        <DatePicker Date="{Binding Candidato.FechaDeNacimiento.Value}"/>
-                    </inputLayout:SfTextInputLayout>
                     <Label Text="{Binding  Candidato.FechaDeNacimiento.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding  Candidato.FechaDeNacimiento.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
 
+                    <inputLayout:SfTextInputLayout Hint="Fecha de nacimiento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <DatePicker Date="{Binding Candidato.FechaDeNacimiento.Value}" MaximumDate="{Binding MaximumDate}"/>
+                    </inputLayout:SfTextInputLayout>
+
                     <!--/fecha de nacimiento-->
 
-                    <!--categoria servicio-->
-                    <inputLayout:SfTextInputLayout Hint="Profesion" FocusedColor="#0450C2" HeightRequest="70" ContainerType="Outlined"
-                                                   OutlineCornerRadius="8">
-                        <combobox:SfComboBox SelectedItem="{Binding Candidato.Categoria.Value}" DataSource="{Binding TiposDeCategoria}">
-                        </combobox:SfComboBox>
+                    <!--email-->
+                    <Label Text="{Binding  Candidato.Celular.Errors,  Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding  Candidato.Celular.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Celular"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Entry Text="{Binding Candidato.Celular.Value}" 
+                         Keyboard="Telephone"  MaxLength="10">
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding  Candidato.Celular.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
                     </inputLayout:SfTextInputLayout>
+                    <!--/email-->
+
+                    <!--Password-->
+                    <Label Text="{Binding Candidato.Password.Item1.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding Candidato.Password.Item1.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Contraseña"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6"
+                                                   EnablePasswordVisibilityToggle="true">
+                        <Entry Text="{Binding Candidato.Password.Item1.Value}" IsPassword="True">
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Password.Item1.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </inputLayout:SfTextInputLayout>
+                    <!--/Password-->
+
+                    <!-- confirm Password-->
+                    <Label Text="{Binding Candidato.Password.Item2.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding Candidato.Password.Item2.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="confirmar contraseña"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6"
+                                                   EnablePasswordVisibilityToggle="true"
+                                                   >
+                        <Entry Text="{Binding Candidato.Password.Item2.Value}" IsPassword="True">
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Password.Item2.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </inputLayout:SfTextInputLayout>
+                    <!--/confirm Password-->
+
+
+
+                    <!--categoria servicio-->
+
+                    <inputLayout:SfTextInputLayout Hint="Profesión"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <autocomplete:SfAutoComplete  AutoCompleteMode="SuggestAppend" DisplayMemberPath="suggestion" 
+                                                      Watermark="Ingrese el trabajo" DataSource="{Binding TiposDeCategoria}" >
+                            <autocomplete:SfAutoComplete.Behaviors>
+                                <behavioursPack:EventToCommandBehavior EventName="SelectionChanged" 
+                                                                       Command="{Binding SearchCommand}" EventArgsPropertyPath="Value"/>
+                            </autocomplete:SfAutoComplete.Behaviors>
+                        </autocomplete:SfAutoComplete>
+                    </inputLayout:SfTextInputLayout>
+
                     <Label Text="{Binding  Candidato.Categoria.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding  Candidato.Categoria.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <!--/categoria servicio-->
-                    
+
                     <!--departamento-->
-                    <inputLayout:SfTextInputLayout Hint="Departamento"
-                                                   ContainerType="Outlined">
+                    <Label Text="{Binding  Candidato.Departamento.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                        IsVisible="{Binding  Candidato.Departamento.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Departamento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
                         <Picker
                                 ItemsSource="{Binding DepartamentosLista}"
                                 SelectedItem="{Binding Candidato.Departamento.Value}"
                                />
                     </inputLayout:SfTextInputLayout>
 
-                    <Label Text="{Binding  Candidato.Departamento.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
-                        IsVisible="{Binding  Candidato.Departamento.IsValid, Converter={StaticResource InverseBoolConverter}}"
-                        Style="{StaticResource ErrorTextStyle}"/>
                     <!--/departamento-->
 
 
                     <!--ciudad-->
-                    <inputLayout:SfTextInputLayout Hint="Ciudad"
-                                                   ContainerType="Outlined">
+                    <Label Text="{Binding  Candidato.Ciudad.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding  Candidato.Ciudad.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Ciudad"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
                         <Picker ItemDisplayBinding="{Binding Nombre}"
                                 ItemsSource="{Binding CiudadesLista}"
                                 SelectedItem="{Binding Ciudad}"
                                />
                     </inputLayout:SfTextInputLayout>
-                    <Label Text="{Binding  Candidato.Ciudad.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                        IsVisible="{Binding  Candidato.Ciudad.IsValid, Converter={StaticResource InverseBoolConverter}}"
-                        Style="{StaticResource ErrorTextStyle}"/>
                     <!--/ciudad-->
-
-                    <!--Password-->
-                    <inputLayout:SfTextInputLayout Hint="Contraseña" 
-                                                   EnablePasswordVisibilityToggle="true"
-                                                   ContainerType="Outlined">
-                        <Entry Text="{Binding Candidato.Password.Item1.Value}" IsPassword="True"
-                         Placeholder="Contraseña">
-                        <Entry.Behaviors>
-                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Password.Item1.IsValid}"/>
-                        </Entry.Behaviors>
-                    </Entry>
-                    </inputLayout:SfTextInputLayout>
-                    <Label Text="{Binding Candidato.Password.Item1.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                        IsVisible="{Binding Candidato.Password.Item1.IsValid, Converter={StaticResource InverseBoolConverter}}"
-                        Style="{StaticResource ErrorTextStyle}"/>
-                    <!--/Password-->
-
-
-
-                    <!-- confirm Password-->
-                    <inputLayout:SfTextInputLayout Hint="confirmar contraseña" 
-                                                   EnablePasswordVisibilityToggle="true"
-                                                   ContainerType="Outlined">
-                        <Entry Text="{Binding Candidato.Password.Item2.Value}" IsPassword="True"
-                         Placeholder="Confirmar Contraseña">
-                        <Entry.Behaviors>
-                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Password.Item2.IsValid}"/>
-                        </Entry.Behaviors>
-                    </Entry>
-                    </inputLayout:SfTextInputLayout>
-                    <Label Text="{Binding Candidato.Password.Item2.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                        IsVisible="{Binding Candidato.Password.Item2.IsValid, Converter={StaticResource InverseBoolConverter}}"
-                        Style="{StaticResource ErrorTextStyle}"/>
-                    <!--/confirm Password-->
                 </StackLayout>
             </ScrollView>
             <Button x:Name="insertar"
@@ -193,6 +195,11 @@
 						BackgroundColor="#705E78"
 						VerticalOptions="EndAndExpand"
 						Text="REGISTRAR"/>
+            <Button Text="¿Ya tienes una cuenta? Login"
+                    Command="{Binding SignInCommand}" FontAttributes="Bold"
+                    BackgroundColor="Transparent" TextColor="#cdfff4" />
+
+           
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

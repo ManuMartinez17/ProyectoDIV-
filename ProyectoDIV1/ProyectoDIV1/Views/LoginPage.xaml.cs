@@ -15,7 +15,7 @@ namespace ProyectoDIV1.Views
         public LoginPage()
         {
             InitializeComponent();
-            this.BindingContext = new LoginViewModel();
+            BindingContext = new LoginViewModel();
         }
     }
 }

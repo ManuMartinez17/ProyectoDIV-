@@ -1,12 +1,10 @@
 ﻿using ProyectoDIV1.Validators;
-using SQLite;
 using System;
 
 namespace ProyectoDIV1.Models
 {
     public class Candidato
     {
-        [PrimaryKey, AutoIncrement]
         public Guid UsuarioId { get; set; }
         public ValidatableObject<string> Nombre { get; set; } = new ValidatableObject<string>();
         public ValidatableObject<string> Apellido { get; set; } = new ValidatableObject<string>();

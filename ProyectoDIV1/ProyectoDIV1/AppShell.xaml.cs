@@ -1,7 +1,5 @@
-﻿using ProyectoDIV1.ViewModels;
-using ProyectoDIV1.Views;
+﻿using ProyectoDIV1.Interfaces;
 using System;
-using System.Collections.Generic;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1
@@ -13,9 +11,11 @@ namespace ProyectoDIV1
             InitializeComponent();
         }
 
-        private async void OnMenuItemClicked(object sender, EventArgs e)
+        private void OnSignOut_Clicked(object sender, EventArgs e)
         {
-            await Shell.Current.GoToAsync("//LoginPage");
+            var authService = DependencyService.Resolve<IAuthenticationService>();
+            authService.SignOut();
+            Shell.Current.GoToAsync("//LoginPage");
         }
     }
 }
