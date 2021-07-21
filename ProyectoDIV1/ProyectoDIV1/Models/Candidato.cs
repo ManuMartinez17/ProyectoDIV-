@@ -15,6 +15,5 @@ namespace ProyectoDIV1.Models
         public ValidatableObject<DateTime> FechaDeNacimiento { get; set; } = new ValidatableObject<DateTime>() { Value = DateTime.Now };
         public int Edad { get; set; }
         public ValidatablePair<string> Password { get; set; } = new ValidatablePair<string>();
-        public ValidatableObject<string> Categoria { get; set; } = new ValidatableObject<string>();
     }
 }

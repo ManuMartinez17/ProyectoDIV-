@@ -10,7 +10,7 @@ namespace ProyectoDIV1
         public App()
         {
             InitializeComponent();
-            MainPage = new AppShell();
+            MainPage = new PerfilTrabajoPage();
         }
 
         protected override void OnStart()

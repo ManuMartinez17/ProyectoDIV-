@@ -19,7 +19,7 @@ namespace ProyectoDIV1.Models
         public string skill_name { get; set; }
         public string description { get; set; }
         public string normalized_skill_name { get; set; }
-        public int importance { get; set; }
-        public int level { get; set; }
+        public decimal importance { get; set; }
+        public decimal level { get; set; }
     }
 }

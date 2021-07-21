@@ -84,6 +84,9 @@
                    Shell.FlyoutBehavior="Disabled"
                    ContentTemplate="{DataTemplate local:LoginPage}" />
 
+    <ShellContent Route="PerfilTrabajoPage"
+                   Shell.FlyoutBehavior="Disabled"
+                   ContentTemplate="{DataTemplate local:PerfilTrabajoPage}" />
 
 
 </Shell>

@@ -3,6 +3,7 @@ using ProyectoDIV1.Interfaces;
 using ProyectoDIV1.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Threading.Tasks;
@@ -17,31 +18,40 @@ namespace ProyectoDIV1.Services
             try
             {
                 var response = await ApiJobs.apiClient.GetAsync(rutaSolicitud);
-                response.EnsureSuccessStatusCode();
-                var jsonResult = await response.Content.ReadAsStringAsync();
-
-                var result = JsonConvert.DeserializeObject<List<Job>>(jsonResult);
-                return result;
+                if (response.IsSuccessStatusCode)
+                {
+                    response.EnsureSuccessStatusCode();
+                    var jsonResult = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<List<Job>>(jsonResult);
+                    return result;
+                }
+                return null;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Debug.WriteLine(ex.Message);
+                return null;
             }
         }
 
-        public async Task<List<Skills>> GetListJobsRelatedSkills(string rutaSolicitud, string Id)
+        public async Task<Skills> GetListJobsRelatedSkills(string rutaSolicitud, string Id)
         {
             try
             {
                 var response = await ApiJobs.apiClient.GetAsync($"{rutaSolicitud}{Id}");
-                response.EnsureSuccessStatusCode();
-                var jsonResult = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<List<Skills>>(jsonResult);
-                return result;
+                if (response.IsSuccessStatusCode)
+                {
+                    response.EnsureSuccessStatusCode();
+                    var jsonResult = await response.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<Skills>(jsonResult);
+                    return result;
+                }
+                return null;
             }
             catch (Exception ex)
             {
-                throw ex;
+                Debug.WriteLine(ex.Message);
+                return null;
             }
         }
     }

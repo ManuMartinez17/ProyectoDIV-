@@ -1,13 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms" 
              xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" 
              xmlns:viewmodels="clr-namespace:ProyectoDIV1.ViewModels" xmlns:behaviour="clr-namespace:ProyectoDIV1.Helpers.Behaviours" 
              xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters" x:DataType="viewmodels:PerfilCandidatoViewModel"
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
-             xmlns:ListCollection="clr-namespace:System.Collections.Generic;assembly=netstandard"
-             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms" xmlns:behavioursPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"   
              x:Class="ProyectoDIV1.Views.PerfilCandidatoPage" BackgroundImage="registro.jpg">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -141,22 +140,7 @@
 
 
 
-                    <!--categoria servicio-->
-
-                    <inputLayout:SfTextInputLayout Hint="Profesión"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <autocomplete:SfAutoComplete  AutoCompleteMode="SuggestAppend" DisplayMemberPath="suggestion" 
-                                                      Watermark="Ingrese el trabajo" DataSource="{Binding TiposDeCategoria}" >
-                            <autocomplete:SfAutoComplete.Behaviors>
-                                <behavioursPack:EventToCommandBehavior EventName="SelectionChanged" 
-                                                                       Command="{Binding SearchCommand}" EventArgsPropertyPath="Value"/>
-                            </autocomplete:SfAutoComplete.Behaviors>
-                        </autocomplete:SfAutoComplete>
-                    </inputLayout:SfTextInputLayout>
-
-                    <Label Text="{Binding  Candidato.Categoria.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                        IsVisible="{Binding  Candidato.Categoria.IsValid, Converter={StaticResource InverseBoolConverter}}"
-                        Style="{StaticResource ErrorTextStyle}"/>
-                    <!--/categoria servicio-->
+              
 
                     <!--departamento-->
                     <Label Text="{Binding  Candidato.Departamento.Errors, Converter={StaticResource FirstValidationErrorConverter}}"

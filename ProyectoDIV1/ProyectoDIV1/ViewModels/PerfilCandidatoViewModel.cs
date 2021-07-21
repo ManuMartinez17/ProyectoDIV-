@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using Newtonsoft.Json;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using ProyectoDIV1.Entidades.Models;
@@ -20,7 +21,6 @@ namespace ProyectoDIV1.ViewModels
     public class PerfilCandidatoViewModel : BaseViewModel
     {
         #region Attributes
-        private FirebaseHelper _firebaseHelper;
         private FirebaseStorageHelper _firebaseStorage;
         private List<JsonColombia> colombia;
         private ImageSource _imagen;
@@ -29,12 +29,10 @@ namespace ProyectoDIV1.ViewModels
         private FileResult _curriculum;
         private Ciudades _ciudad;
         private Candidato _candidato;
-        public object listViewSource;
         private string _textoupload;
         private bool _visibleUpload;
         private string _textoButtonUpload;
         private Stream _archivoCurriculum;
-        private ObservableCollection<Job> _tiposDeCategoria;
         private ObservableCollection<string> _departamentosLista;
         private ObservableCollection<Ciudades> _ciudadesLista;
         #endregion
@@ -42,22 +40,8 @@ namespace ProyectoDIV1.ViewModels
         #region Constructor
         public PerfilCandidatoViewModel()
         {
-            _firebaseHelper = new FirebaseHelper();
             _firebaseStorage = new FirebaseStorageHelper();
             LoadDepartamentos();
-
-            SearchCommand =
-                new Command(async (param) =>
-                {
-                    var job = param as Job;
-                    if (job != null)
-                    {
-                        var serviceJobs = new ServiceJobs();
-                        var lista = await serviceJobs.GetListJobsAsync($"jobs/autocomplete?begins_with={job.suggestion}");
-                        TiposDeCategoria = new ObservableCollection<Job>(lista.OrderBy(c => c.suggestion));
-                    }
-                   
-                });
             _candidato = new Candidato();
             _ciudad = new Ciudades();
             AddValidationRules();
@@ -79,7 +63,7 @@ namespace ProyectoDIV1.ViewModels
         public Command CambiarImagenCommand { get; set; }
         public Command UploadCurriculumCommand { get; set; }
         public Command SignInCommand { get; }
-        public Command SearchCommand { get; }
+     
         #endregion
 
         #region Properties
@@ -111,12 +95,7 @@ namespace ProyectoDIV1.ViewModels
             get => _visibleUpload;
             set => SetProperty(ref _visibleUpload, value);
         }
-        public ObservableCollection<Job> TiposDeCategoria
-        {
-            get { return _tiposDeCategoria; }
-            set { SetProperty(ref _tiposDeCategoria, value); }
-        }
-
+      
         public ObservableCollection<Ciudades> CiudadesLista
         {
             get { return _ciudadesLista; }
@@ -150,15 +129,6 @@ namespace ProyectoDIV1.ViewModels
         {
             get { return _ciudad; }
             set { SetProperty(ref _ciudad, value); }
-        }
-        public object ListViewSource
-        {
-
-            get { return this.listViewSource; }
-            set
-            {
-                SetProperty(ref this.listViewSource, value);
-            }
         }
         #endregion
 
@@ -319,7 +289,7 @@ namespace ProyectoDIV1.ViewModels
             {
                 try
                 {
-                    _candidato.Ciudad.Value = _ciudad.Nombre;
+                    _candidato.Ciudad.Value = Ciudad.Nombre;
                 }
                 catch (Exception ex)
                 {
@@ -329,8 +299,8 @@ namespace ProyectoDIV1.ViewModels
             if (validarFormulario())
             {
                 Candidato.Nombre.Value = Candidato.Nombre.Value.Trim();
-                Candidato.Apellido.Value = Candidato.Nombre.Value.Trim();
-                Candidato.Email.Value = Candidato.Nombre.Value.Trim();
+                Candidato.Apellido.Value = Candidato.Apellido.Value.Trim();
+                Candidato.Email.Value = Candidato.Email.Value.Trim();
                 UserDialogs.Instance.ShowLoading("Cargando...");
                 try
                 {
@@ -361,11 +331,10 @@ namespace ProyectoDIV1.ViewModels
                             Ciudad = Candidato.Ciudad.Value,
                             Celular = Candidato.Celular.Value,
                             Edad = age,
-                            Password = Candidato.Password.Item1.Value
-
                         };
-                        await _firebaseHelper.CrearAsync<ECandidato>(entidad, "Candidatos");
                         UserDialogs.Instance.HideLoading();
+                        var jsonContact = JsonConvert.SerializeObject(entidad);
+                        await Shell.Current.GoToAsync($"PerfilTrabajoPage?candidato={jsonContact}");
                     }
                     else
                     {
