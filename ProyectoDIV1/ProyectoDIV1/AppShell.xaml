@@ -1,9 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Shell xmlns="http://xamarin.com/schemas/2014/forms" 
        xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-       xmlns:local="clr-namespace:ProyectoDIV1.Views"
+       xmlns:local="clr-namespace:ProyectoDIV1.Views" xmlns:viewmodels="clr-namespace:ProyectoDIV1.ViewModels"
+       xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+       xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
+       x:DataType="viewmodels:MasterCandidatoViewModel"
        Title="ProyectoDIV1"
-       x:Class="ProyectoDIV1.AppShell">
+       xmlns:sys="clr-namespace:System;assembly=netstandard"
+       x:Class="ProyectoDIV1.AppShell"   
+         FlyoutBackgroundImage="backgroundMasterC.jpg"
+       FlyoutBackgroundImageAspect="AspectFit">
 
     <!--
         The overall app visual hierarchy is defined here, along with navigation.
@@ -41,7 +47,7 @@
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
                                     <Setter Property="BackgroundColor" Value="{x:OnPlatform UWP=Transparent, iOS=White}" />
-                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Secondary}" />
                                 </VisualState.Setters>
                             </VisualState>
                             <VisualState x:Name="Selected">
@@ -63,7 +69,7 @@
                         <VisualStateGroup x:Name="CommonStates">
                             <VisualState x:Name="Normal">
                                 <VisualState.Setters>
-                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Primary}" />
+                                    <Setter TargetName="FlyoutItemLabel" Property="Label.TextColor" Value="{StaticResource Secondary}" />
                                 </VisualState.Setters>
                             </VisualState>
                         </VisualStateGroup>
@@ -73,13 +79,28 @@
         </ResourceDictionary>
     </Shell.Resources>
 
-    <FlyoutItem Title="About" Icon="icon_about.png">
-        <ShellContent Route="AboutPage" ContentTemplate="{DataTemplate local:AboutPage}" />
+    <Shell.TitleView>
+        <Image Source="xamarin_logo.png"
+               HorizontalOptions="Center"
+               VerticalOptions="Center" />
+    </Shell.TitleView>
+    <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
+        <Tab Title="Home"
+             Icon="_home.png">
+            <ShellContent Title="Home"
+                          Icon="_home.png"
+                          ContentTemplate="{DataTemplate local:AboutPage}" />
+            <ShellContent Title="Dogs"
+                          Icon="dog.png" 
+                          ContentTemplate="{DataTemplate local:AboutPage}" />
+        </Tab>
+        <ShellContent Title="Acerca de"
+                      Icon="icon_about.png"
+                      ContentTemplate="{DataTemplate local:AboutPage}" />
+        <ShellContent Title="Perfil"
+                      Icon="icon_settings.png"
+                      ContentTemplate="{DataTemplate local:AboutPage}" />
     </FlyoutItem>
-
-    <MenuItem x:Name="OnSignOut" Text="Cerrar Sesión" StyleClass="MenuItemLayoutStyle" Clicked="OnSignOut_Clicked">
-    </MenuItem>
-
     <ShellContent Route="LoginPage"
                    Shell.FlyoutBehavior="Disabled"
                    ContentTemplate="{DataTemplate local:LoginPage}" />
@@ -87,6 +108,57 @@
     <ShellContent Route="PerfilTrabajoPage"
                    Shell.FlyoutBehavior="Disabled"
                    ContentTemplate="{DataTemplate local:PerfilTrabajoPage}" />
+    <MenuItem Text="Cerrar Sesión" IconImageSource="icon_signOut.png" StyleClass="MenuItemLayoutStyle" Command="{Binding OnSignOut}">
+    </MenuItem>
+    <Shell.FlyoutHeaderTemplate>
+        <DataTemplate>
+            <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill"
+      BackgroundColor="#E08C67" Padding="16">
+                <StackLayout.Resources>
+                    <Style TargetType="Button">
+                        <Setter Property="BackgroundColor" Value="#E08C67" />
+                        <Setter Property="BorderColor" Value="#2F4B66" />
+                        <Setter Property="BorderWidth">2</Setter>
+                        <Setter Property="CornerRadius">28</Setter>
+                        <Setter Property="HeightRequest">56</Setter>
+                        <Setter Property="Padding">
+                            <Thickness
+                                Left="24"
+                                Right="24" />
+                        </Setter>
+                    </Style>
+                </StackLayout.Resources>
 
-
+                <ffimageloading:CachedImage Aspect="AspectFit"
+                                            Source="{Binding Candidato.PathImagen}" 
+                                            CacheDuration= "50"
+                                            HeightRequest="100"
+                                            Margin="5"
+                                            RetryCount= "3"
+                                            RetryDelay= "600"
+                                            WidthRequest="100">
+                    <ffimageloading:CachedImage.Transformations>
+                        <fftransformations:CircleTransformation />
+                    </ffimageloading:CachedImage.Transformations>
+                </ffimageloading:CachedImage>
+                <Label FontSize="Medium" HorizontalOptions="Center" TextColor="GhostWhite" FontAttributes="Bold" Text="{Binding Candidato.FullName}">
+                    <Label.Margin>
+                        <Thickness Left="8" />
+                    </Label.Margin>
+                </Label>
+            </StackLayout>
+        </DataTemplate>
+    </Shell.FlyoutHeaderTemplate>
+    
+    
+    <Shell.FlyoutFooterTemplate>
+        <DataTemplate>
+            <StackLayout  BackgroundColor="#E08C67">
+                <Image Source="div3.png" Aspect="AspectFit" WidthRequest="120"/>
+                <Label Text="{Binding Source={x:Static sys:DateTime.Now}, StringFormat='{0:MMMM dd, yyyy}'}"
+                       TextColor="GhostWhite"               
+                       HorizontalOptions="Center" />
+            </StackLayout>
+        </DataTemplate>
+    </Shell.FlyoutFooterTemplate>
 </Shell>

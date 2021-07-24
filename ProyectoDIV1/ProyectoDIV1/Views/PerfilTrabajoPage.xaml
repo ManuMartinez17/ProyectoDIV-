@@ -25,8 +25,8 @@
                     <Label Text="{Binding CandidatoReceived.Nombre}"></Label>
                     <!--categoria servicio-->
                     <inputLayout:SfTextInputLayout Hint="Profesión"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <autocomplete:SfAutoComplete  AutoCompleteMode="SuggestAppend" DisplayMemberPath="suggestion" 
-                                                      Watermark="Ingrese el trabajo" DataSource="{Binding TiposDeJobs}" >
+                        <autocomplete:SfAutoComplete  AutoCompleteMode="SuggestAppend" DisplayMemberPath="suggestion"  NoResultsFoundText="No se encontraron resultados"
+                                                      Watermark="Ingrese el trabajo" SelectedItem="{Binding TipoJob}"  DataSource="{Binding TiposDeJobs}" >
                             <autocomplete:SfAutoComplete.Behaviors>
                                 <behavioursPack:EventToCommandBehavior EventName="SelectionChanged" 
                                                                        Command="{Binding SearchCommand}" EventArgsPropertyPath="Value"/>
@@ -55,9 +55,21 @@
                         </autocomplete:SfAutoComplete>
                     </inputLayout:SfTextInputLayout>
                     <!--/categoria servicio-->
-  
                 </StackLayout>
             </ScrollView>
+            <Button x:Name="insertar"
+						FontFamily="Lato"
+						FontAttributes="Bold"
+						HorizontalOptions="Center"
+						Command="{Binding RegisterCommand}"
+						FontSize="14"
+						TextColor="White"
+						BackgroundColor="#705E78"
+						VerticalOptions="EndAndExpand"
+						Text="REGISTRAR"/>
+            <Button Text="¿Ya tienes una cuenta? Login"
+                    Command="{Binding SignInCommand}" FontAttributes="Bold"
+                    BackgroundColor="Transparent" TextColor="#cdfff4" />
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

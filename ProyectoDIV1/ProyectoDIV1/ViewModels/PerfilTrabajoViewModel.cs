@@ -2,6 +2,7 @@
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
+using ProyectoDIV1.Views;
 using System;
 using System.Collections.ObjectModel;
 using Xamarin.Forms;
@@ -12,14 +13,15 @@ namespace ProyectoDIV1.ViewModels
     public class PerfilTrabajoViewModel : BaseViewModel
     {
         private ObservableCollection<Job> _tiposDeJobs;
-
+        private FirebaseHelper _firebase;
         private ECandidato _candidatoReceived = new ECandidato();
 
         private ObservableCollection<Skill> _tiposDeKills;
-
+        private string _tipoJob;
 
         public PerfilTrabajoViewModel()
         {
+            _firebase = new FirebaseHelper();
             LoadJobs();
             SearchCommand =
                 new Command(async (param) =>
@@ -35,6 +37,18 @@ namespace ProyectoDIV1.ViewModels
                         }                    
                     }
                 });
+            RegisterCommand = new Command(RegistrarClicked);
+            SignInCommand = new Command(OnSignInClicked);
+        }
+
+        private async void OnSignInClicked()
+        {
+            await Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
+        }
+
+        private async void RegistrarClicked()
+        {
+            await _firebase.CrearAsync<ECandidato>(CandidatoReceived, "Candidatos");
         }
 
         private async void LoadJobs()
@@ -48,13 +62,19 @@ namespace ProyectoDIV1.ViewModels
         {
             set => CandidatoReceived = JsonConvert.DeserializeObject<ECandidato>(Uri.UnescapeDataString(value));
         }
-
+        public string TipoJob
+        {
+            get { return _tipoJob; }
+            set { SetProperty(ref _tipoJob, value); }
+        }
         public ECandidato CandidatoReceived
         {
             get { return _candidatoReceived; }
             set { SetProperty(ref _candidatoReceived, value); }
         }
         public Command SearchCommand { get; set; }
+        public Command RegisterCommand { get; set; }
+        public Command SignInCommand { get; set; }
         public ObservableCollection<Job> TiposDeJobs
         {
             get { return _tiposDeJobs; }

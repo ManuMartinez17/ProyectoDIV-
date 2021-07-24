@@ -1,6 +1,8 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
+using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Entidades;
+using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Models;
 using System;
 using System.Collections.Generic;
@@ -33,6 +35,22 @@ namespace ProyectoDIV1.Services
                 Password = item.Object.Password
 
             }).ToList();
+        }
+
+        public async Task<ECandidato> GetUsuario(string nombreCollection, string email)
+        {
+            return (await firebase
+            .Child(nombreCollection)
+            .OnceAsync<ECandidato>()).Select(item => new ECandidato
+            {
+                UsuarioId = item.Object.UsuarioId,
+                Nombre = item.Object.Nombre,
+                Apellido = item.Object.Apellido,
+                Email = item.Object.Email,
+                Ciudad = item.Object.Ciudad,
+                Celular = item.Object.Celular,
+                Edad = item.Object.Edad,
+            }).Where(x=>x.Email.Equals(email)).FirstOrDefault();
         }
 
         public async Task<List<Empresa>> GetEmpresa()

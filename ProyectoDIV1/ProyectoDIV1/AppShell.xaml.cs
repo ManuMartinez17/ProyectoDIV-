@@ -1,4 +1,6 @@
-﻿using ProyectoDIV1.Interfaces;
+﻿using ProyectoDIV1.DTOs;
+using ProyectoDIV1.Interfaces;
+using ProyectoDIV1.ViewModels;
 using ProyectoDIV1.Views;
 using System;
 using System.Collections.Generic;
@@ -9,12 +11,16 @@ namespace ProyectoDIV1
     public partial class AppShell : Xamarin.Forms.Shell
     {
         Dictionary<string, Type> routes = new Dictionary<string, Type>();
+
         public Dictionary<string, Type> Routes { get { return routes; } }
         public AppShell()
         {
+     
             InitializeComponent();
             RegisterRoutes();
+            BindingContext = new MasterCandidatoViewModel();
         }
+
         private void RegisterRoutes()
         {
             routes.Add(nameof(PerfilTrabajoPage), typeof(PerfilTrabajoPage));
@@ -22,12 +28,6 @@ namespace ProyectoDIV1
             {
                 Routing.RegisterRoute(item.Key, item.Value);
             }
-        }
-        private void OnSignOut_Clicked(object sender, EventArgs e)
-        {
-            var authService = DependencyService.Resolve<IAuthenticationService>();
-            authService.SignOut();
-            Shell.Current.GoToAsync("//LoginPage");
         }
     }
 }
