@@ -12,8 +12,8 @@ namespace ProyectoDIV1.Views
         public AboutPage()
         {
             InitializeComponent();
-            BindingContext = new AboutViewModel();
             CheckWhetherTheUserIsSignIn();
+            BindingContext = new AboutViewModel();
         }
         private async void CheckWhetherTheUserIsSignIn()
         {

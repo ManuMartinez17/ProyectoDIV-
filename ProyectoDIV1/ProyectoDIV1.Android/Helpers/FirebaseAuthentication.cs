@@ -9,7 +9,16 @@ namespace ProyectoDIV1.Droid.Helpers
 {
     public class FirebaseAuthentication : IAuthenticationService
     {
-  
+        public string BuscarEmail()
+        {
+            string email = string.Empty;
+            if (FirebaseAuth.Instance.CurrentUser !=null)
+            {
+                email = FirebaseAuth.Instance.CurrentUser.Email;
+            }
+            return email;
+        }
+
         public bool IsSignIn()
             => FirebaseAuth.Instance.CurrentUser != null;
 

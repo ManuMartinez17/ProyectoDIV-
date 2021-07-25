@@ -86,7 +86,7 @@ namespace ProyectoDIV1.ViewModels
                     var token = await authService.SignIn(Email, Password);
                     App.Current.MainPage = new AppShell();
 
-                    var candidato = await BuscarCandidato(Email);
+                    var candidato = await BuscarIdCandidato(Email);
                     if (candidato != null)
                     {
                         Settings.Usuario = JsonConvert.SerializeObject(candidato);
@@ -112,18 +112,12 @@ namespace ProyectoDIV1.ViewModels
             }
         }
 
-        private async Task<CandidatoDTO> BuscarCandidato(string email)
+       
+
+        private async Task<Guid> BuscarIdCandidato(string email)
         {
-            var usuario = await new FirebaseHelper().GetUsuario("Candidatos", email);
-            CandidatoDTO candidato = new CandidatoDTO()
-            {
-                Candidato = usuario,
-
-            };
-            string path = await new FirebaseStorageHelper().GetFile($"{candidato.Candidato.UsuarioId}.jpg", "imagenesdeperfil");
-            candidato.PathImagen = path = !string.IsNullOrEmpty(path) ? path : "https://i.postimg.cc/BQmWRFDZ/iconuser.jpg";
-
-            return candidato;
+            var candidato = await new FirebaseHelper().GetUsuario("Candidatos", email);
+            return candidato.UsuarioId;
         }
 
         private async Task<CandidatoDTO> BuscarEmpresa(string email)

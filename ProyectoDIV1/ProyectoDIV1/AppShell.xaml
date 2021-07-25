@@ -124,7 +124,7 @@
                 </StackLayout.Resources>
 
                 <ffimageloading:CachedImage Aspect="AspectFit"
-                                            Source="{Binding Candidato.PathImagen}" 
+                                            Source="{Binding Candidato.Candidato.Rutas.RutaImagenRegistro}" 
                                             CacheDuration= "50"
                                             HeightRequest="100"
                                             Margin="5"

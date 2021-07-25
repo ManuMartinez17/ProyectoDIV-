@@ -1,5 +1,10 @@
-﻿using ProyectoDIV1.Services;
+﻿using Newtonsoft.Json;
+using ProyectoDIV1.Helpers;
+using ProyectoDIV1.Interfaces;
+using ProyectoDIV1.Services;
 using ProyectoDIV1.Views;
+using System;
+using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1
@@ -10,7 +15,8 @@ namespace ProyectoDIV1
         public App()
         {
             InitializeComponent();
-            MainPage = new AppShell();
+            Settings.Usuario = null;
+            MainPage = new PerfilTrabajoPage();
         }
 
         protected override void OnStart()

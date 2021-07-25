@@ -11,6 +11,7 @@ using ProyectoDIV1.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using Xamarin.Essentials;
@@ -63,7 +64,7 @@ namespace ProyectoDIV1.ViewModels
         public Command CambiarImagenCommand { get; set; }
         public Command UploadCurriculumCommand { get; set; }
         public Command SignInCommand { get; }
-     
+
         #endregion
 
         #region Properties
@@ -95,7 +96,7 @@ namespace ProyectoDIV1.ViewModels
             get => _visibleUpload;
             set => SetProperty(ref _visibleUpload, value);
         }
-      
+
         public ObservableCollection<Ciudades> CiudadesLista
         {
             get { return _ciudadesLista; }
@@ -178,7 +179,7 @@ namespace ProyectoDIV1.ViewModels
             List<Ciudades> ciudades = new List<Ciudades>();
             if (!string.IsNullOrEmpty(departamento))
             {
-                JsonColombia ciudadescolombia = colombia.Where(x => x.Departamento.Equals(departamento)).FirstOrDefault();
+                JsonColombia ciudadescolombia = colombia.FirstOrDefault(x => x.Departamento.Equals(departamento));
 
                 foreach (var item in ciudadescolombia.Ciudades)
                 {
@@ -285,16 +286,21 @@ namespace ProyectoDIV1.ViewModels
 
         private async void AgregarCandidatoOnclicked()
         {
-            if (!string.IsNullOrWhiteSpace(Ciudad.Nombre))
+            string RutaImagen = string.Empty;
+            string RutaArchivo = string.Empty;
+            try
             {
-                try
+                if (Ciudad != null)
                 {
-                    _candidato.Ciudad.Value = Ciudad.Nombre;
+                    if (!string.IsNullOrWhiteSpace(Ciudad.Nombre))
+                    {
+                        _candidato.Ciudad.Value = Ciudad.Nombre;
+                    }
                 }
-                catch (Exception ex)
-                {
-                    await App.Current.MainPage.DisplayAlert("Alerta", $"{ex.Message}", "OK");
-                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
             if (validarFormulario())
             {
@@ -312,12 +318,12 @@ namespace ProyectoDIV1.ViewModels
                         if (_ImagenArchivo != null)
                         {
                             string nombreImagen = $"{Candidato.UsuarioId}{Path.GetExtension(_ImagenArchivo.Path)}";
-                            await _firebaseStorage.UploadFile(_ImagenArchivo.GetStream(), nombreImagen, "imagenesdeperfil");
+                            RutaImagen = await _firebaseStorage.UploadFile(_ImagenArchivo.GetStream(), nombreImagen, "imagenesdeperfil");
                         }
                         if (_archivoCurriculum != null)
                         {
                             string nombreCurriculum = $"{Candidato.UsuarioId}{Path.GetExtension(_curriculum.FileName)}";
-                            await _firebaseStorage.UploadFile(_archivoCurriculum, nombreCurriculum, "hojasdevida");
+                            RutaArchivo = await _firebaseStorage.UploadFile(_archivoCurriculum, nombreCurriculum, "hojasdevida");
                         }
                         DateTime today = DateTime.Today;
                         int age = today.Year - Candidato.FechaDeNacimiento.Value.Year;
@@ -331,6 +337,11 @@ namespace ProyectoDIV1.ViewModels
                             Ciudad = Candidato.Ciudad.Value,
                             Celular = Candidato.Celular.Value,
                             Edad = age,
+                            Rutas =
+                            {
+                                 RutaImagenRegistro= RutaImagen,
+                                RutaArchivoRegistro = RutaArchivo
+                            }
                         };
                         UserDialogs.Instance.HideLoading();
                         var jsonContact = JsonConvert.SerializeObject(entidad);

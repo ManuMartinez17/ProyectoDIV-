@@ -16,7 +16,7 @@ namespace ProyectoDIV1.Views
         public PerfilTrabajoPage()
         {
             InitializeComponent();
-            BindingContext = new  PerfilTrabajoViewModel();
+            BindingContext = new PerfilTrabajoViewModel();
         }
     }
 }

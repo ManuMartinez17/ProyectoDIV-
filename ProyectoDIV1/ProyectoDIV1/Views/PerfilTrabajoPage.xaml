@@ -7,6 +7,7 @@
              xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters"
              xmlns:viewmodels="clr-namespace:ProyectoDIV1.ViewModels" 
              x:DataType="viewmodels:PerfilTrabajoViewModel"
+                 xmlns:ListCollection="clr-namespace:System.Collections.Generic;assembly=netstandard" xmlns:combobox="clr-namespace:Syncfusion.XForms.ComboBox;assembly=Syncfusion.SfComboBox.XForms"
              x:Class="ProyectoDIV1.Views.PerfilTrabajoPage">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -21,8 +22,15 @@
                        Padding="15,15,15,15">
             <ScrollView>
                 <StackLayout Spacing="10">
-
-                    <Label Text="{Binding CandidatoReceived.Nombre}"></Label>
+                    <Label HorizontalTextAlignment="Start">
+                        <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="{Binding CandidatoReceived.Nombre}" />
+                                <Span Text=" "/>
+                                <Span Text="{Binding CandidatoReceived.Apellido}"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                    </Label>
                     <!--categoria servicio-->
                     <inputLayout:SfTextInputLayout Hint="Profesión"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
                         <autocomplete:SfAutoComplete  AutoCompleteMode="SuggestAppend" DisplayMemberPath="suggestion" 
@@ -34,7 +42,7 @@
                         </autocomplete:SfAutoComplete>
                     </inputLayout:SfTextInputLayout>
                     <inputLayout:SfTextInputLayout Hint="Ingrese sus habilidades" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <autocomplete:SfAutoComplete x:Name="autoComplete" 
+                        <autocomplete:SfAutoComplete 
                                      DisplayMemberPath="skill_name" 
                                      MultiSelectMode="Token" 
                                      HeightRequest="300" 
@@ -55,6 +63,40 @@
                         </autocomplete:SfAutoComplete>
                     </inputLayout:SfTextInputLayout>
                     <!--/categoria servicio-->
+
+
+                    <autocomplete:SfAutoComplete SelectedItem="{Binding CandidatoReceived.Profesion}"
+                                     HeightRequest="40">
+                        <autocomplete:SfAutoComplete.AutoCompleteSource>
+                            <ListCollection:List x:TypeArguments="x:String">
+                                <x:String>India</x:String>
+                                <x:String>Uganda</x:String>
+                                <x:String>Ukraine</x:String>
+                                <x:String>Canada</x:String>
+                                <x:String>United Arab Emirates</x:String>
+                                <x:String>France</x:String>
+                                <x:String>United Kingdom</x:String>
+                                <x:String>China</x:String>
+                                <x:String>United States</x:String>
+                                <x:String>Japan</x:String>
+                                <x:String>Angola</x:String>
+                            </ListCollection:List>
+                        </autocomplete:SfAutoComplete.AutoCompleteSource>
+                    </autocomplete:SfAutoComplete>
+
+                    <autocomplete:SfAutoComplete x:Name="autoComplete2" 
+                                     HeightRequest="40"
+                                     DropDownItemHeight="50" 
+                                     DisplayMemberPath="Nombre" 
+                                     MultiSelectMode="Token" 
+                                     TokensWrapMode="Wrap"
+                                     DataSource="{Binding ListaHabilidades}">
+                        <autocomplete:SfAutoComplete.Behaviors>
+                            <behavioursPack:EventToCommandBehavior EventName="SelectionChanged" 
+                                                                       Command="{Binding InsertarCommand}" EventArgsPropertyPath="AddedItems"/>
+                        </autocomplete:SfAutoComplete.Behaviors>
+                    </autocomplete:SfAutoComplete>
+
                 </StackLayout>
             </ScrollView>
             <Button x:Name="insertar"
