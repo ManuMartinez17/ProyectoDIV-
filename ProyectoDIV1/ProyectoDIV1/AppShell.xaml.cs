@@ -27,7 +27,7 @@ namespace ProyectoDIV1
 
         private void RegisterRoutes()
         {
-            routes.Add(nameof(PerfilTrabajoPage), typeof(PerfilTrabajoPage));
+            //routes.Add(nameof(PerfilTrabajoPage), typeof(PerfilTrabajoPage));
             foreach (var item in routes)
             {
                 Routing.RegisterRoute(item.Key, item.Value);

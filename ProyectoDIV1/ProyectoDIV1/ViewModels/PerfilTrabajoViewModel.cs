@@ -1,6 +1,7 @@
 ﻿using Acr.UserDialogs;
 using Newtonsoft.Json;
 using ProyectoDIV1.Entidades.Models;
+using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
 using ProyectoDIV1.Views;
@@ -13,7 +14,6 @@ using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels
 {
-    [QueryProperty("Candidato", "candidato")]
     public class PerfilTrabajoViewModel : BaseViewModel
     {
         private ObservableCollection<Job> _tiposDeJobs;
@@ -27,6 +27,7 @@ namespace ProyectoDIV1.ViewModels
         public PerfilTrabajoViewModel()
         {
             _firebase = new FirebaseHelper();
+            CandidatoReceived = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
             LoadJobs();
             _listaHabilidades = new ObservableCollection<Lista>{
                new Lista()
@@ -78,14 +79,6 @@ namespace ProyectoDIV1.ViewModels
             get { return _candidatoReceived; }
             set { SetProperty(ref _candidatoReceived, value); }
         }
-
-
-        public string Candidato
-        {
-            set => CandidatoReceived = JsonConvert.DeserializeObject<ECandidato>(Uri.UnescapeDataString(value));
-        }
-
-
         public ObservableCollection<Job> TiposDeJobs
         {
             get { return _tiposDeJobs; }
@@ -134,7 +127,7 @@ namespace ProyectoDIV1.ViewModels
                 UserDialogs.Instance.HideLoading();
                 UserDialogs.Instance.Toast("se ha registrado satisfactoriamente");
                 await Task.Delay(2000);
-                await Shell.Current.GoToAsync("AboutPage");
+                await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
             }
             catch (Exception ex)
             {

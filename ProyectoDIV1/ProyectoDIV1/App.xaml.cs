@@ -16,7 +16,7 @@ namespace ProyectoDIV1
         {
             InitializeComponent();
             Settings.Usuario = null;
-            MainPage = new PerfilTrabajoPage();
+            MainPage = new AppShell();
         }
 
         protected override void OnStart()

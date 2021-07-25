@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using ProyectoDIV1.Entidades.Models;
+using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Interfaces;
 using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
@@ -344,8 +345,8 @@ namespace ProyectoDIV1.ViewModels
                             }
                         };
                         UserDialogs.Instance.HideLoading();
-                        var jsonContact = JsonConvert.SerializeObject(entidad);
-                        await Shell.Current.GoToAsync($"PerfilTrabajoPage?candidato={jsonContact}");
+                        Settings.Candidato = JsonConvert.SerializeObject(entidad);
+                        await Shell.Current.GoToAsync($"//{nameof(PerfilTrabajoPage)}");
                     }
                     else
                     {
@@ -354,6 +355,7 @@ namespace ProyectoDIV1.ViewModels
                 }
                 catch (Exception ex)
                 {
+                    UserDialogs.Instance.HideLoading();
                     await App.Current.MainPage.DisplayAlert("Alerta", $"{ex.Message}", "OK");
                     return;
                 }
