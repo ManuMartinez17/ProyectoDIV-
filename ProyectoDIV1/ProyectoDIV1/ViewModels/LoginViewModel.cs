@@ -8,7 +8,9 @@ using ProyectoDIV1.Validators;
 using ProyectoDIV1.Validators.Rules;
 using ProyectoDIV1.Views;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels
@@ -76,6 +78,11 @@ namespace ProyectoDIV1.ViewModels
         #region Methods
         private async void OnLoginClicked()
         {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+                await UserDialogs.Instance.AlertAsync("Verifique el internet del celular.");
+                return;
+            }
             EmailValid.Value = Email;
             if (ValidarFormulario())
             {
@@ -83,53 +90,19 @@ namespace ProyectoDIV1.ViewModels
                 {
                     UserDialogs.Instance.ShowLoading("cargando...");
                     var authService = DependencyService.Resolve<IAuthenticationService>();
-                    var token = await authService.SignIn(Email, Password);
-                    App.Current.MainPage = new AppShell();
-
-                    var candidato = await BuscarIdCandidato(Email);
-                    if (candidato != null)
-                    {
-                        Settings.Usuario = JsonConvert.SerializeObject(candidato);
-                    }
-                    else
-                    {
-                        var empresa = await BuscarEmpresa(Email);
-                        if (empresa != null)
-                        {
-                            Settings.Usuario = JsonConvert.SerializeObject(empresa);
-                        }
-                    }
-
+                    var token = await authService.SignIn(Email, Password);             
                     UserDialogs.Instance.HideLoading();
-
+                    App.Current.MainPage = new AppShell();
                     await Shell.Current.GoToAsync("//AboutPage");
                 }
                 catch (Exception ex)
                 {
+                    Debug.WriteLine(ex.Message);
                     UserDialogs.Instance.HideLoading();
                     await App.Current.MainPage.DisplayAlert("Alert", "La contraseña o email es invalido", "OK");
                 }
             }
         }
-
-       
-
-        private async Task<Guid> BuscarIdCandidato(string email)
-        {
-            var candidato = await new FirebaseHelper().GetUsuario("Candidatos", email);
-            return candidato.UsuarioId;
-        }
-
-        private async Task<CandidatoDTO> BuscarEmpresa(string email)
-        {
-            var usuario = await new FirebaseHelper().GetUsuario("Empresas", email);
-            CandidatoDTO candidato = new CandidatoDTO()
-            {
-                Candidato = usuario
-            };
-            return candidato;
-        }
-
         private async void OnForgotPassword()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new ForgotPasswordPage());

@@ -41,7 +41,7 @@
 
                     <buttons:SfButton x:Name="SfButton" Text="{Binding TextoButtonUpload}" TextColor="Black" CornerRadius="3" HeightRequest="50" 
                                       WidthRequest="4" BorderWidth="2" BorderColor="Black" ImageWidth="40" Command="{Binding UploadCurriculumCommand}"
-                                      ShowIcon="True" BackgroundColor="#cdfff4" ImageSource="iconUpload.png"/>
+                                      ShowIcon="True" BackgroundColor="#cdfff4" Margin="50,5,50,15" ImageSource="iconUpload.png"/>
                     <!--nombre-->
                     <Label Text="{Binding Candidato.Nombre.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding Candidato.Nombre.IsValid, Converter={StaticResource InverseBoolConverter}}"
@@ -83,7 +83,7 @@
                         </Entry>
                     </inputLayout:SfTextInputLayout>
 
-                    <!--/Last Name-->
+                    <!--/email-->
 
                     <!--fecha de nacimiento-->
                     <Label Text="{Binding  Candidato.FechaDeNacimiento.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
@@ -96,7 +96,7 @@
 
                     <!--/fecha de nacimiento-->
 
-                    <!--email-->
+                    <!--celular-->
                     <Label Text="{Binding  Candidato.Celular.Errors,  Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding  Candidato.Celular.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
@@ -108,7 +108,7 @@
                             </Entry.Behaviors>
                         </Entry>
                     </inputLayout:SfTextInputLayout>
-                    <!--/email-->
+                    <!--/celular-->
 
                     <!--Password-->
                     <Label Text="{Binding Candidato.Password.Item1.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
@@ -139,10 +139,6 @@
                     </inputLayout:SfTextInputLayout>
                     <!--/confirm Password-->
 
-
-
-              
-
                     <!--departamento-->
                     <Label Text="{Binding  Candidato.Departamento.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
                         IsVisible="{Binding  Candidato.Departamento.IsValid, Converter={StaticResource InverseBoolConverter}}"
@@ -153,9 +149,7 @@
                                 SelectedItem="{Binding Candidato.Departamento.Value}"
                                />
                     </inputLayout:SfTextInputLayout>
-
                     <!--/departamento-->
-
 
                     <!--ciudad-->
                     <Label Text="{Binding  Candidato.Ciudad.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
@@ -168,6 +162,7 @@
                                />
                     </inputLayout:SfTextInputLayout>
                     <!--/ciudad-->
+                    
                 </StackLayout>
             </ScrollView>
             <Button x:Name="insertar"

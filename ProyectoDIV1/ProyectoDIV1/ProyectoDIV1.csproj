@@ -22,6 +22,7 @@
     <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="19.2.0.48" />
     <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="19.2.0.48" />
     <PackageReference Include="Syncfusion.Xamarin.SfComboBox" Version="19.2.0.48" />
+    <PackageReference Include="Syncfusion.Xamarin.SfRating" Version="19.2.0.49" />
     <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
     <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
     <PackageReference Include="Xamarin.FFImageLoading.Forms" Version="2.4.11.982" />
@@ -34,6 +35,12 @@
 
   <ItemGroup>
     <ProjectReference Include="..\..\ProyectoDIV1.Entidades\ProyectoDIV1.Entidades.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Update="Views\SettingsCandidatoPage.xaml.cs">
+      <DependentUpon>SettingsCandidatoPage.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
 
   <ItemGroup>
@@ -50,6 +57,9 @@
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PerfilTrabajoPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\SettingsCandidatoPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
   </ItemGroup>

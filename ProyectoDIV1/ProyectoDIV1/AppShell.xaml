@@ -27,10 +27,7 @@
             <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
 
-            <!--
-            Default Styles for all Flyout Items
-            https://docs.microsoft.com/xamarin/xamarin-forms/app-fundamentals/shell/flyout#flyoutitem-and-menuitem-style-classes
-            -->
+         
             <Style Class="FlyoutItemLabelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="White"></Setter>
             </Style>
@@ -93,7 +90,7 @@
                       ContentTemplate="{DataTemplate local:AboutPage}" />
         <ShellContent Title="Perfil"
                       Icon="icon_settings.png"
-                      ContentTemplate="{DataTemplate local:AboutPage}" />
+                      ContentTemplate="{DataTemplate local:SettingsCandidatoPage}" />
     </FlyoutItem>
     <ShellContent Route="LoginPage"
                    Shell.FlyoutBehavior="Disabled"

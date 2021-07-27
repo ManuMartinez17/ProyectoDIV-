@@ -11,12 +11,12 @@ using Xamarin.Forms.Xaml;
 namespace ProyectoDIV1.Views
 {
     [XamlCompilation(XamlCompilationOptions.Compile)]
-    public partial class PerfilEmpresaPage : ContentPage
+    public partial class SettingsCandidatoPage : ContentPage
     {
-        public PerfilEmpresaPage()
+        public SettingsCandidatoPage()
         {
             InitializeComponent();
-            BindingContext = new PerfilEmpresaViewModel();
+            BindingContext = new SettingsCandidatoViewModel();
         }
     }
 }

@@ -1,9 +1,11 @@
 ﻿using Newtonsoft.Json;
 using ProyectoDIV1.DTOs;
+using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Interfaces;
 using ProyectoDIV1.Services;
 using System;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -12,13 +14,12 @@ namespace ProyectoDIV1.ViewModels
     public class MasterCandidatoViewModel : BaseViewModel
     {
         private CandidatoDTO _candidato;
-        private readonly FirebaseHelper _firebaseHelper;
+        private CandidatoService _candidatoService;
         public MasterCandidatoViewModel()
         {
-            CheckWhetherTheUserIsSignIn();
-            _firebaseHelper = new FirebaseHelper();
-
+            _candidatoService = new CandidatoService();
             OnSignOut = new Command(OnSignOutClicked);
+            CheckWhetherTheUserIsSignIn();
         }
 
         private async void CheckWhetherTheUserIsSignIn()
@@ -33,19 +34,29 @@ namespace ProyectoDIV1.ViewModels
                     if (candidato != null)
                     {
                         Settings.Usuario = JsonConvert.SerializeObject(candidato);
+                        LoadCandidato();
                     }
-                    LoadCandidato();
                 }
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                Debug.WriteLine(e.Message);
             }
         }
-        private async Task<string> BuscarIdCandidato(string email)
+        private async Task<ECandidato> BuscarIdCandidato(string email)
         {
-            var candidato = await new FirebaseHelper().GetUsuario("Candidatos", email);
-            return candidato.UsuarioId.ToString();
+
+            try
+            {
+                var candidato = await _candidatoService.GetIdXEmail(email);
+                return candidato;
+            }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine(ex.Message);
+            }
+            return default;   
         }
 
         private void OnSignOutClicked()
@@ -57,25 +68,15 @@ namespace ProyectoDIV1.ViewModels
 
         public Command OnSignOut { get; set; }
 
-        private async void LoadCandidato()
+        private void LoadCandidato()
         {
-            Guid id = JsonConvert.DeserializeObject<Guid>(Settings.Usuario);
-            await BuscarCandidato(id);
-        }
-
-
-        private async Task BuscarCandidato(Guid id)
-        {
-            var usuario = await _firebaseHelper.GetCandidatoId("Candidatos", id);
-            if (usuario != null)
+            ECandidato candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Usuario);
+            CandidatoDTO candidatoDTO = new CandidatoDTO()
             {
-                CandidatoDTO candidato = new CandidatoDTO()
-                {
-                    Candidato = usuario
+                Candidato = candidato
 
-                };
-                Candidato = candidato;
-            }
+            };
+            Candidato = candidatoDTO;
         }
 
         public CandidatoDTO Candidato

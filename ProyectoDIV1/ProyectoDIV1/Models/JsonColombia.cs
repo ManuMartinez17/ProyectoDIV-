@@ -9,8 +9,9 @@ namespace ProyectoDIV1.Models
 {
     public class JsonColombia
     {
-        private List<JsonColombia> colombia;
         const string path = "ArchivosLocales.Colombia.json";
+        private List<JsonColombia> colombia;
+      
         public int Id { get; set; }
         public string Departamento { get; set; }
         public string[] Ciudades { get; set; }

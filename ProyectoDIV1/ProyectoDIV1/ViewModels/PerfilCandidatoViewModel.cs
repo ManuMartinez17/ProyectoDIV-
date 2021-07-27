@@ -289,6 +289,8 @@ namespace ProyectoDIV1.ViewModels
         {
             string RutaImagen = string.Empty;
             string RutaArchivo = string.Empty;
+            string nombreCurriculum = string.Empty;
+            string nombreImagen = string.Empty;
             try
             {
                 if (Ciudad != null)
@@ -318,16 +320,27 @@ namespace ProyectoDIV1.ViewModels
                         Candidato.UsuarioId = Guid.NewGuid();
                         if (_ImagenArchivo != null)
                         {
-                            string nombreImagen = $"{Candidato.UsuarioId}{Path.GetExtension(_ImagenArchivo.Path)}";
-                            RutaImagen = await _firebaseStorage.UploadFile(_ImagenArchivo.GetStream(), nombreImagen, "imagenesdeperfil");
+                            nombreImagen = $"{Candidato.UsuarioId}{Path.GetExtension(_ImagenArchivo.Path)}";
+                            RutaImagen = await _firebaseStorage.UploadFile(_ImagenArchivo.GetStream(), nombreImagen, Constantes.CARPETA_IMAGENES_PERFIL);
                         }
                         if (_archivoCurriculum != null)
                         {
-                            string nombreCurriculum = $"{Candidato.UsuarioId}{Path.GetExtension(_curriculum.FileName)}";
-                            RutaArchivo = await _firebaseStorage.UploadFile(_archivoCurriculum, nombreCurriculum, "hojasdevida");
+                            nombreCurriculum = $"{Candidato.UsuarioId}{Path.GetExtension(_curriculum.FileName)}";
+                            RutaArchivo = await _firebaseStorage.UploadFile(_archivoCurriculum, nombreCurriculum, Constantes.CARPETA_HOJASDEVIDA);
                         }
                         DateTime today = DateTime.Today;
                         int age = today.Year - Candidato.FechaDeNacimiento.Value.Year;
+
+                        if (DateTime.Today.Month < Candidato.FechaDeNacimiento.Value.Month)
+                        {
+                            --age;
+                        }
+                        //sino preguntamos si estamos en el mismo mes, si es el mismo preguntamos si el dia de hoy es menor al de la fecha de nacimiento
+                        else if (DateTime.Today.Month == Candidato.FechaDeNacimiento.Value.Month && DateTime.Today.Day < Candidato.FechaDeNacimiento.Value.Day)
+                        {
+                            --age;
+                        }
+
                         var entidad = new ECandidato
                         {
                             UsuarioId = Candidato.UsuarioId,
@@ -340,7 +353,9 @@ namespace ProyectoDIV1.ViewModels
                             Edad = age,
                             Rutas =
                             {
-                                 RutaImagenRegistro= RutaImagen,
+                                RutaImagenRegistro= RutaImagen,
+                                NombreImagenRegistro = nombreImagen,
+                                NombreArchivoRegistro = nombreCurriculum,
                                 RutaArchivoRegistro = RutaArchivo
                             }
                         };

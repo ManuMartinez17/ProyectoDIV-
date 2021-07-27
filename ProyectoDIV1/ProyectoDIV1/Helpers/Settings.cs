@@ -7,9 +7,10 @@ namespace ProyectoDIV1.Helpers
     {
         private const string _usuario = "usuario";
         private static readonly string _stringDefault = string.Empty;
-        private const string _candidato = "usuario";
+        private const string _candidato = "candidato";
         private static readonly string _candidatoDefault = string.Empty;
-
+        private const string _empresa = "empresa";
+        private static readonly string _empresaDefault = string.Empty;
 
         private static ISettings AppSettings => CrossSettings.Current;
 
@@ -22,8 +23,13 @@ namespace ProyectoDIV1.Helpers
         public static string Candidato
         {
             get => AppSettings.GetValueOrDefault(_candidato, _candidatoDefault);
-            set => AppSettings.AddOrUpdateValue(_usuario, value);
+            set => AppSettings.AddOrUpdateValue(_candidato, value);
         }
 
+        public static string Empresa
+        {
+            get => AppSettings.GetValueOrDefault(_empresa, _empresaDefault);
+            set => AppSettings.AddOrUpdateValue(_empresa, value);
+        }
     }
 }

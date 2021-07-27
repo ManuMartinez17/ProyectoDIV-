@@ -9,13 +9,13 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels
 {
     public class PerfilTrabajoViewModel : BaseViewModel
     {
+        #region attributes
         private ObservableCollection<Job> _tiposDeJobs;
         private readonly FirebaseHelper _firebase;
         private ECandidato _candidatoReceived = new ECandidato();
@@ -23,7 +23,9 @@ namespace ProyectoDIV1.ViewModels
         private ObservableCollection<Lista> _listaHabilidades;
         private ObservableCollection<Skill> _tiposDeKills;
 
+        #endregion
 
+        #region constructor
         public PerfilTrabajoViewModel()
         {
             _firebase = new FirebaseHelper();
@@ -67,13 +69,19 @@ namespace ProyectoDIV1.ViewModels
                     if (habilidad != null)
                     {
                         _habilidades.Add(habilidad.Nombre);
-                    }    
+                    }
                 });
         }
+        #endregion
+
+        #region commands
         public Command SearchCommand { get; set; }
         public Command RegisterCommand { get; set; }
         public Command SignInCommand { get; set; }
         public Command InsertarCommand { get; set; }
+        #endregion
+
+        #region Properties
         public ECandidato CandidatoReceived
         {
             get { return _candidatoReceived; }
@@ -102,6 +110,9 @@ namespace ProyectoDIV1.ViewModels
             get { return _habilidades; }
             set { SetProperty(ref _habilidades, value); }
         }
+        #endregion
+
+        #region methods
         private async void LoadJobs()
         {
             var serviceJobs = new ServiceJobs();
@@ -123,10 +134,10 @@ namespace ProyectoDIV1.ViewModels
                 UserDialogs.Instance.ShowLoading("cargando...");
 
                 CandidatoReceived.Habilidades = ListaHabi;
-                await _firebase.CrearAsync<ECandidato>(CandidatoReceived, "Candidatos");
+                await _firebase.CrearAsync<ECandidato>(CandidatoReceived, Constantes.COLLECTION_CANDIDATO);
                 UserDialogs.Instance.HideLoading();
-                UserDialogs.Instance.Toast("se ha registrado satisfactoriamente");
-                await Task.Delay(2000);
+                UserDialogs.Instance.Toast("se ha registrado satisfactoriamente", TimeSpan.FromSeconds(2));
+                App.Current.MainPage = new AppShell();
                 await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
             }
             catch (Exception ex)
@@ -136,5 +147,6 @@ namespace ProyectoDIV1.ViewModels
             }
 
         }
+        #endregion
     }
 }

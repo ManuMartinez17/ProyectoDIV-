@@ -14,8 +14,9 @@ namespace ProyectoDIV1.Entidades.Models
         public string Departamento { get; set; }
         public string Ciudad { get; set; }
         public int Edad { get; set; }
+        public float Calificacion { get; set; } = 0.0f;
         public string Profesion { get; set; }
         public List<string> Habilidades { get; set; } = new List<string>();
-        public RutasArchivos Rutas { get; set; } = new RutasArchivos();
+        public Archivos Rutas { get; set; } = new Archivos();
     }
 }
