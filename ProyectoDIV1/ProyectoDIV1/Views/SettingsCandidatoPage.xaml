@@ -6,57 +6,63 @@
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms" 
              xmlns:viewmodels="clr-namespace:ProyectoDIV1.ViewModels" x:DataType="viewmodels:SettingsCandidatoViewModel"
-             x:Class="ProyectoDIV1.Views.SettingsCandidatoPage" BackgroundImageSource="backgroundSettings.jpg">
+             x:Class="ProyectoDIV1.Views.SettingsCandidatoPage" BackgroundImageSource="backgroundSettings.jpg" Title="Perfil">
     <ContentPage.Content>
-        <StackLayout VerticalOptions="Center">
-            <Label Text="Cuenta" TextColor="GhostWhite" FontSize="Large" HorizontalTextAlignment="Center" FontAttributes="Italic">
-              
-            </Label>
+        <StackLayout VerticalOptions="Start" Spacing="10" Margin="0,30,0,0">
+            <ScrollView>
+                <StackLayout VerticalOptions="Start">
+                    <Label Text="Cuenta" TextColor="GhostWhite" FontSize="Large" HorizontalTextAlignment="Center" FontAttributes="Italic">
 
-            <StackLayout Margin="30"
-                 Orientation="Horizontal"
-                 HorizontalOptions="Center">
-                <ffimageloading:CachedImage Aspect="AspectFit"
+                    </Label>
+                    <ffimageloading:CachedImage Aspect="AspectFit"
                                                 Source="{Binding Candidato.Candidato.Rutas.RutaImagenRegistro}" 
                                                 CacheDuration= "50"
                                                 HeightRequest="150"
-                                                Margin="5"
-                                                RetryCount= "3"
+                                                Margin="50,30,50,0"
+                                                RetryCount= "3" 
                                                 RetryDelay= "600">
-                    <ffimageloading:CachedImage.Transformations>
-                        <fftransformations:CircleTransformation />
-                    </ffimageloading:CachedImage.Transformations>
-                    <ffimageloading:CachedImage.GestureRecognizers>
-                        <TapGestureRecognizer Command="{Binding CambiarImagenCommand}"/>
-                    </ffimageloading:CachedImage.GestureRecognizers>
-                </ffimageloading:CachedImage>
-                <StackLayout Margin="20">
-                    <Label FontSize="Medium" HorizontalOptions="Center" TextColor="GhostWhite" FontAttributes="Bold" Text="{Binding Candidato.FullName}">
-                        <Label.Margin>
-                            <Thickness Left="8" />
-                        </Label.Margin>
-                    </Label>
-                    <Label FontSize="Medium" HorizontalOptions="Center" TextColor="GhostWhite" FontAttributes="Bold" Text="{Binding Candidato.Candidato.Profesion}">
-                        <Label.Margin>
-                            <Thickness Left="8" />
-                        </Label.Margin>
-                    </Label>
-                    <Label FontSize="Medium" HorizontalOptions="Center" TextColor="GhostWhite" FontAttributes="Bold" Text="{Binding Candidato.Candidato.Edad}">
-                        <Label.Margin>
-                            <Thickness Left="8" />
-                        </Label.Margin>
-                    </Label>
-                </StackLayout>
-            </StackLayout>
+                        <ffimageloading:CachedImage.Transformations>
+                            <fftransformations:CircleTransformation />
+                        </ffimageloading:CachedImage.Transformations>
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CambiarImagenCommand}"/>
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+                    <StackLayout Margin="10,10,10,10"
+                 Orientation="Horizontal" Spacing="0"
+                 HorizontalOptions="Center">
 
-            <rating:SfRating HorizontalOptions="Center" 
+                        <StackLayout Margin="20">
+                            <Label FontSize="Medium" TextColor="GhostWhite" FontAttributes="Bold" Text="{Binding Candidato.FullName}">
+                                <Label.Margin>
+                                    <Thickness Left="8" />
+                                </Label.Margin>
+                            </Label>
+                            <Label FontSize="Medium" HorizontalOptions="Start" TextColor="GhostWhite" FontAttributes="Bold" Text="{Binding Candidato.Candidato.Profesion, StringFormat='Profesión: {0}'}">
+                                <Label.Margin>
+                                    <Thickness Left="8" />
+                                </Label.Margin>
+                            </Label>
+                            <Label FontSize="Medium" HorizontalOptions="Start" TextColor="GhostWhite" FontAttributes="Bold" Text="{Binding Candidato.Candidato.Edad, StringFormat='Edad: {0} años'}">
+                                <Label.Margin>
+                                    <Thickness Left="8" />
+                                </Label.Margin>
+                            </Label>
+                        </StackLayout>
+                    </StackLayout>
+                    <Label Text="Calificación" TextColor="GhostWhite" FontSize="Large" HorizontalTextAlignment="Center" FontAttributes="Italic">
+
+                    </Label>
+                    <rating:SfRating HorizontalOptions="Center" 
                                      Margin="0,5"
                                      Precision="Half" IsEnabled="False"
-                                     Value="{Binding Candidato.Candidato.Calificacion}">
-                <rating:SfRating.RatingSettings>
-                    <rating:SfRatingSettings RatedFill="Yellow"/>
-                </rating:SfRating.RatingSettings>
-            </rating:SfRating>
+                                     Value="{Binding Candidato.Calificacion}">
+                        <rating:SfRating.RatingSettings>
+                            <rating:SfRatingSettings RatedFill="Yellow"/>
+                        </rating:SfRating.RatingSettings>
+                    </rating:SfRating>
+                </StackLayout>
+            </ScrollView>
             <buttons:SfButton x:Name="SfButton" Text="Más Información" FontSize="25" TextColor="Yellow" CornerRadius="3" HeightRequest="50" 
                                       WidthRequest="4" BorderWidth="2" BackgroundColor="Transparent" Margin="50,20,50,20" ImageWidth="40" ImageAlignment="End"
                                       ShowIcon="True" ImageSource="icon_rightarrow.png"/>

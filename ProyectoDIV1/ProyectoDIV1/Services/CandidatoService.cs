@@ -23,7 +23,7 @@ namespace ProyectoDIV1.Services
             .OnceAsync<ECandidato>()).Select(item => new ECandidato
             {
                 Nombre = item.Object.Nombre,
-                Calificacion = item.Object.Calificacion,
+                Calificaciones = item.Object.Calificaciones,
                 Apellido = item.Object.Apellido,
                 Email = item.Object.Email,
                 Ciudad = item.Object.Ciudad,
@@ -46,6 +46,7 @@ namespace ProyectoDIV1.Services
                 UsuarioId = item.Object.UsuarioId,
                 Nombre = item.Object.Nombre,
                 Apellido = item.Object.Apellido,
+                Calificaciones = item.Object.Calificaciones,
                 Email = item.Object.Email,
                 Ciudad = item.Object.Ciudad,
                 Celular = item.Object.Celular,

@@ -6,20 +6,27 @@ namespace ProyectoDIV1.Models
 {
     public class Skills
     {
+        public Attribution[] attributions { get; set; }
+        public Skill[] data { get; set; }
+    }
 
-        public string job_uuid { get; set; }
-        public string job_title { get; set; }
-        public string normalized_job_title { get; set; }
-        public List<Skill> skills { get; set; }
+    public class Attribution
+    {
+        public string name { get; set; }
+        public string text { get; set; }
     }
 
     public class Skill
     {
-        public string skill_uuid { get; set; }
-        public string skill_name { get; set; }
-        public string description { get; set; }
-        public string normalized_skill_name { get; set; }
-        public decimal importance { get; set; }
-        public decimal level { get; set; }
+        public string id { get; set; }
+        public string name { get; set; }
+        public Type type { get; set; }
+        public string infoUrl { get; set; }
+    }
+
+    public class Type
+    {
+        public string id { get; set; }
+        public string name { get; set; }
     }
 }
