@@ -7,6 +7,6 @@ namespace ProyectoDIV1.Interfaces
     {
         Task<Jobs> GetListJobsAsync(string rutaSolicitud, string token);
         Task<Skills> GetListJobsRelatedSkills(string rutaSolicitud, string token);
-        string GenerarToken();
+        Token GenerarToken();
     }
 }

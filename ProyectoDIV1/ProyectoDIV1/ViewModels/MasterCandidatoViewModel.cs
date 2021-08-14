@@ -4,6 +4,7 @@ using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Interfaces;
 using ProyectoDIV1.Services;
+using ProyectoDIV1.Views;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -63,7 +64,7 @@ namespace ProyectoDIV1.ViewModels
         {
             var authService = DependencyService.Resolve<IAuthenticationService>();
             authService.SignOut();
-            Shell.Current.GoToAsync("//LoginPage");
+            Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
         }
 
         public Command OnSignOut { get; set; }
@@ -71,11 +72,14 @@ namespace ProyectoDIV1.ViewModels
         private void LoadCandidato()
         {
             ECandidato candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Usuario);
+            candidato.Rutas.RutaImagenRegistro = string.IsNullOrEmpty(candidato.Rutas.RutaImagenRegistro) ?
+                "https://i.postimg.cc/BQmWRFDZ/iconuser.jpg" : candidato.Rutas.RutaImagenRegistro;
             CandidatoDTO candidatoDTO = new CandidatoDTO()
             {
                 Candidato = candidato
 
             };
+            
             Candidato = candidatoDTO;
         }
 

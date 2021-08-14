@@ -16,8 +16,12 @@ namespace ProyectoDIV1.Entidades.Models
         public int Edad { get; set; }
         public List<float> Calificaciones { get; set; }
         public string Profesion { get; set; }
-        public List<string> Habilidades { get; set; } = new List<string>();
+        public List<Lista> Habilidades { get; set; } = new List<Lista>();
         public Archivos Rutas { get; set; } = new Archivos();
         public string Expectativa { get; set; }
+    }
+    public class Lista
+    {
+        public string Nombre { get; set; }
     }
 }

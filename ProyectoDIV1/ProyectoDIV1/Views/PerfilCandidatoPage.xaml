@@ -36,7 +36,8 @@
                             <TapGestureRecognizer Command="{Binding CambiarImagenCommand}"/>
                         </ffimageloading:CachedImage.GestureRecognizers>
                     </ffimageloading:CachedImage>
-                    <Label Text="{Binding TextoUpload}" TextColor="White" FontSize="Medium" HorizontalTextAlignment="Center" FontAttributes="Bold" IsVisible="{Binding VisibleUpload}">
+                    <Label Text="{Binding TextoUpload}" TextColor="White" FontSize="Medium" HorizontalTextAlignment="Center" 
+                           FontAttributes="Bold" IsVisible="{Binding VisibleUpload}">
                     </Label>
 
                     <buttons:SfButton x:Name="SfButton" Text="{Binding TextoButtonUpload}" TextColor="Black" CornerRadius="3" HeightRequest="50" 

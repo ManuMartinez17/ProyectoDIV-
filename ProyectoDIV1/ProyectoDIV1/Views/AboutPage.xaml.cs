@@ -21,7 +21,7 @@ namespace ProyectoDIV1.Views
             {
                 var authenticationService = DependencyService.Resolve<IAuthenticationService>();
                 if (!authenticationService.IsSignIn())
-                    await Shell.Current.GoToAsync("//LoginPage");
+                    await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
             }
             catch (Exception e)
             {

@@ -88,7 +88,7 @@ namespace ProyectoDIV1.ViewModels
             {
                 try
                 {
-                    UserDialogs.Instance.ShowLoading("cargando...");
+                    UserDialogs.Instance.ShowLoading("Iniciando Sesión...");
                     var authService = DependencyService.Resolve<IAuthenticationService>();
                     var token = await authService.SignIn(Email, Password);             
                     UserDialogs.Instance.HideLoading();

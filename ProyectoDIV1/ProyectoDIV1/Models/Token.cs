@@ -9,6 +9,8 @@ namespace ProyectoDIV1.Models
         public string access_token { get; set; }
         public int expires_in { get; set; }
         public string token_type { get; set; }
+        public DateTime Expiration;
+        public DateTime ExpirationLocal => Expiration.ToLocalTime();
     }
     public class Mensaje
     {

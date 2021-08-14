@@ -57,7 +57,6 @@ namespace ProyectoDIV1.ViewModels
             MaximumDate = DateTime.Today.AddYears(-18);
         }
 
-
         #endregion
 
         #region Commands
@@ -204,7 +203,8 @@ namespace ProyectoDIV1.ViewModels
                 new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
                 {
                      { DevicePlatform.iOS, new[] { "com.adobe.pdf" , "com.microsoft.word.doc" } }, // or general UTType values
-                     { DevicePlatform.Android, new[] { "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" } },
+                     { DevicePlatform.Android, new[] { "application/pdf", "application/msword", 
+                         "application/vnd.openxmlformats-officedocument.wordprocessingml.document" } },
                      { DevicePlatform.UWP, new[] { ".pdf" ,".doc"} },
                      { DevicePlatform.Tizen, new[] { "*/*" } },
                      { DevicePlatform.macOS, new[] { "pdf","doc"} }, // or general UTType values
@@ -336,7 +336,8 @@ namespace ProyectoDIV1.ViewModels
                             --age;
                         }
                         //sino preguntamos si estamos en el mismo mes, si es el mismo preguntamos si el dia de hoy es menor al de la fecha de nacimiento
-                        else if (DateTime.Today.Month == Candidato.FechaDeNacimiento.Value.Month && DateTime.Today.Day < Candidato.FechaDeNacimiento.Value.Day)
+                        else if (DateTime.Today.Month == Candidato.FechaDeNacimiento.Value.Month && DateTime.Today.Day
+                            < Candidato.FechaDeNacimiento.Value.Day)
                         {
                             --age;
                         }
@@ -370,7 +371,13 @@ namespace ProyectoDIV1.ViewModels
                 }
                 catch (Exception ex)
                 {
+                    
                     UserDialogs.Instance.HideLoading();
+                    if (ex.Message.ToUpper().Contains("EMAIL"))
+                    {
+                        await App.Current.MainPage.DisplayAlert("Alerta", "El correo ya esta en uso.", "OK");
+                        return;
+                    }
                     await App.Current.MainPage.DisplayAlert("Alerta", $"{ex.Message}", "OK");
                     return;
                 }

@@ -13,7 +13,7 @@ namespace ProyectoDIV1.Services
     {
         private Jobs jobs = new Jobs();
         private Skills skills = new Skills();
-        public string GenerarToken()
+        public Token GenerarToken()
         {
            
             try
@@ -27,35 +27,33 @@ namespace ProyectoDIV1.Services
                 {
                     var json = response.Content;
                     var token = JsonConvert.DeserializeObject<Token>(json);
-                    return token.access_token;
+                    token.Expiration = DateTime.Now.AddSeconds(token.expires_in);
+                    return token;
                 }
             }
             catch (Exception ex)
             {
               Debug.WriteLine(ex.Message);
             }
-            
-           
-            return string.Empty;
+            return null;
         }
 
         public async Task<Jobs> GetListJobsAsync(string rutaSolicitud, string token)
         {
             try
             {
-                var ruta = new Uri($"{ApiJobAndSkill.apiClient.BaseUrl}{rutaSolicitud}");
-                ApiJobAndSkill.apiClient.BaseUrl = ruta;
+                RestClient apiClient = new RestClient($"https://emsiservices.com/{rutaSolicitud}");
                 var request = new RestRequest(Method.GET);
                 request.AddHeader("Authorization", $"Bearer {token}");
-                IRestResponse response = ApiJobAndSkill.apiClient.Execute(request);
+                IRestResponse response = apiClient.Execute(request);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     var mensaje = JsonConvert.DeserializeObject<Mensaje>(response.Content);
                     if (mensaje.message.Contains("Token expired"))
                     {
-                        token = GenerarToken();
-                        return await GetListJobsAsync(rutaSolicitud, token);
+                        var tokenNuevo = GenerarToken();
+                        return await GetListJobsAsync(rutaSolicitud, tokenNuevo.access_token);
                     }
                 }
                 else if (response.IsSuccessful)
@@ -84,8 +82,8 @@ namespace ProyectoDIV1.Services
                     var mensaje = JsonConvert.DeserializeObject<Mensaje>(response.Content);
                     if (mensaje.message.Contains("Token expired"))
                     {
-                        token =  GenerarToken();
-                        return await GetListJobsRelatedSkills(rutaSolicitud, token);
+                        var tokenNuevo = GenerarToken();
+                        return await GetListJobsRelatedSkills(rutaSolicitud, tokenNuevo.access_token);
                     }
                 }
                 else if (response.IsSuccessful)

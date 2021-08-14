@@ -4,9 +4,4 @@
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Syncfusion.Xamarin.Buttons" Version="19.2.0.47" />
-    <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="19.2.0.47" />
-  </ItemGroup>
-
 </Project>

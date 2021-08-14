@@ -6,6 +6,7 @@ using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
 using ProyectoDIV1.Views;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -13,87 +14,120 @@ using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels
 {
+
     public class PerfilTrabajoViewModel : BaseViewModel
     {
         #region attributes
-        private ObservableCollection<Job> _tiposDeJobs;
         private readonly FirebaseHelper _firebase;
+        private Token _token;
         private ECandidato _candidatoReceived = new ECandidato();
-        private ObservableCollection<Skill> _tiposDeKills;
+        private ObservableCollection<Lista> _habilidades;
         JobAndSkillService serviceJobsandSkills = new JobAndSkillService();
-        private string _token;
         #endregion
 
         #region constructor
         public PerfilTrabajoViewModel()
         {
             _firebase = new FirebaseHelper();
+            BuscarToken();
             GenerarToken();
             CandidatoReceived = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
             RegisterCommand = new Command(RegistrarClicked);
             SignInCommand = new Command(OnSignInClicked);
-            LoadJobs();
-            loadSkills();
-            InsertarCommand =
-                new Command((param) =>
-                {
-                    var habilidad = param as Skill;
-                    if (habilidad != null)
-                    {
-                        _candidatoReceived.Habilidades.Add(habilidad.name);
-                    }
-                });
+            SearchJobCommand = new Command(async (text) => await ExecuteBusquedaJob(text));
+            SearchSkillsCommand = new Command(async (text) => await ExecuteBusquedaSkills(text));
         }
 
+        private async Task ExecuteBusquedaJob(object text)
+        {
+            var texto = text as string;
+            if (!string.IsNullOrWhiteSpace(texto))
+            {
+                UserDialogs.Instance.ShowLoading("Cargando...");
+                await Task.Delay(1000);
+                UserDialogs.Instance.HideLoading();
+                await Shell.Current.GoToAsync($"{nameof(BusquedaJobPage)}?{nameof(BusquedaJobViewModel.Texto)}={texto}");
+            }
+        }
+        private async Task ExecuteBusquedaSkills(object text)
+        {
+            var texto = text as string;
+            if (!string.IsNullOrWhiteSpace(texto))
+            {
+                UserDialogs.Instance.ShowLoading("Cargando...");
+                await Task.Delay(1000);
+                UserDialogs.Instance.HideLoading();
+                await Shell.Current.GoToAsync($"{nameof(BusquedaSkillsPage)}?{nameof(BusquedaSkillsViewModel.Texto)}={texto}");
+            }
+        }
 
+        private void BuscarToken()
+        {
+            _token = JsonConvert.DeserializeObject<Token>(Settings.Token);
+        }
 
 
         #endregion
 
         #region commands
-        public Command SearchCommand { get; set; }
         public Command RegisterCommand { get; set; }
         public Command SignInCommand { get; set; }
-        public Command InsertarCommand { get; set; }
+        public Command BorrarHabilidadCommand
+        {
+            get
+            {
+                return new Command<Lista>((skill) =>
+               {
+
+                   if (skill != null)
+                   {
+                       Habilidades.Remove(skill);
+                       _candidatoReceived.Habilidades.Remove(skill);
+                       Settings.Candidato = JsonConvert.SerializeObject(_candidatoReceived);
+                   }
+               });
+            }
+        }
+        public Command SearchJobCommand { get; set; }
+        public Command SearchSkillsCommand { get; set; }
+
         #endregion
 
         #region Properties
         public ECandidato CandidatoReceived
         {
             get { return _candidatoReceived; }
-            set { SetProperty(ref _candidatoReceived, value); }
+            set
+            {
+                Habilidades = value != null ? new ObservableCollection<Lista>(value.Habilidades) : null;
+                SetProperty(ref _candidatoReceived, value);
+
+            }
         }
-        public ObservableCollection<Job> TiposDeJobs
+  
+        public ObservableCollection<Lista> Habilidades
         {
-            get { return _tiposDeJobs; }
-            set { SetProperty(ref _tiposDeJobs, value); }
+            get { return _habilidades; }
+            set { SetProperty(ref _habilidades, value); }
         }
-
-        public ObservableCollection<Skill> TiposDeKills
-        {
-            get { return _tiposDeKills; }
-            set { SetProperty(ref _tiposDeKills, value); }
-        }
-
-
         #endregion
 
         #region methods
         private void GenerarToken()
         {
-            _token = serviceJobsandSkills.GenerarToken();
-        }
-
-        private async void LoadJobs(string param = "psy")
-        {
-            var lista = await serviceJobsandSkills.GetListJobsAsync($"titles/versions/latest/titles?q=.{param}", _token);
-            TiposDeJobs = new ObservableCollection<Job>(lista.data);
-        }
-
-        private async void loadSkills(string param = "psy")
-        {
-            var lista = await serviceJobsandSkills.GetListJobsRelatedSkills($"skills/versions/latest/skills?q=.{param}", _token);
-            TiposDeKills = new ObservableCollection<Skill>(lista.data);
+            if (_token == null)
+            {
+                var token = serviceJobsandSkills.GenerarToken();
+                Settings.Token = JsonConvert.SerializeObject(token);
+            }
+            else
+            {
+                if (_token.Expiration < DateTime.Now)
+                {
+                    var token = serviceJobsandSkills.GenerarToken();
+                    Settings.Token = JsonConvert.SerializeObject(token);
+                }
+            }
         }
 
         private async void OnSignInClicked()
@@ -105,11 +139,27 @@ namespace ProyectoDIV1.ViewModels
         {
             try
             {
+                if (string.IsNullOrWhiteSpace(CandidatoReceived.Expectativa))
+                {
+                    UserDialogs.Instance.Alert("Ingrese una expectativa.");
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(CandidatoReceived.Profesion) || CandidatoReceived.Habilidades.Count == 0)
+                {
+                    UserDialogs.Instance.Alert("Tiene que tener una profesión, y una habilidad.");
+                    return;
+                }
                 UserDialogs.Instance.ShowLoading("cargando...");
+                CandidatoReceived.Habilidades = new List<Lista>();
+                foreach (var item in Habilidades)
+                {
+                    CandidatoReceived.Habilidades.Add(item);
+                }
                 await _firebase.CrearAsync<ECandidato>(CandidatoReceived, Constantes.COLLECTION_CANDIDATO);
                 UserDialogs.Instance.HideLoading();
                 UserDialogs.Instance.Toast("se ha registrado satisfactoriamente", TimeSpan.FromSeconds(2));
                 await Task.Delay(2000);
+                Settings.Candidato = null;
                 App.Current.MainPage = new AppShell();
                 await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
             }

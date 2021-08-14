@@ -1,12 +1,7 @@
-﻿using Newtonsoft.Json;
-using ProyectoDIV1.Helpers;
-using ProyectoDIV1.Interfaces;
-using ProyectoDIV1.Services;
-using ProyectoDIV1.ViewModels;
+﻿using ProyectoDIV1.ViewModels;
 using ProyectoDIV1.Views;
 using System;
 using System.Collections.Generic;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1
@@ -27,7 +22,10 @@ namespace ProyectoDIV1
 
         private void RegisterRoutes()
         {
-            //routes.Add(nameof(PerfilTrabajoPage), typeof(PerfilTrabajoPage));
+            routes.Add(nameof(BusquedaJobPage), typeof(BusquedaJobPage));
+            routes.Add(nameof(BusquedaSkillsPage), typeof(BusquedaSkillsPage));
+            routes.Add(nameof(EditarHojaDeVidaPage), typeof(EditarHojaDeVidaPage));
+
             foreach (var item in routes)
             {
                 Routing.RegisterRoute(item.Key, item.Value);
