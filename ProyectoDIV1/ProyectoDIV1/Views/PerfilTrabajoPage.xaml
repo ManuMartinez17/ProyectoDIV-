@@ -1,0 +1,105 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" 
+             xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters"
+             xmlns:button="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms" 
+             x:Class="ProyectoDIV1.Views.PerfilTrabajoPage" Title="Profesión y habilidades"  BackgroundImage="registro.jpg"
+             Shell.BackgroundColor="{StaticResource Primary}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <converter:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     AbsoluteLayout.LayoutFlags="All" Margin="1,0"
+                       Padding="20,20,20,0" Spacing="5">
+
+            <StackLayout Spacing="15">
+                <Label Text="Ingrese Los Datos" TextColor="WhiteSmoke" FontAttributes="Italic" HorizontalTextAlignment="Center" FontSize="Large">
+
+                </Label>
+                <Label HorizontalTextAlignment="Start">
+                    <Label.FormattedText>
+                        <FormattedString>
+
+                            <Span Text="Hola" TextColor="WhiteSmoke"/>
+                            <Span Text=" "/>
+                            <Span Text="{Binding CandidatoReceived.Nombre}" TextColor="WhiteSmoke" FontAttributes="Bold" />
+                            <Span Text=" "/>
+                            <Span Text="{Binding CandidatoReceived.Apellido}" TextColor="WhiteSmoke" FontAttributes="Bold"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <inputLayout:SfTextInputLayout Hint="Expectativas" FocusedColor="Black"  ContainerBackgroundColor="#edf8f6">
+                    <Editor AutoSize="TextChanges" Text="{Binding CandidatoReceived.Expectativa}" />
+                </inputLayout:SfTextInputLayout>
+
+                <SearchBar Placeholder="Busqueda de Profesión" BackgroundColor="#edf8f6"
+                               x:Name="searchJob"
+                               SearchCommand="{Binding SearchJobCommand}"
+                               SearchCommandParameter="{Binding Text, Source={x:Reference searchJob}}"
+                               >
+
+                </SearchBar>
+
+                <Label HorizontalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Profesión escogida:" TextColor="WhiteSmoke" FontSize="Medium" FontAttributes="Bold"/>
+                            <Span Text=" "/>
+                            <Span Text="{Binding CandidatoReceived.Profesion}" TextColor="WhiteSmoke" FontAttributes="Bold"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+
+                <SearchBar Placeholder="Busqueda de habilidades" BackgroundColor="#edf8f6"
+                               x:Name="searchSkills"
+                               SearchCommand="{Binding SearchSkillsCommand}"
+                               SearchCommandParameter="{Binding Text, Source={x:Reference searchSkills}}"
+                               >
+                </SearchBar>
+                <Label HorizontalTextAlignment="Center">
+                    <Label.FormattedText>
+                        <FormattedString>
+                            <Span Text="Habilidades escogidas: " FontSize="Medium" TextColor="WhiteSmoke" FontAttributes="Bold"/>
+                            <Span Text=" "/>
+                            <Span Text="{Binding Habilidades.Count, TargetNullValue=0}" TextColor="WhiteSmoke" FontAttributes="Bold"/>
+                        </FormattedString>
+                    </Label.FormattedText>
+                </Label>
+                <syncfusion:SfListView ItemsSource="{Binding Habilidades}" SelectionBackgroundColor="Transparent" IsScrollingEnabled="False" >
+                    <syncfusion:SfListView.ItemTemplate>
+                        <DataTemplate>
+                            <ViewCell>
+                                <ViewCell.View>
+                                    <Grid>
+                                        <Label Text="{Binding Nombre}" FontAttributes="Bold"  Grid.Row="0" Grid.Column="0" TextColor="White" VerticalOptions="Center" FontSize="Default" />
+                                        <button:SfButton ImageSource="remove.png" ShowIcon="True" Grid.Column="1" VerticalOptions="Center"
+                                                         BackgroundColor="Transparent"
+                                                         Clicked="BorrarSkill_Clicked">
+                                        </button:SfButton>
+                                    </Grid>
+                                </ViewCell.View>
+                            </ViewCell>
+                        </DataTemplate>
+                    </syncfusion:SfListView.ItemTemplate>
+                </syncfusion:SfListView>
+            </StackLayout>
+            <Button x:Name="insertar"
+						FontFamily="Lato"
+						FontAttributes="Bold"
+						HorizontalOptions="Center"
+						Command="{Binding RegisterCommand}"
+						FontSize="14"
+						TextColor="White"
+						BackgroundColor="#705E78"
+						VerticalOptions="EndAndExpand"
+						Text="REGISTRAR"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>
