@@ -3,6 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="ProyectoDIV1.Views.InicioRegistroPage" Title="Registro"
              BackgroundColor="#E08C67"
+              Shell.FlyoutBehavior="Disabled"
               Shell.BackgroundColor="{StaticResource Primary}">
     <ContentPage.Content>
         <StackLayout VerticalOptions="Center" HorizontalOptions="Center">

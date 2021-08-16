@@ -9,6 +9,7 @@ using ProyectoDIV1.Views;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -35,8 +36,8 @@ namespace ProyectoDIV1.ViewModels
 
         private void ExecuteBorrarSkills(object param)
         {
-            var habilidad = param as string;
-            if (habilidad != null && _candidato != null)
+            string habilidad = param as string;
+            if (_candidato != null)
             {
                 var query = _candidato.Habilidades.Where(x => x.Nombre.Equals(habilidad)).FirstOrDefault();
                 if (query != null)
@@ -48,21 +49,17 @@ namespace ProyectoDIV1.ViewModels
         }
         private void ExecuteInsertarSkills(object param)
         {
-            var habilidad = param as string;
-            if (habilidad != null)
+            string habilidad = param as string;
+            Lista item = new Lista()
             {
-                Lista item = new Lista()
-                {
-                    Nombre = habilidad
-                };
-                if (_candidato == null)
-                {
-                    _candidato = new ECandidato();
-                }
-                _candidato.Habilidades.Add(item);
-                Settings.Candidato = JsonConvert.SerializeObject(_candidato);
+                Nombre = habilidad
+            };
+            if (_candidato == null)
+            {
+                _candidato = new ECandidato();
             }
-
+            _candidato.Habilidades.Add(item);
+            Settings.Candidato = JsonConvert.SerializeObject(_candidato);
         }
 
 
@@ -99,34 +96,45 @@ namespace ProyectoDIV1.ViewModels
 
         private async void OnGuardarClicked()
         {
-            if (_candidato != null)
+            try
             {
-                if (_candidato.Habilidades.Count == 0)
+
+                if (_candidato != null)
+                {
+                    if (_candidato.Habilidades.Count == 0)
+                    {
+                        UserDialogs.Instance.Alert("Guarde por lo menos una habilidad.");
+                        return;
+                    }
+                    UserDialogs.Instance.ShowLoading("guardando...");
+                    var authenticationService = DependencyService.Resolve<IAuthenticationService>();
+                    if (authenticationService.IsSignIn())
+                    {
+                        var query = await new CandidatoService().GetCandidatoFirebaseObjectAsync(_candidato.UsuarioId);
+                        await new FirebaseHelper().UpdateAsync(_candidato, Constantes.COLLECTION_CANDIDATO, query);
+                        Settings.Usuario = JsonConvert.SerializeObject(_candidato);
+                        UserDialogs.Instance.HideLoading();
+                        await Shell.Current.GoToAsync($"../../{nameof(EditarHojaDeVidaPage)}");
+                    }
+                    else
+                    {
+                        App.Current.MainPage = new NavigationPage();
+                        Settings.Candidato = JsonConvert.SerializeObject(_candidato);
+                        UserDialogs.Instance.HideLoading();
+                        await Application.Current.MainPage.Navigation.PushAsync(new PerfilTrabajoPage());
+                    }
+                }
+
+                else
                 {
                     UserDialogs.Instance.Alert("Guarde por lo menos una habilidad.");
                     return;
                 }
-                var authenticationService = DependencyService.Resolve<IAuthenticationService>();
-
-                if (authenticationService.IsSignIn())
-                {
-                    UserDialogs.Instance.ShowLoading("guardando...");
-                    var query = await new CandidatoService().GetCandidatoFirebaseObjectAsync(_candidato.UsuarioId);
-                    await new FirebaseHelper().UpdateAsync<ECandidato>(_candidato, Constantes.COLLECTION_CANDIDATO, query);
-                    Settings.Usuario = JsonConvert.SerializeObject(_candidato);
-                    UserDialogs.Instance.HideLoading();
-                    await Shell.Current.GoToAsync($"../../{nameof(EditarHojaDeVidaPage)}");
-                }
-                else
-                {
-                    App.Current.MainPage = new AppShell();
-                    await Shell.Current.GoToAsync($"//{nameof(PerfilTrabajoPage)}");
-                }
             }
-
-            else
+            catch (Exception ex)
             {
-                UserDialogs.Instance.Alert("Guarde por lo menos una habilidad.");
+                Debug.WriteLine(ex.Message);
+                UserDialogs.Instance.HideLoading();
                 return;
             }
         }

@@ -1,9 +1,7 @@
 ﻿using ProyectoDIV1.Interfaces;
 using ProyectoDIV1.ViewModels;
 using System;
-using System.ComponentModel;
 using Xamarin.Forms;
-using Xamarin.Forms.Xaml;
 
 namespace ProyectoDIV1.Views
 {

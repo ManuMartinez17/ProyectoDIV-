@@ -6,6 +6,8 @@
              xmlns:button="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
              xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms" 
              x:Class="ProyectoDIV1.Views.PerfilTrabajoPage" Title="Profesión y habilidades"  BackgroundImage="registro.jpg"
+             Shell.FlyoutBehavior="Disabled"
+             BackgroundColor="{StaticResource Primary}"
              Shell.BackgroundColor="{StaticResource Primary}">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -36,7 +38,7 @@
                 </Label>
 
                 <inputLayout:SfTextInputLayout Hint="Expectativas" FocusedColor="Black"  ContainerBackgroundColor="#edf8f6">
-                    <Editor AutoSize="TextChanges" Text="{Binding CandidatoReceived.Expectativa}" />
+                    <Editor AutoSize="TextChanges" Text="{Binding CandidatoReceived.Expectativa}" TextColor="Black" />
                 </inputLayout:SfTextInputLayout>
 
                 <SearchBar Placeholder="Busqueda de Profesión" BackgroundColor="#edf8f6"

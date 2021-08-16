@@ -6,20 +6,29 @@ namespace ProyectoDIV1.Helpers
     public static class Settings
     {
         private const string _usuario = "usuario";
-        private static readonly string _stringDefault = string.Empty;
+        private static readonly string _usuarioDefault = string.Empty;
         private const string _candidato = "candidato";
         private static readonly string _candidatoDefault = string.Empty;
         private const string _empresa = "empresa";
         private static readonly string _empresaDefault = string.Empty;
         private const string _token = "token";
         private static readonly string _tokenDefault = string.Empty;
+        private const string _archivos = "archivos";
+        private static readonly string _archivosDefault = string.Empty;
         private static ISettings AppSettings => CrossSettings.Current;
 
         public static string Usuario
         {
-            get => AppSettings.GetValueOrDefault(_usuario, _stringDefault);
+            get => AppSettings.GetValueOrDefault(_usuario, _usuarioDefault);
             set => AppSettings.AddOrUpdateValue(_usuario, value);
         }
+
+        public static string Archivos
+        {
+            get => AppSettings.GetValueOrDefault(_archivos, _archivosDefault);
+            set => AppSettings.AddOrUpdateValue(_archivos, value);
+        }
+
 
         public static string Candidato
         {

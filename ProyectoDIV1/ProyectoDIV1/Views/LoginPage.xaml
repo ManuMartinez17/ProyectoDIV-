@@ -4,7 +4,8 @@
              xmlns:d="http://xamarin.com/schemas/2014/forms/design"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters"
-             xmlns:behaviour="clr-namespace:ProyectoDIV1.Helpers.Behaviours" 
+             xmlns:behaviour="clr-namespace:ProyectoDIV1.Helpers.Behaviours"
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
              mc:Ignorable="d"
              Visual="Material"
              x:Class="ProyectoDIV1.Views.LoginPage"
@@ -47,31 +48,32 @@
 				AbsoluteLayout.LayoutBounds="57.5,253,227,53"
 				Text="Regstrate y descubre las mejores oportunidades de empleo"
 			 />
-
-                    <Entry Text="{Binding Email, Mode=TwoWay}" 
-                           FontFamily="Lato"
-				            FontSize="14"
-                            Placeholder="email"
-				            TextColor="Black"
-				            AbsoluteLayout.LayoutBounds="31,330,312,40">
-                        <Entry.Behaviors>
-                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding EmailValid.IsValid}"/>
-                        </Entry.Behaviors>
-                    </Entry>
                     <Label
                         Text="{Binding EmailValid.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
                         IsVisible="{Binding EmailValid.IsValid, Converter={StaticResource InverseBoolConverter}}"
                          Style="{StaticResource ErrorTextStyle}"/>
-                    <Entry
+                    <inputLayout:SfTextInputLayout ContainerBackgroundColor="White">
+                        <Entry Text="{Binding Email, Mode=TwoWay}" 
+                           FontFamily="Lato"
+				            FontSize="14"
+                            Placeholder="Email"
+                           BackgroundColor="White"
+				            TextColor="Black">
+                        <Entry.Behaviors>
+                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding EmailValid.IsValid}"/>
+                        </Entry.Behaviors>
+                    </Entry>
+                    </inputLayout:SfTextInputLayout>
+                    <inputLayout:SfTextInputLayout ContainerBackgroundColor="White"
+                                                   EnablePasswordVisibilityToggle="true" ReserveSpaceForAssistiveLabels="False">
+                            <Entry
 				            FontFamily="Lato"
 				            FontSize="14"
-				            TextColor="Black"
-                            Placeholder="contraseña"
+                                 Placeholder="Contraseña"
+				            TextColor="Black" BackgroundColor="White"
                             IsPassword="True"          
-				            AbsoluteLayout.LayoutBounds="31.5,374,312,40"
 				            Text="{Binding Password, Mode=TwoWay}"/>
-                    
-                    
+                        </inputLayout:SfTextInputLayout>
                 </StackLayout>
             </ScrollView>
             <Button x:Name="ingresar"
@@ -85,16 +87,14 @@
 					AbsoluteLayout.LayoutBounds="-2,8,200,40"
 					Text="INGRESAR" >
             </Button>
-            <Label HorizontalTextAlignment="Start">
+            <Label HorizontalTextAlignment="Center">
                 <Label.FormattedText>
                     <FormattedString>
                         <Span Text="¿si aun no tienes una cuenta?" 
                                 TextColor="White"
-                                          FontAttributes="Italic"
-                                 />
-                        <Span Text="    "/>
-                        <Span Text="Crea tu cuenta"
-                                         
+                                          FontAttributes="Italic" />
+                        <Span Text=" "/>
+                        <Span Text="Crea tu cuenta"       
 								TextColor="#705E78"
                                           FontAttributes="Bold"
 								TextDecorations="Underline">
@@ -106,15 +106,14 @@
                     </FormattedString>
                 </Label.FormattedText>
             </Label>
-            <Label HorizontalTextAlignment="Start"
-                             >
+            <Label HorizontalTextAlignment="Center">
                 <Label.FormattedText>
                     <FormattedString>
-                        <Span Text="¿¿Olvidaste tu contraseña?" 
+                        <Span Text="¿Olvidaste tu contraseña?" 
                                 TextColor="White"
                                           FontAttributes="Italic"
                                  />
-                        <Span Text="  "/>
+                        <Span Text=" "/>
                         <Span Text="Recuperar contraseña"
                                          
 								TextColor="#705E78"

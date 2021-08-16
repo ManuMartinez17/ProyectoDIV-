@@ -28,6 +28,7 @@
     <PackageReference Include="Syncfusion.Xamarin.Cards" Version="19.2.0.55" />
     <PackageReference Include="Syncfusion.Xamarin.SfAutoComplete" Version="19.2.0.55" />
     <PackageReference Include="Syncfusion.Xamarin.SfListView" Version="19.2.0.55" />
+    <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="19.2.0.55" />
     <PackageReference Include="Syncfusion.Xamarin.SfRating" Version="19.2.0.55" />
     <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
     <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
@@ -56,6 +57,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <EmbeddedResource Update="Views\CandidatosConServiciosPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\ForgotPasswordPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>

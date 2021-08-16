@@ -27,7 +27,7 @@
             <Style TargetType="TabBar" BasedOn="{StaticResource BaseStyle}" />
             <Style TargetType="FlyoutItem" BasedOn="{StaticResource BaseStyle}" />
 
-         
+
             <Style Class="FlyoutItemLabelStyle" TargetType="Label">
                 <Setter Property="TextColor" Value="White"></Setter>
             </Style>
@@ -69,25 +69,19 @@
             </Style>
         </ResourceDictionary>
     </Shell.Resources>
-
-    <Shell.TitleView>
-        <Image Source="xamarin_logo.png"
-               HorizontalOptions="Center"
-               VerticalOptions="Center" />
-    </Shell.TitleView>
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-        <Tab Title="Home"
-             Icon="_home.png">
-            <ShellContent Title="Home"
-                          Icon="_home.png" 
-                          ContentTemplate="{DataTemplate local:AboutPage}" />
-            <ShellContent Title="Dogs"
-                          Icon="dog.png" 
-                          ContentTemplate="{DataTemplate local:AboutPage}" />
-        </Tab>
         <ShellContent Title="Acerca de"
                       Icon="icon_about.png" Route="AboutPage"
                       ContentTemplate="{DataTemplate local:AboutPage}" />
+        <Tab Title="Home"
+             Icon="_home.png">
+            <ShellContent Title="Candidatos"
+                          Icon="_home.png" 
+                          ContentTemplate="{DataTemplate local:CandidatosConServiciosPage}" />
+            <ShellContent Title="Empresas"
+                          Icon="dog.png" 
+                          ContentTemplate="{DataTemplate local:AboutPage}" />
+        </Tab>
         <ShellContent Title="Perfil"
                       Icon="icon_settings.png"
                       ContentTemplate="{DataTemplate local:SettingsCandidatoPage}" />
@@ -95,7 +89,6 @@
     <ShellContent Route="LoginPage"
                    Shell.FlyoutBehavior="Disabled"
                    ContentTemplate="{DataTemplate local:LoginPage}" />
-
     <ShellContent Route="PerfilTrabajoPage"
                    Shell.FlyoutBehavior="Disabled"
                    ContentTemplate="{DataTemplate local:PerfilTrabajoPage}" />

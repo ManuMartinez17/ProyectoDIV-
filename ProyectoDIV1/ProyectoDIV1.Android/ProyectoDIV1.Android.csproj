@@ -84,6 +84,9 @@
     <PackageReference Include="Syncfusion.Xamarin.SfListView">
       <Version>19.2.0.55</Version>
     </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfPicker">
+      <Version>19.2.0.55</Version>
+    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfRating">
       <Version>19.2.0.55</Version>
     </PackageReference>

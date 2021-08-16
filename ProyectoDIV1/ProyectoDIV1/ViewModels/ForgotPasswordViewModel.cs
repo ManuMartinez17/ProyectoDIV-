@@ -12,7 +12,7 @@ namespace ProyectoDIV1.ViewModels
         public ForgotPasswordViewModel()
         {
             ResetPasswordCommand = new Command(OnResetPassword);
-            SignUpCommand = new Command(irAregistro);
+            SignUpCommand = new Command(IrAregistro);
         }
 
         public string Email
@@ -25,9 +25,9 @@ namespace ProyectoDIV1.ViewModels
         public Command SignUpCommand { get; }
 
 
-        private async void irAregistro(object obj)
+        private async void IrAregistro(object obj)
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new InicioRegistroPage());
+            await Shell.Current.GoToAsync(nameof(InicioRegistroPage));
         }
 
         private async void OnResetPassword(object obj)
@@ -40,7 +40,7 @@ namespace ProyectoDIV1.ViewModels
 
                 await App.Current.MainPage.DisplayAlert("Alerta", "Se ha enviado un email verifique su bandeja.", "OK");
 
-                await Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
+                await Shell.Current.GoToAsync("..");
             }
             catch (Exception ex)
             {

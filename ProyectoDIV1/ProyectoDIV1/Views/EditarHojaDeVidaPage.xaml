@@ -2,13 +2,26 @@
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
-             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms"
+             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms" xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
              x:Class="ProyectoDIV1.Views.EditarHojaDeVidaPage"
-             Title="Editar hoja de vida y habilidades"
+             Title="Editar hoja de vida"
              Shell.BackgroundColor="{StaticResource Primary}">
     <ContentPage.Content>
         <ScrollView>
             <StackLayout>
+                <cards:SfCardView Margin="20,20,20,20" Padding="15" CornerRadius="30,30,30,30">
+                    <StackLayout  VerticalOptions="Center" Padding="10,10,10,10">
+                        <Label Text="Mis expectativas" HorizontalOptions="Center" TextColor="Black" FontSize="Medium" FontFamily="" FontAttributes="Bold"/>
+                        <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Padding="10,10,10,10">
+                            <inputLayout:SfTextInputLayout Hint="Expectativas" FocusedColor="Black"  ContainerBackgroundColor="#C9E0DD">
+                                <Editor AutoSize="TextChanges" Text="{Binding Candidato.Expectativa}" TextColor="Black" />
+                            </inputLayout:SfTextInputLayout>
+                        </StackLayout>
+                        <buttons:SfButton ImageAlignment="End" HorizontalOptions="End" BackgroundColor="Transparent" ImageWidth="50"
+                                              ImageSource="icon_edit.png" ShowIcon="True" Command="{Binding EditarExpectativaCommand}">
+                        </buttons:SfButton>
+                    </StackLayout>
+                </cards:SfCardView>
                 <cards:SfCardView Margin="20,20,20,0" Padding="15,0,15,0" CornerRadius="30,30,30,30">
                     <StackLayout Spacing="20" VerticalOptions="Center" Padding="10,10,10,10">
                         <Label Text="Habilidades y competencias" TextColor="Black" FontSize="Medium" FontFamily="" FontAttributes="Bold"/>
@@ -40,7 +53,7 @@
                     </StackLayout>
                 </cards:SfCardView>
                 <cards:SfCardView Margin="20,20,20,20" Padding="15" CornerRadius="30,30,30,30">
-                    <StackLayout>
+                    <StackLayout  VerticalOptions="Center" Padding="10,10,10,10">
                         <Label Text="Hoja de vida" HorizontalOptions="Center" TextColor="Black" FontSize="Medium" FontFamily="" FontAttributes="Bold"/>
                         <StackLayout Orientation="Horizontal" HorizontalOptions="CenterAndExpand" Padding="10,10,10,10">
                             <buttons:SfButton  HorizontalOptions="Start" Text="{Binding Extension}" FontSize="15"

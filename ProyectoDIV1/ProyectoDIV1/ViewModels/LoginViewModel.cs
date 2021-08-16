@@ -93,7 +93,7 @@ namespace ProyectoDIV1.ViewModels
                     var token = await authService.SignIn(Email, Password);             
                     UserDialogs.Instance.HideLoading();
                     App.Current.MainPage = new AppShell();
-                    await Shell.Current.GoToAsync("//AboutPage");
+                    await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
                 }
                 catch (Exception ex)
                 {
@@ -105,12 +105,12 @@ namespace ProyectoDIV1.ViewModels
         }
         private async void OnForgotPassword()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new ForgotPasswordPage());
+            await Shell.Current.GoToAsync(nameof(ForgotPasswordPage));
         }
 
         private async void OnRegistroClicked()
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new InicioRegistroPage());
+            await Shell.Current.GoToAsync(nameof(InicioRegistroPage));
         }
         #endregion
     }

@@ -35,8 +35,8 @@ namespace ProyectoDIV1.ViewModels
                 }
                 _candidato.Profesion = job.name;
                 Settings.Candidato = JsonConvert.SerializeObject(_candidato);
-                App.Current.MainPage = new AppShell();
-                await Shell.Current.GoToAsync($"//{nameof(PerfilTrabajoPage)}");
+                Application.Current.MainPage = new NavigationPage();
+                await Application.Current.MainPage.Navigation.PushAsync(new PerfilTrabajoPage());
             }
         }
 

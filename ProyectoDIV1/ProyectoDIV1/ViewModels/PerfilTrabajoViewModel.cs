@@ -1,7 +1,9 @@
 ﻿using Acr.UserDialogs;
 using Newtonsoft.Json;
+using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
+using ProyectoDIV1.Interfaces;
 using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
 using ProyectoDIV1.Views;
@@ -9,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
+using System.IO;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -21,16 +24,20 @@ namespace ProyectoDIV1.ViewModels
         private readonly FirebaseHelper _firebase;
         private Token _token;
         private ECandidato _candidatoReceived = new ECandidato();
+        private ArchivosDTO _archivos = new ArchivosDTO();
         private ObservableCollection<Lista> _habilidades;
         JobAndSkillService serviceJobsandSkills = new JobAndSkillService();
+        private FirebaseStorageHelper _FirebaseStorageHelper;
         #endregion
 
         #region constructor
         public PerfilTrabajoViewModel()
         {
             _firebase = new FirebaseHelper();
+            _FirebaseStorageHelper = new FirebaseStorageHelper();
             BuscarToken();
             GenerarToken();
+            _archivos = JsonConvert.DeserializeObject<ArchivosDTO>(Settings.Archivos);
             CandidatoReceived = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
             RegisterCommand = new Command(RegistrarClicked);
             SignInCommand = new Command(OnSignInClicked);
@@ -46,6 +53,8 @@ namespace ProyectoDIV1.ViewModels
                 UserDialogs.Instance.ShowLoading("Cargando...");
                 await Task.Delay(1000);
                 UserDialogs.Instance.HideLoading();
+                Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
+                Application.Current.MainPage = new AppShell();
                 await Shell.Current.GoToAsync($"{nameof(BusquedaJobPage)}?{nameof(BusquedaJobViewModel.Texto)}={texto}");
             }
         }
@@ -57,6 +66,8 @@ namespace ProyectoDIV1.ViewModels
                 UserDialogs.Instance.ShowLoading("Cargando...");
                 await Task.Delay(1000);
                 UserDialogs.Instance.HideLoading();
+                Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
+                Application.Current.MainPage = new AppShell();
                 await Shell.Current.GoToAsync($"{nameof(BusquedaSkillsPage)}?{nameof(BusquedaSkillsViewModel.Texto)}={texto}");
             }
         }
@@ -155,13 +166,30 @@ namespace ProyectoDIV1.ViewModels
                 {
                     CandidatoReceived.Habilidades.Add(item);
                 }
-                await _firebase.CrearAsync<ECandidato>(CandidatoReceived, Constantes.COLLECTION_CANDIDATO);
-                UserDialogs.Instance.HideLoading();
-                UserDialogs.Instance.Toast("se ha registrado satisfactoriamente", TimeSpan.FromSeconds(2));
-                await Task.Delay(2000);
-                Settings.Candidato = null;
-                App.Current.MainPage = new AppShell();
-                await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+                var authService = DependencyService.Resolve<IAuthenticationService>();
+                if (await authService.Register($"{CandidatoReceived.Nombre} {CandidatoReceived.Apellido}",
+                    CandidatoReceived.Email, _archivos.Password))
+                {
+                    if (_archivos.ImagenPerfil != null)
+                    {
+                        Stream stream = new MemoryStream(_archivos.ImagenPerfil);
+                        CandidatoReceived.Rutas.RutaImagenRegistro = await _FirebaseStorageHelper.UploadFile(stream,
+                            CandidatoReceived.Rutas.NombreImagenRegistro, Constantes.CARPETA_IMAGENES_PERFIL);
+                    }
+                    if (_archivos.Archivo != null)
+                    {
+                        Stream stream = new MemoryStream(_archivos.Archivo);
+                        CandidatoReceived.Rutas.RutaArchivoRegistro = await _FirebaseStorageHelper.UploadFile(stream,
+                            CandidatoReceived.Rutas.NombreArchivoRegistro, Constantes.CARPETA_HOJASDEVIDA);
+                    }
+                    await _firebase.CrearAsync<ECandidato>(CandidatoReceived, Constantes.COLLECTION_CANDIDATO);
+                    UserDialogs.Instance.HideLoading();
+                    UserDialogs.Instance.Toast("se ha registrado satisfactoriamente", TimeSpan.FromSeconds(2));
+                    await Task.Delay(2000);
+                    Settings.Candidato = null;
+                    App.Current.MainPage = new AppShell();
+                    await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+                }
             }
             catch (Exception ex)
             {

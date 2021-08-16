@@ -2,6 +2,7 @@
 using Newtonsoft.Json;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
+using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Interfaces;
@@ -15,6 +16,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -30,11 +32,11 @@ namespace ProyectoDIV1.ViewModels
         private DateTime _maximumDate;
         private FileResult _curriculum;
         private Ciudades _ciudad;
+        private ArchivosDTO _archivos;
         private Candidato _candidato;
         private string _textoupload;
         private bool _visibleUpload;
         private string _textoButtonUpload;
-        private Stream _archivoCurriculum;
         private ObservableCollection<string> _departamentosLista;
         private ObservableCollection<Ciudades> _ciudadesLista;
         #endregion
@@ -43,6 +45,7 @@ namespace ProyectoDIV1.ViewModels
         public PerfilCandidatoViewModel()
         {
             _firebaseStorage = new FirebaseStorageHelper();
+            _archivos = new ArchivosDTO();
             LoadDepartamentos();
             _candidato = new Candidato();
             _ciudad = new Ciudades();
@@ -53,7 +56,7 @@ namespace ProyectoDIV1.ViewModels
             UploadCurriculumCommand = new Command(UploadCurriculum);
             SignInCommand = new Command(OnSignIn);
             VisibleUpload = false;
-            TextoButtonUpload = "Subir hoja de vida pdf/docx";
+            TextoButtonUpload = "hoja de vida pdf/docx";
             MaximumDate = DateTime.Today.AddYears(-18);
         }
 
@@ -155,7 +158,7 @@ namespace ProyectoDIV1.ViewModels
 
         }
 
-        bool validarFormulario()
+        bool ValidarFormulario()
         {
             bool isFirstNameValid = Candidato.Nombre.Validate();
             bool isLastNameValid = Candidato.Apellido.Validate();
@@ -203,7 +206,7 @@ namespace ProyectoDIV1.ViewModels
                 new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
                 {
                      { DevicePlatform.iOS, new[] { "com.adobe.pdf" , "com.microsoft.word.doc" } }, // or general UTType values
-                     { DevicePlatform.Android, new[] { "application/pdf", "application/msword", 
+                     { DevicePlatform.Android, new[] { "application/pdf", "application/msword",
                          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" } },
                      { DevicePlatform.UWP, new[] { ".pdf" ,".doc"} },
                      { DevicePlatform.Tizen, new[] { "*/*" } },
@@ -217,13 +220,18 @@ namespace ProyectoDIV1.ViewModels
 
             if (_curriculum != null)
             {
-                _archivoCurriculum = await _curriculum.OpenReadAsync();
+                _archivos.Archivo = await StreamToByteArray(await _curriculum.OpenReadAsync());
                 TextoUpload = "Se ha cargado la hoja de vida";
                 TextoButtonUpload = $"{_curriculum.FileName}";
                 VisibleUpload = true;
             }
         }
-
+        public async Task<byte[]> StreamToByteArray(Stream input)
+        {
+            MemoryStream ms = new MemoryStream();
+            await input.CopyToAsync(ms);
+            return ms.ToArray();
+        }
         private async void OnSignIn()
         {
             await Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
@@ -232,61 +240,73 @@ namespace ProyectoDIV1.ViewModels
         private async void CambiarImagenAsync()
         {
             await CrossMedia.Current.Initialize();
-
-            string source = await Application.Current.MainPage.DisplayActionSheet(
+            try
+            {
+                string source = await Application.Current.MainPage.DisplayActionSheet(
                 "¿Donde quieres tomar tu foto?",
                 "Cancelar",
                 null,
                 "Galería",
                "Cámara");
 
-            if (source == "Cancelar")
+                if (source == "Cancelar")
+                {
+                    _ImagenArchivo = null;
+                    return;
+                }
+
+                if (source == "Cámara")
+                {
+
+                    if (!CrossMedia.Current.IsCameraAvailable)
+                    {
+                        await App.Current.MainPage.DisplayAlert("error", "No soporta la Cámara.", "Aceptar");
+                        return;
+                    }
+
+                    _ImagenArchivo = await CrossMedia.Current.TakePhotoAsync(
+                        new StoreCameraMediaOptions
+                        {
+                            Directory = "Sample",
+                            Name = "test.jpg",
+                            PhotoSize = PhotoSize.Small,
+                        }
+                    );
+                }
+                else
+                {
+                    if (!CrossMedia.Current.IsPickPhotoSupported)
+                    {
+                        await App.Current.MainPage.DisplayAlert("error", "No hay galeria.", "Aceptar");
+                        return;
+                    }
+
+                    _ImagenArchivo = await CrossMedia.Current.PickPhotoAsync();
+                }
+
+                if (_ImagenArchivo != null)
+                {
+                    Imagen = ImageSource.FromStream(() =>
+                    {
+                        Stream stream = _ImagenArchivo.GetStream();
+                        return stream;
+                    });
+                    _archivos.ImagenPerfil = await StreamToByteArray(_ImagenArchivo.GetStream());
+                }
+            }
+            catch (Exception ex)
             {
-                _ImagenArchivo = null;
+                await App.Current.MainPage.DisplayAlert("error", ex.Message, "Aceptar");
                 return;
             }
 
-            if (source == "Cámara")
-            {
-                if (!CrossMedia.Current.IsCameraAvailable)
-                {
-                    await App.Current.MainPage.DisplayAlert("error", "No soporta la Cámara.", "Aceptar");
-                    return;
-                }
-
-                _ImagenArchivo = await CrossMedia.Current.TakePhotoAsync(
-                    new StoreCameraMediaOptions
-                    {
-                        Directory = "Sample",
-                        Name = "test.jpg",
-                        PhotoSize = PhotoSize.Small,
-                    }
-                );
-            }
-            else
-            {
-                if (!CrossMedia.Current.IsPickPhotoSupported)
-                {
-                    await App.Current.MainPage.DisplayAlert("error", "No hay galeria.", "Aceptar");
-                    return;
-                }
-
-                _ImagenArchivo = await CrossMedia.Current.PickPhotoAsync();
-            }
-
-            if (_ImagenArchivo != null)
-            {
-                Imagen = ImageSource.FromStream(() =>
-                {
-                    Stream stream = _ImagenArchivo.GetStream();
-                    return stream;
-                });
-            }
         }
 
 
         private async void AgregarCandidatoOnclicked()
         {
+
+            UserDialogs.Instance.ShowLoading("Cargando...");
             string RutaImagen = string.Empty;
             string RutaArchivo = string.Empty;
             string nombreCurriculum = string.Empty;
@@ -304,30 +324,28 @@ namespace ProyectoDIV1.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+                return;
             }
-            if (validarFormulario())
+            Candidato.Nombre.Value = Candidato.Nombre.Value.Trim();
+            Candidato.Apellido.Value = Candidato.Apellido.Value.Trim();
+            Candidato.Email.Value = Candidato.Email.Value.Trim();
+            if (ValidarFormulario())
             {
-                Candidato.Nombre.Value = Candidato.Nombre.Value.Trim();
-                Candidato.Apellido.Value = Candidato.Apellido.Value.Trim();
-                Candidato.Email.Value = Candidato.Email.Value.Trim();
-                UserDialogs.Instance.ShowLoading("Cargando...");
                 try
                 {
-                    var authService = DependencyService.Resolve<IAuthenticationService>();
-                    if (await authService.Register($"{Candidato.Nombre.Value} {Candidato.Apellido.Value}",
-                        Candidato.Email.Value, Candidato.Password.Item1.Value))
+                    bool existeEmail = await new CandidatoService().GetCandidatoByEmail(Candidato.Email.Value);
+                    if (!existeEmail)
                     {
                         Candidato.UsuarioId = Guid.NewGuid();
-                        if (_ImagenArchivo != null)
+                        if (_archivos.ImagenPerfil != null)
                         {
                             nombreImagen = $"{Candidato.UsuarioId}{Path.GetExtension(_ImagenArchivo.Path)}";
-                            RutaImagen = await _firebaseStorage.UploadFile(_ImagenArchivo.GetStream(), nombreImagen, Constantes.CARPETA_IMAGENES_PERFIL);
                         }
-                        if (_archivoCurriculum != null)
+                        if (_archivos.Archivo != null)
                         {
                             nombreCurriculum = $"{Candidato.UsuarioId}{Path.GetExtension(_curriculum.FileName)}";
-                            RutaArchivo = await _firebaseStorage.UploadFile(_archivoCurriculum, nombreCurriculum, Constantes.CARPETA_HOJASDEVIDA);
                         }
+
                         DateTime today = DateTime.Today;
                         int age = today.Year - Candidato.FechaDeNacimiento.Value.Year;
 
@@ -336,8 +354,8 @@ namespace ProyectoDIV1.ViewModels
                             --age;
                         }
                         //sino preguntamos si estamos en el mismo mes, si es el mismo preguntamos si el dia de hoy es menor al de la fecha de nacimiento
-                        else if (DateTime.Today.Month == Candidato.FechaDeNacimiento.Value.Month && DateTime.Today.Day
-                            < Candidato.FechaDeNacimiento.Value.Day)
+                        else if (DateTime.Today.Month == Candidato.FechaDeNacimiento.Value.Month
+                            && DateTime.Today.Day < Candidato.FechaDeNacimiento.Value.Day)
                         {
                             --age;
                         }
@@ -354,14 +372,14 @@ namespace ProyectoDIV1.ViewModels
                             Edad = age,
                             Rutas =
                             {
-                                RutaImagenRegistro= RutaImagen,
                                 NombreImagenRegistro = nombreImagen,
                                 NombreArchivoRegistro = nombreCurriculum,
-                                RutaArchivoRegistro = RutaArchivo
                             }
                         };
-                        UserDialogs.Instance.HideLoading();
+                        _archivos.Password = Candidato.Password.Item1.Value;
+                        Settings.Archivos = JsonConvert.SerializeObject(_archivos);
                         Settings.Candidato = JsonConvert.SerializeObject(entidad);
+                        UserDialogs.Instance.HideLoading();
                         await Shell.Current.GoToAsync($"//{nameof(PerfilTrabajoPage)}");
                     }
                     else
@@ -371,7 +389,7 @@ namespace ProyectoDIV1.ViewModels
                 }
                 catch (Exception ex)
                 {
-                    
+
                     UserDialogs.Instance.HideLoading();
                     if (ex.Message.ToUpper().Contains("EMAIL"))
                     {
@@ -382,6 +400,7 @@ namespace ProyectoDIV1.ViewModels
                     return;
                 }
             }
+            UserDialogs.Instance.HideLoading();
         }
 
         #endregion

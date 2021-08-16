@@ -143,10 +143,10 @@ namespace ProyectoDIV1.ViewModels
                     if (!string.IsNullOrWhiteSpace(_candidato.Candidato.Rutas.NombreArchivoRegistro) &&
                         !string.IsNullOrWhiteSpace(_candidato.Candidato.Rutas.NombreArchivoRegistro))
                     {
-                        await _firebaseStorage.DeleteFile(_candidato.Candidato.Rutas.NombreImagenRegistro, Constantes.CARPETA_HOJASDEVIDA);
+                        await _firebaseStorage.DeleteFile(_candidato.Candidato.Rutas.NombreImagenRegistro, Constantes.CARPETA_IMAGENES_PERFIL);
                     }
                     string nombreImagen = $"{_candidato.Candidato.UsuarioId}{Path.GetExtension(_ImagenArchivo.Path)}";
-                    string RutaImagen = await _firebaseStorage.UploadFile(_ImagenArchivo.GetStream(), nombreImagen, Constantes.CARPETA_HOJASDEVIDA);
+                    string RutaImagen = await _firebaseStorage.UploadFile(_ImagenArchivo.GetStream(), nombreImagen, Constantes.CARPETA_IMAGENES_PERFIL);
                     _candidato.Candidato.Rutas.NombreImagenRegistro = nombreImagen;
                     _candidato.Candidato.Rutas.RutaImagenRegistro = RutaImagen;
                     var query = await new CandidatoService().GetCandidatoFirebaseObjectAsync(_candidato.Candidato.UsuarioId);

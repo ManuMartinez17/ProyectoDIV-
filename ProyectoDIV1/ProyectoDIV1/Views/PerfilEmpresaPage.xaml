@@ -3,7 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters" xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" xmlns:viewmodels="clr-namespace:ProyectoDIV1.ViewModels" xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" xmlns:behaviour="clr-namespace:ProyectoDIV1.Helpers.Behaviours" x:DataType="viewmodels:PerfilEmpresaViewModel"
              x:Class="ProyectoDIV1.Views.PerfilEmpresaPage"
               BackgroundImage="registroEmpresa.jpg"
-               Shell.BackgroundColor="{StaticResource Primary}" Title="Registro de empresa">
+               Shell.BackgroundColor="{StaticResource Primary}" Title="Registro de empresa"
+               Shell.FlyoutBehavior="Disabled">
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>

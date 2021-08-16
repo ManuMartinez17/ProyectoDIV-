@@ -3,9 +3,13 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
+using AndroidX.Core.App;
+using AndroidX.Core.Content;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
+using Plugin.Permissions.Abstractions;
 using ProyectoDIV1.Droid.Helpers;
+using System;
 
 namespace ProyectoDIV1.Droid
 {
@@ -17,10 +21,18 @@ namespace ProyectoDIV1.Droid
         ConfigChanges.ScreenLayout | ConfigChanges.SmallestScreenSize)]
     public class MainActivity : global::Xamarin.Forms.Platform.Android.FormsAppCompatActivity
     {
-        protected override void OnCreate(Bundle savedInstanceState)
+        protected override async void OnCreate(Bundle savedInstanceState)
         {
             base.OnCreate(savedInstanceState);
             CrossCurrentActivity.Current.Init(this, savedInstanceState);
+            var cameraStatus = await CrossPermissions.Current.CheckPermissionStatusAsync<CameraPermission>();
+            var storageStatus = await CrossPermissions.Current.CheckPermissionStatusAsync<StoragePermission>();
+
+            if (cameraStatus != PermissionStatus.Granted || storageStatus != PermissionStatus.Granted)
+            {
+                cameraStatus = await CrossPermissions.Current.RequestPermissionAsync<CameraPermission>();
+                storageStatus = await CrossPermissions.Current.RequestPermissionAsync<StoragePermission>();
+            }
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
             UserDialogs.Init(this);
             Rg.Plugins.Popup.Popup.Init(this);

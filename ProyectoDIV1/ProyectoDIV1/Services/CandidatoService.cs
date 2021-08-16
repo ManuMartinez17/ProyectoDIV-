@@ -34,8 +34,39 @@ namespace ProyectoDIV1.Services
                Habilidades = item.Object.Habilidades,
                Profesion = item.Object.Profesion,
                Rutas = item.Object.Rutas,
-               UsuarioId = item.Object.UsuarioId
+               UsuarioId = item.Object.UsuarioId,
+               Expectativa = item.Object.Expectativa
            }).FirstOrDefault(x => x.Email.Equals(email));
+        }
+
+        public async Task<List<string>> GetProfesiones()
+        {
+            var candidatos = await GetCandidatos();
+            List<string> profesiones = new List<string>();
+            candidatos.ForEach(x => profesiones.Add(x.Profesion));
+            return profesiones;
+        }
+
+        public async Task<List<ECandidato>> GetCandidatosPorServicio(string profesion)
+        {
+            return (await firebase
+            .Child(Constantes.COLLECTION_CANDIDATO)
+            .OnceAsync<ECandidato>()).Select(item => new ECandidato
+            {
+                UsuarioId = item.Object.UsuarioId,
+                Nombre = item.Object.Nombre,
+                Apellido = item.Object.Apellido,
+                Calificaciones = item.Object.Calificaciones,
+                Email = item.Object.Email,
+                Ciudad = item.Object.Ciudad,
+                Celular = item.Object.Celular,
+                Edad = item.Object.Edad,
+                Departamento = item.Object.Departamento,
+                Habilidades = item.Object.Habilidades,
+                Profesion = item.Object.Profesion,
+                Rutas = item.Object.Rutas,
+                Expectativa = item.Object.Expectativa,
+            }).Where(x => x.Profesion.Equals(profesion)).ToList();
         }
 
         public async Task<List<ECandidato>> GetCandidatos()
@@ -55,20 +86,9 @@ namespace ProyectoDIV1.Services
                 Departamento = item.Object.Departamento,
                 Habilidades = item.Object.Habilidades,
                 Profesion = item.Object.Profesion,
-                Rutas = item.Object.Rutas
+                Rutas = item.Object.Rutas,
+                Expectativa = item.Object.Expectativa
             }).ToList();
-        }
-
-        public async Task<List<Lista>> GetHablidadesCandidatoAsync(Guid usuarioId)
-        {
-            var query = (await firebase
-          .Child(Constantes.COLLECTION_CANDIDATO)
-          .OnceAsync<ECandidato>()).Select(item => new ECandidato
-          {
-              Habilidades = item.Object.Habilidades
-          }).FirstOrDefault();
-
-            return query.Habilidades;
         }
         public List<Lista> BorrarHabilidadCandidato(List<Lista> lista, string item)
         {
@@ -103,8 +123,16 @@ namespace ProyectoDIV1.Services
             Habilidades = item.Object.Habilidades,
             Profesion = item.Object.Profesion,
             Rutas = item.Object.Rutas,
-            UsuarioId = item.Object.UsuarioId
+            UsuarioId = item.Object.UsuarioId,
+            Expectativa = item.Object.Expectativa
         }).FirstOrDefault(x => x.UsuarioId.Equals(id));
+        }
+
+        public async Task<bool> GetCandidatoByEmail(string value)
+        {
+            bool existe = (await firebase.Child(Constantes.COLLECTION_CANDIDATO).
+                OnceAsync<ECandidato>()).Any(x => x.Object.Email == value);
+            return existe;
         }
     }
 }

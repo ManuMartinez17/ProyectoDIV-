@@ -40,10 +40,19 @@ namespace ProyectoDIV1.ViewModels
             ImagenButtonUpload = string.IsNullOrEmpty(_candidato.Rutas.NombreArchivoRegistro) ? "icon_plus.png" : "icon_edit.png";
             UploadCurriculumCommand = new Command(UploadCurriculum);
             DownloadCurriculumCommand = new Command(DescargarCurriculum);
+            EditarExpectativaCommand = new Command(EditarExpectactiva);
             MostrarBuscadorCommand = new Command(MostrarBuscador);
             BorrarHabilidadCommand = new Command((param) => ExecuteBorrarSkill(param));
         }
 
+        private async void EditarExpectactiva()
+        {
+            UserDialogs.Instance.ShowLoading("Enviando...");
+            var query = await _candidatoService.GetCandidatoFirebaseObjectAsync(_candidato.UsuarioId);
+            await _firebase.UpdateAsync(_candidato, Constantes.COLLECTION_CANDIDATO, query);
+            Settings.Usuario = JsonConvert.SerializeObject(_candidato);
+            UserDialogs.Instance.HideLoading();
+        }
 
         private async void ExecuteBorrarSkill(object param)
         {
@@ -52,13 +61,14 @@ namespace ProyectoDIV1.ViewModels
             var candidato = await _candidatoService.GetCandidatoAsync(_candidato.UsuarioId);
             var lista = _candidatoService.BorrarHabilidadCandidato(candidato.Habilidades, item);
             candidato.Habilidades = lista;
-            await _firebase.UpdateAsync<ECandidato>(candidato, Constantes.COLLECTION_CANDIDATO, query);
+            await _firebase.UpdateAsync(candidato, Constantes.COLLECTION_CANDIDATO, query);
             Settings.Usuario = JsonConvert.SerializeObject(candidato);
             ImagenButtonBuscador = candidato.Habilidades.Count == 0 ? "icon_plus.png" : "icon_edit.png";
         }
 
         public Command UploadCurriculumCommand { get; set; }
         public Command MostrarBuscadorCommand { get; set; }
+        public Command EditarExpectativaCommand { get; set; }
         public Command BorrarHabilidadCommand { get; set; }
         public Command DownloadCurriculumCommand { get; set; }
         private async void MostrarBuscador()
@@ -124,8 +134,8 @@ namespace ProyectoDIV1.ViewModels
                     string RutaArchivo = await _firebaseStorage.UploadFile(_archivoCurriculum, nombreCurriculum, Constantes.CARPETA_HOJASDEVIDA);
                     _candidato.Rutas.NombreArchivoRegistro = nombreCurriculum;
                     _candidato.Rutas.RutaArchivoRegistro = RutaArchivo;
-                    var query = await new CandidatoService().GetCandidatoFirebaseObjectAsync(_candidato.UsuarioId);
-                    await _firebase.UpdateAsync<ECandidato>(_candidato, Constantes.COLLECTION_CANDIDATO, query);
+                    var query = await _candidatoService.GetCandidatoFirebaseObjectAsync(_candidato.UsuarioId);
+                    await _firebase.UpdateAsync(_candidato, Constantes.COLLECTION_CANDIDATO, query);
                     UserDialogs.Instance.Toast("Se ha actualizado satisfactoriamente.");
                     await Task.Delay(1000);
                     Settings.Usuario = JsonConvert.SerializeObject(_candidato);

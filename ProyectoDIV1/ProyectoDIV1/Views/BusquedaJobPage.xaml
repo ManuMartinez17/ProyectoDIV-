@@ -7,6 +7,8 @@
              xmlns:behavioursPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
              x:DataType="viewmodels:BusquedaJobViewModel"
              x:Class="ProyectoDIV1.Views.BusquedaJobPage"
+             Shell.FlyoutBehavior="Disabled"
+             Shell.TabBarIsVisible="False"
              Shell.BackgroundColor="{StaticResource Primary}">
     <Shell.TitleView>
         <Image Source="div2.png" />
@@ -17,9 +19,9 @@
                 <autocomplete:SfAutoComplete  AutoCompleteMode="SuggestAppend" DisplayMemberPath="name" NoResultsFoundText="No hay resultados."
                                                       Watermark="Busque Profesión" DataSource="{Binding TiposDeJobs}" >
                     <autocomplete:SfAutoComplete.Behaviors>
-                                <behavioursPack:EventToCommandBehavior EventName="SelectionChanged" 
+                        <behavioursPack:EventToCommandBehavior EventName="SelectionChanged" 
                                                                        Command="{Binding InsertarCommand}" EventArgsPropertyPath="Value"/>
-                            </autocomplete:SfAutoComplete.Behaviors>
+                    </autocomplete:SfAutoComplete.Behaviors>
                 </autocomplete:SfAutoComplete>
             </inputLayout:SfTextInputLayout>
         </StackLayout>

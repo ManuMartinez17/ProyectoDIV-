@@ -6,6 +6,8 @@
              xmlns:viewmodels="clr-namespace:ProyectoDIV1.ViewModels" 
              x:DataType="viewmodels:BusquedaSkillsViewModel"
              x:Class="ProyectoDIV1.Views.BusquedaSkillsPage" 
+               Shell.FlyoutBehavior="Disabled"
+                Shell.TabBarIsVisible="False"
              Shell.BackgroundColor="{StaticResource Primary}">
     <Shell.TitleView>
         <Image Source="div2.png" />
@@ -14,8 +16,8 @@
         <StackLayout Spacing="10" Margin="0,20,0,70" >
             <ScrollView>
                 <StackLayout Margin="20,20,20,20">
-            <inputLayout:SfTextInputLayout Hint="Ingrese sus habilidades" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                <autocomplete:SfAutoComplete 
+                    <inputLayout:SfTextInputLayout Hint="Ingrese sus habilidades" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <autocomplete:SfAutoComplete 
                                      DisplayMemberPath="name" 
                                      MultiSelectMode="Token"
                                      NoResultsFoundText="No hay resultados."
@@ -35,8 +37,8 @@
                         CornerRadius="15"/>
                             </autocomplete:SfAutoComplete.TokenSettings>
                         </autocomplete:SfAutoComplete>
-            </inputLayout:SfTextInputLayout>
-        </StackLayout>
+                    </inputLayout:SfTextInputLayout>
+                </StackLayout>
             </ScrollView>
             <Button
 						FontFamily="Lato"

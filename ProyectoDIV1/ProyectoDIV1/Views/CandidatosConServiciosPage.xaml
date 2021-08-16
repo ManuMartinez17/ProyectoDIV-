@@ -1,0 +1,53 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+             xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms" 
+             xmlns:behavioursPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms" 
+             xmlns:button="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             x:Class="ProyectoDIV1.Views.CandidatosConServiciosPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <inputLayout:SfTextInputLayout Hint="Profesión" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                <autocomplete:SfAutoComplete  AutoCompleteMode="SuggestAppend" DisplayMemberPath="name" NoResultsFoundText="No hay resultados."
+                                                      Watermark="Busque el servicio" DataSource="{Binding Profesiones}">
+                    <autocomplete:SfAutoComplete.Behaviors>
+                        <behavioursPack:EventToCommandBehavior EventName="SelectionChanged" 
+                                                                       Command="{Binding MostrarListadoCandidatosCommand}" EventArgsPropertyPath="Value"/>
+                    </autocomplete:SfAutoComplete.Behaviors>
+                </autocomplete:SfAutoComplete>
+            </inputLayout:SfTextInputLayout>
+            <StackLayout>
+                <syncfusion:SfListView ItemsSource="{Binding Candidatos}"  ItemSize="200" AutoFitMode="Height" SelectionBackgroundColor="Transparent" >
+                    <syncfusion:SfListView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Margin="10,10,10,0" CornerRadius="10" BackgroundColor="AliceBlue">
+                                <StackLayout Orientation="Horizontal">
+                                <ffimageloading:CachedImage Aspect="AspectFit"
+                                            Source="{Binding Rutas.RutaImagenRegistro}" 
+                                            CacheDuration= "50"
+                                            HeightRequest="100"
+                                            Margin="5"
+                                            Grid.Row="0"                 
+                                            RetryCount= "3"
+                                            RetryDelay= "600"
+                                            WidthRequest="100">
+                                    <ffimageloading:CachedImage.Transformations>
+                                        <fftransformations:CircleTransformation />
+                                    </ffimageloading:CachedImage.Transformations>
+                                </ffimageloading:CachedImage>
+                                <Label Text="{Binding Nombre}" Grid.Row="0" Grid.Column="1" VerticalOptions="Center" FontAttributes="Bold" TextColor="Black"
+                                            />
+                                <Label Text="{Binding Profesion}" Grid.Row="0" Grid.Column="2" FontAttributes="Bold" VerticalOptions="Center" TextColor="Black"/>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </syncfusion:SfListView.ItemTemplate>
+                </syncfusion:SfListView>
+            </StackLayout>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

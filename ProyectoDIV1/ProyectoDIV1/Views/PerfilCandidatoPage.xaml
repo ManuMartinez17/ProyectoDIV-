@@ -8,6 +8,7 @@
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"   
              x:Class="ProyectoDIV1.Views.PerfilCandidatoPage" BackgroundImage="registro.jpg"
+               Shell.FlyoutBehavior="Disabled"
                Shell.BackgroundColor="{StaticResource Primary}" Title="Registro de candidato">
     <ContentPage.Resources>
         <ResourceDictionary>
@@ -48,7 +49,7 @@
                         IsVisible="{Binding Candidato.Nombre.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Nombres"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Entry Text="{Binding Candidato.Nombre.Value}">
+                        <Entry Text="{Binding Candidato.Nombre.Value}" TextColor="Black" MaxLength="60" >
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Nombre.IsValid}"/>
                             </Entry.Behaviors>
@@ -63,7 +64,7 @@
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Apellidos"  FocusedColor="Black"
                                                     ContainerBackgroundColor="#edf8f6">
-                        <Entry Text="{Binding Candidato.Apellido.Value}">
+                        <Entry Text="{Binding Candidato.Apellido.Value}"  TextColor="Black" MaxLength="60" >
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Apellido.IsValid}"/>
                             </Entry.Behaviors>
@@ -77,7 +78,7 @@
                         IsVisible="{Binding  Candidato.Email.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Email" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Entry Text="{Binding Candidato.Email.Value}">
+                        <Entry Text="{Binding Candidato.Email.Value}" TextColor="Black" MaxLength="60">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding  Candidato.Email.IsValid}"/>
                             </Entry.Behaviors>
@@ -92,7 +93,7 @@
                         Style="{StaticResource ErrorTextStyle}"/>
 
                     <inputLayout:SfTextInputLayout Hint="Fecha de nacimiento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <DatePicker Date="{Binding Candidato.FechaDeNacimiento.Value}" MaximumDate="{Binding MaximumDate}"/>
+                        <DatePicker Date="{Binding Candidato.FechaDeNacimiento.Value}"  TextColor="Black" MaximumDate="{Binding MaximumDate}"/>
                     </inputLayout:SfTextInputLayout>
 
                     <!--/fecha de nacimiento-->
@@ -102,7 +103,7 @@
                         IsVisible="{Binding  Candidato.Celular.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Celular"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Entry Text="{Binding Candidato.Celular.Value}" 
+                        <Entry Text="{Binding Candidato.Celular.Value}" TextColor="Black"
                          Keyboard="Telephone"  MaxLength="10">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding  Candidato.Celular.IsValid}"/>
@@ -117,7 +118,7 @@
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Contraseña"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6"
                                                    EnablePasswordVisibilityToggle="true">
-                        <Entry Text="{Binding Candidato.Password.Item1.Value}" IsPassword="True">
+                        <Entry Text="{Binding Candidato.Password.Item1.Value}" IsPassword="True" MaxLength="60" TextColor="Black">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Password.Item1.IsValid}"/>
                             </Entry.Behaviors>
@@ -130,9 +131,8 @@
                         IsVisible="{Binding Candidato.Password.Item2.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="confirmar contraseña"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6"
-                                                   EnablePasswordVisibilityToggle="true"
-                                                   >
-                        <Entry Text="{Binding Candidato.Password.Item2.Value}" IsPassword="True">
+                                                   EnablePasswordVisibilityToggle="true">
+                        <Entry Text="{Binding Candidato.Password.Item2.Value}" IsPassword="True" TextColor="Black">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Password.Item2.IsValid}"/>
                             </Entry.Behaviors>
@@ -147,7 +147,7 @@
                     <inputLayout:SfTextInputLayout Hint="Departamento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
                         <Picker
                                 ItemsSource="{Binding DepartamentosLista}"
-                                SelectedItem="{Binding Candidato.Departamento.Value}"
+                                SelectedItem="{Binding Candidato.Departamento.Value}"  TextColor="Black"
                                />
                     </inputLayout:SfTextInputLayout>
                     <!--/departamento-->
@@ -156,8 +156,8 @@
                     <Label Text="{Binding  Candidato.Ciudad.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding  Candidato.Ciudad.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
-                    <inputLayout:SfTextInputLayout Hint="Ciudad"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Picker ItemDisplayBinding="{Binding Nombre}"
+                    <inputLayout:SfTextInputLayout Hint="Ciudad" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Picker ItemDisplayBinding="{Binding Nombre}" TextColor="Black"
                                 ItemsSource="{Binding CiudadesLista}"
                                 SelectedItem="{Binding Ciudad}"
                                />

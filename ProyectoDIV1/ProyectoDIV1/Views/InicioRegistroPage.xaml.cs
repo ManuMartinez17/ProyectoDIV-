@@ -19,12 +19,12 @@ namespace ProyectoDIV1.Views
 
         private async void Candidato_Clicked(object sender, EventArgs e)
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new PerfilCandidatoPage());
+            await Shell.Current.GoToAsync(nameof(PerfilCandidatoPage));
         }
 
         private async void Empresa_Clicked(object sender, EventArgs e)
         {
-            await Application.Current.MainPage.Navigation.PushAsync(new PerfilEmpresaPage());
+            await Shell.Current.GoToAsync(nameof(PerfilEmpresaPage));
         }
     }
 }
