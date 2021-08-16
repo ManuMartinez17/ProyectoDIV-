@@ -8,10 +8,8 @@
              x:Class="ProyectoDIV1.Views.BusquedaSkillsPage" 
                Shell.FlyoutBehavior="Disabled"
                 Shell.TabBarIsVisible="False"
+             Shell.NavBarIsVisible="False"
              Shell.BackgroundColor="{StaticResource Primary}">
-    <Shell.TitleView>
-        <Image Source="div2.png" />
-    </Shell.TitleView>
     <ContentPage.Content>
         <StackLayout Spacing="10" Margin="0,20,0,70" >
             <ScrollView>

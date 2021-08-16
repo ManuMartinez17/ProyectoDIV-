@@ -9,10 +9,8 @@
              x:Class="ProyectoDIV1.Views.BusquedaJobPage"
              Shell.FlyoutBehavior="Disabled"
              Shell.TabBarIsVisible="False"
+             Shell.NavBarIsVisible="False"
              Shell.BackgroundColor="{StaticResource Primary}">
-    <Shell.TitleView>
-        <Image Source="div2.png" />
-    </Shell.TitleView>
     <ContentPage.Content>
         <StackLayout Margin="20,20,20,20">
             <inputLayout:SfTextInputLayout Hint="Profesión"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">

@@ -11,10 +11,12 @@
 
   <ItemGroup>
     <None Remove="ArchivosLocales\Colombia.json" />
+    <None Remove="Fonts\fontello.ttf" />
   </ItemGroup>
 
   <ItemGroup>
     <EmbeddedResource Include="ArchivosLocales\Colombia.json" />
+    <EmbeddedResource Include="Fonts\fontello.ttf" />
   </ItemGroup>
 
   <ItemGroup>

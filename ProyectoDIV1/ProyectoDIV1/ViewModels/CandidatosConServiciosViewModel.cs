@@ -18,7 +18,14 @@ namespace ProyectoDIV1.ViewModels
           
             _candidatoService = new CandidatoService();
             LoadProfesiones();
+            LoadCandidatos();
             MostrarListadoCandidatosCommand = new Command((param) => ExecuteListadoCandidatosPorServicio(param));
+        }
+
+        private async void LoadCandidatos()
+        {
+            var candidatos = await _candidatoService.GetCandidatos();
+            Candidatos = new ObservableCollection<ECandidato>(candidatos);
         }
 
         private async void LoadProfesiones()
