@@ -48,7 +48,7 @@ namespace ProyectoDIV1.ViewModels
             _empresa = new Empresa();
             _ciudad = new Ciudades();
             AddValidationRules();
-            Imagen = App.Current.Resources["IconDefault"].ToString();
+            Imagen = Application.Current.Resources["LogoDefault"].ToString();
             CambiarImagenCommand = new Command(CambiarImagenAsync);
             InsertCommand = new Command(AgregarEmpresaOnclicked);
             UploadcamaraDeComercioCommand = new Command(UploadcamaraDeComercio);
@@ -300,10 +300,11 @@ namespace ProyectoDIV1.ViewModels
             {
                 Debug.WriteLine(ex.Message);
             }
+            Empresa.Nit.Value = Empresa.Nit.Value.Trim();
+            Empresa.Email.Value = Empresa.Email.Value.Trim();
+            Empresa.Nombre.Value = Empresa.Nombre.Value.Trim();
             if (ValidarFormulario())
             {
-                Empresa.Nit.Value = Empresa.Nit.Value.Trim();
-                Empresa.Email.Value = Empresa.Email.Value.Trim();
                 UserDialogs.Instance.ShowLoading("Cargando...");
                 try
                 {
@@ -325,10 +326,12 @@ namespace ProyectoDIV1.ViewModels
                         var entidad = new EEmpresa
                         {
                             UsuarioId = Empresa.UsuarioId,
+                            RazonSocial = Empresa.Nombre.Value,
+                            Nit = Empresa.Nit.Value,
                             Departamento = Empresa.Departamento.Value,
                             Email = Empresa.Email.Value,
                             Ciudad = Empresa.Ciudad.Value,
-                            Celular = Empresa.Celular.Value,
+                            Telefono = Empresa.Celular.Value,
                             Rutas =
                             {
                                 RutaImagenRegistro= RutaImagen,
@@ -339,20 +342,26 @@ namespace ProyectoDIV1.ViewModels
                         };
 
                         Settings.Empresa = JsonConvert.SerializeObject(entidad);
-                        await _firebaseHelper.CrearAsync<EEmpresa>(entidad, Constantes.COLLECTION_EMPRESA);
+                        await _firebaseHelper.CrearAsync(entidad, Constantes.COLLECTION_EMPRESA);
                         UserDialogs.Instance.HideLoading();
                         UserDialogs.Instance.Toast("Se ha registrado satisfactoriamente", TimeSpan.FromSeconds(2));
+                        Application.Current.MainPage = new MasterEmpresaPage();
                         await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
                     }
                     else
                     {
-                        await App.Current.MainPage.DisplayAlert("Alerta", $"el email {Empresa.Email.Value} ya existe", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Alerta", $"el email {Empresa.Email.Value} ya existe", "OK");
                     }
                 }
                 catch (Exception ex)
                 {
                     UserDialogs.Instance.HideLoading();
-                    await App.Current.MainPage.DisplayAlert("Alerta", $"{ex.Message}", "OK");
+                    if (ex.Message.ToUpper().Contains("EMAIL"))
+                    {
+                        await Application.Current.MainPage.DisplayAlert("Alerta", "El correo ya esta en uso.", "OK");
+                        return;
+                    }
+                    await Application.Current.MainPage.DisplayAlert("Alerta", $"{ex.Message}", "OK");
                     return;
                 }
             }

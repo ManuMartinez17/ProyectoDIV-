@@ -1,6 +1,5 @@
 ﻿using Acr.UserDialogs;
-using Newtonsoft.Json;
-using ProyectoDIV1.DTOs;
+using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Interfaces;
 using ProyectoDIV1.Services;
@@ -9,7 +8,6 @@ using ProyectoDIV1.Validators.Rules;
 using ProyectoDIV1.Views;
 using System;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -90,16 +88,26 @@ namespace ProyectoDIV1.ViewModels
                 {
                     UserDialogs.Instance.ShowLoading("Iniciando Sesión...");
                     var authService = DependencyService.Resolve<IAuthenticationService>();
-                    var token = await authService.SignIn(Email, Password);             
+                    var token = await authService.SignIn(Email, Password);
+
+                    bool candidato = await new FirebaseHelper().GetUsuarioByEmailAsync<ECandidato>(Constantes.COLLECTION_CANDIDATO, Email);
+                    bool empresa = await new FirebaseHelper().GetUsuarioByEmailAsync<EEmpresa>(Constantes.COLLECTION_EMPRESA, Email);
+                    if (candidato)
+                    {
+                        Application.Current.MainPage = new AppShell();
+                    }
+                    else if (empresa)
+                    {
+                        Application.Current.MainPage = new MasterEmpresaPage();
+                    }
                     UserDialogs.Instance.HideLoading();
-                    App.Current.MainPage = new AppShell();
                     await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                     UserDialogs.Instance.HideLoading();
-                    await App.Current.MainPage.DisplayAlert("Alert", "La contraseña o email es invalido", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Alert", "La contraseña o email es invalido", "OK");
                 }
             }
         }

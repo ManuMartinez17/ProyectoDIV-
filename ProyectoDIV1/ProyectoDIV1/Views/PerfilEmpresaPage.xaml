@@ -1,6 +1,12 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters" xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" xmlns:viewmodels="clr-namespace:ProyectoDIV1.ViewModels" xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" xmlns:behaviour="clr-namespace:ProyectoDIV1.Helpers.Behaviours" x:DataType="viewmodels:PerfilEmpresaViewModel"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters" 
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:viewmodels="clr-namespace:ProyectoDIV1.ViewModels"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" 
+             xmlns:behaviour="clr-namespace:ProyectoDIV1.Helpers.Behaviours" x:DataType="viewmodels:PerfilEmpresaViewModel"
              x:Class="ProyectoDIV1.Views.PerfilEmpresaPage"
               BackgroundImage="registroEmpresa.jpg"
                Shell.BackgroundColor="{StaticResource Primary}" Title="Registro de empresa"
@@ -32,18 +38,33 @@
                             <TapGestureRecognizer Command="{Binding CambiarImagenCommand}"/>
                         </ffimageloading:CachedImage.GestureRecognizers>
                     </ffimageloading:CachedImage>
-                    <Label Text="{Binding TextoUpload}" TextColor="White" FontSize="Medium" HorizontalTextAlignment="Center" FontAttributes="Bold" IsVisible="{Binding VisibleUpload}">
+                    <Label Text="{Binding TextoUpload}" TextColor="White" FontSize="Medium" HorizontalTextAlignment="Center" 
+                           FontAttributes="Bold" IsVisible="{Binding VisibleUpload}">
                     </Label>
 
                     <buttons:SfButton x:Name="SfButton" Text="{Binding TextoButtonUpload}" TextColor="Black" CornerRadius="3" HeightRequest="50" 
                                       WidthRequest="4" BorderWidth="2" BorderColor="Black" ImageWidth="40" Command="{Binding UploadcamaraDeComercioCommand}"
                                       ShowIcon="True" BackgroundColor="#cdfff4" Margin="50,5,50,15" ImageSource="iconUpload.png"/>
+
+                    <!--nit-->
+                    <Label Text="{Binding Empresa.Nombre.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding Empresa.Nombre.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Razón Social"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Entry Text="{Binding Empresa.Nombre.Value}" MaxLength="30" TextColor="Black">
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding Empresa.Nombre.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </inputLayout:SfTextInputLayout>
+
+                    <!--/nit-->
                     <!--nit-->
                     <Label Text="{Binding Empresa.Nit.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding Empresa.Nit.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="NIT"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Entry Keyboard="Numeric" Text="{Binding Empresa.Nit.Value}">
+                        <Entry Keyboard="Numeric" Text="{Binding Empresa.Nit.Value}" TextColor="Black">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding Empresa.Nit.IsValid}"/>
                             </Entry.Behaviors>
@@ -57,7 +78,7 @@
                         IsVisible="{Binding  Empresa.Email.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Email" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Entry Text="{Binding Empresa.Email.Value}">
+                        <Entry Text="{Binding Empresa.Email.Value}" TextColor="Black">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding  Empresa.Email.IsValid}"/>
                             </Entry.Behaviors>
@@ -72,7 +93,7 @@
                         IsVisible="{Binding  Empresa.Celular.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Celular"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Entry Text="{Binding Empresa.Celular.Value}" 
+                        <Entry Text="{Binding Empresa.Celular.Value}" TextColor="Black" 
                          Keyboard="Telephone"  MaxLength="10">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding  Empresa.Celular.IsValid}"/>
@@ -87,7 +108,7 @@
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Contraseña"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6"
                                                    EnablePasswordVisibilityToggle="true">
-                        <Entry Text="{Binding Empresa.Password.Item1.Value}" IsPassword="True">
+                        <Entry Text="{Binding Empresa.Password.Item1.Value}" IsPassword="True" TextColor="Black">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding Empresa.Password.Item1.IsValid}"/>
                             </Entry.Behaviors>
@@ -102,7 +123,7 @@
                     <inputLayout:SfTextInputLayout Hint="confirmar contraseña"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6"
                                                    EnablePasswordVisibilityToggle="true"
                                                    >
-                        <Entry Text="{Binding Empresa.Password.Item2.Value}" IsPassword="True">
+                        <Entry Text="{Binding Empresa.Password.Item2.Value}" IsPassword="True" TextColor="Black">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding Empresa.Password.Item2.IsValid}"/>
                             </Entry.Behaviors>
@@ -116,7 +137,7 @@
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Departamento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
                         <Picker
-                                ItemsSource="{Binding DepartamentosLista}"
+                                ItemsSource="{Binding DepartamentosLista}"  TextColor="Black"
                                 SelectedItem="{Binding Empresa.Departamento.Value}"
                                />
                     </inputLayout:SfTextInputLayout>
@@ -129,7 +150,7 @@
                         IsVisible="{Binding  Empresa.Ciudad.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Ciudad"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Picker ItemDisplayBinding="{Binding Nombre}"
+                        <Picker ItemDisplayBinding="{Binding Nombre}" TextColor="Black"
                                 ItemsSource="{Binding CiudadesLista}"
                                 SelectedItem="{Binding Ciudad}"
                                />

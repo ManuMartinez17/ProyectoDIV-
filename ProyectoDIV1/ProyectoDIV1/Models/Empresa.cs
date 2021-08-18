@@ -6,6 +6,7 @@ namespace ProyectoDIV1.Models
     public class Empresa
     {
         public Guid UsuarioId { get; set; }
+        public ValidatableObject<string> Nombre { get; set; } = new ValidatableObject<string>();
         public ValidatableObject<string> Nit { get; set; } = new ValidatableObject<string>();
         public ValidatableObject<string> Email { get; set; } = new ValidatableObject<string>();
         public ValidatableObject<string> Celular { get; set; } = new ValidatableObject<string>();

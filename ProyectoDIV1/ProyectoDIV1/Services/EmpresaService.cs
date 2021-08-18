@@ -13,10 +13,18 @@ namespace ProyectoDIV1.Services
         public async Task<EEmpresa> GetIdXEmail(string email)
         {
             return (await firebase
-        .Child(Constantes.COLLECTION_CANDIDATO)
+        .Child(Constantes.COLLECTION_EMPRESA)
         .OnceAsync<EEmpresa>()).Select(item => new EEmpresa
         {
-            UsuarioId = item.Object.UsuarioId
+            UsuarioId = item.Object.UsuarioId,
+            Rutas = item.Object.Rutas,
+            Calificaciones = item.Object.Calificaciones,
+            Ciudad = item.Object.Ciudad,
+            Departamento = item.Object.Departamento,
+            Email = item.Object.Email,
+            RazonSocial =item.Object.RazonSocial,
+            Telefono = item.Object.Telefono,
+            Nit = item.Object.Nit,
         }).Where(x => x.Email.Equals(email)).FirstOrDefault();
         }
 

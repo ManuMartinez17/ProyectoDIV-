@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Acr.UserDialogs;
+using Newtonsoft.Json;
 using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
@@ -35,7 +36,7 @@ namespace ProyectoDIV1.ViewModels
                     if (candidato != null)
                     {
                         Settings.Usuario = JsonConvert.SerializeObject(candidato);
-                        LoadCandidato();
+                        LoadCandidato(candidato);
                     }
                 }
             }
@@ -57,10 +58,19 @@ namespace ProyectoDIV1.ViewModels
 
                 Debug.WriteLine(ex.Message);
             }
-            return default;   
+            return default;
         }
 
         private void OnSignOutClicked()
+        {
+            UserDialogs.Instance.ActionSheet(new ActionSheetConfig()
+                           .SetTitle("¿Está seguro que quiere cerrar la sesión?")
+                           .Add("Aceptar", () => CerrarSesion())
+                           .SetCancel("Cancelar")
+                       );
+        }
+
+        private void CerrarSesion()
         {
             var authService = DependencyService.Resolve<IAuthenticationService>();
             authService.SignOut();
@@ -69,9 +79,8 @@ namespace ProyectoDIV1.ViewModels
 
         public Command OnSignOut { get; set; }
 
-        private void LoadCandidato()
+        private void LoadCandidato(ECandidato candidato)
         {
-            ECandidato candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Usuario);
             candidato.Rutas.RutaImagenRegistro = string.IsNullOrEmpty(candidato.Rutas.RutaImagenRegistro) ?
                 "https://i.postimg.cc/BQmWRFDZ/iconuser.jpg" : candidato.Rutas.RutaImagenRegistro;
             CandidatoDTO candidatoDTO = new CandidatoDTO()
@@ -79,7 +88,7 @@ namespace ProyectoDIV1.ViewModels
                 Candidato = candidato
 
             };
-            
+
             Candidato = candidatoDTO;
         }
 

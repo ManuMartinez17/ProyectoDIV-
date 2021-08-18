@@ -131,7 +131,7 @@ namespace ProyectoDIV1.Services
         public async Task<bool> GetCandidatoByEmail(string value)
         {
             bool existe = (await firebase.Child(Constantes.COLLECTION_CANDIDATO).
-                OnceAsync<ECandidato>()).Any(x => x.Object.Email == value);
+                OnceAsync<ECandidato>()).Any(x => x.Object.Email.Equals(value));
             return existe;
         }
     }

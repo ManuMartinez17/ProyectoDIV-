@@ -14,6 +14,7 @@
             <Color x:Key="Blue">#ff5722</Color>
             <Color x:Key="Orange">#ff5722</Color>
             <x:String x:Key="IconDefault">https://i.postimg.cc/BQmWRFDZ/iconuser.jpg</x:String>
+            <x:String x:Key="LogoDefault">https://i.postimg.cc/zDkX2Zh7/logo.png</x:String>
             <Style TargetType="Label" x:Key="ErrorTextStyle">
                 <Setter Property="TextColor" Value = "Red"   />
                 <Setter Property="FontSize" Value = "12"   />

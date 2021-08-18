@@ -2,33 +2,35 @@
 using ProyectoDIV1.Views;
 using System;
 using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
 using Xamarin.Forms;
+using Xamarin.Forms.Xaml;
 
 namespace ProyectoDIV1
 {
-    public partial class AppShell : Shell
+    [XamlCompilation(XamlCompilationOptions.Compile)]
+    public partial class MasterEmpresaPage : Shell
     {
         Dictionary<string, Type> routes = new Dictionary<string, Type>();
 
         public Dictionary<string, Type> Routes { get { return routes; } }
 
-        public AppShell()
+        public MasterEmpresaPage()
         {
 
             InitializeComponent();
             RegisterRoutes();
-            BindingContext = new MasterCandidatoViewModel();
+            BindingContext = new MasterEmpresaViewModel();
         }
 
         private void RegisterRoutes()
         {
             routes.Add(nameof(BusquedaJobPage), typeof(BusquedaJobPage));
-            routes.Add(nameof(ForgotPasswordPage), typeof(ForgotPasswordPage));
-            routes.Add(nameof(InicioRegistroPage), typeof(InicioRegistroPage));
-            routes.Add(nameof(PerfilCandidatoPage), typeof(PerfilCandidatoPage));
-            routes.Add(nameof(PerfilEmpresaPage), typeof(PerfilEmpresaPage));
             routes.Add(nameof(BusquedaSkillsPage), typeof(BusquedaSkillsPage));
-            routes.Add(nameof(EditarHojaDeVidaPage), typeof(EditarHojaDeVidaPage));
+
             foreach (var item in routes)
             {
                 Routing.RegisterRoute(item.Key, item.Value);

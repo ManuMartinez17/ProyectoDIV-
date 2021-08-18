@@ -39,6 +39,15 @@ namespace ProyectoDIV1.Services
             await firebase.Child(nombreCollection).Child(modeloToDelete.Key).DeleteAsync();
 
         }
+
+        public async Task<bool> GetUsuarioByEmailAsync<T>(string nombreCollection, string email)
+        {
+            string nameOfProperty = "Email";
+            bool existe = (await firebase.Child(nombreCollection).
+               OnceAsync<T>()).Any(x => x.Object.GetType().GetProperty(nameOfProperty).GetValue(x.Object, null).Equals(email));
+            return existe;
+
+        }
     }
 }
 
