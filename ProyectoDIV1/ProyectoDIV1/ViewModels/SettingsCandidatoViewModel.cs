@@ -93,7 +93,7 @@ namespace ProyectoDIV1.ViewModels
                 {
                     if (!CrossMedia.Current.IsCameraAvailable)
                     {
-                        await App.Current.MainPage.DisplayAlert("error", "No soporta la Cámara.", "Aceptar");
+                        await Application.Current.MainPage.DisplayAlert("error", "No soporta la Cámara.", "Aceptar");
                         return;
                     }
 
@@ -110,7 +110,7 @@ namespace ProyectoDIV1.ViewModels
                 {
                     if (!CrossMedia.Current.IsPickPhotoSupported)
                     {
-                        await App.Current.MainPage.DisplayAlert("error", "No hay galeria.", "Aceptar");
+                        await Application.Current.MainPage.DisplayAlert("error", "No hay galeria.", "Aceptar");
                         return;
                     }
 
@@ -129,7 +129,7 @@ namespace ProyectoDIV1.ViewModels
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert("error", ex.Message, "Aceptar");
                 return;
             }
 

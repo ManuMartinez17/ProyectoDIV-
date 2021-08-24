@@ -30,8 +30,23 @@ namespace ProyectoDIV1.ViewModels
 
             _candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
             InsertarCommand = new Command((param) => ExecuteInsertarSkills(param));
+            BackCommand = new Command(BackClicked);
             BorrarCommand = new Command((param) => ExecuteBorrarSkills(param));
             GuardarCommand = new Command(OnGuardarClicked);
+        }
+
+        private async void BackClicked()
+        {
+            var authenticationService = DependencyService.Resolve<IAuthenticationService>();
+            if (authenticationService.IsSignIn())
+            {
+                await Shell.Current.GoToAsync("..");
+            }
+            else
+            {
+                Application.Current.MainPage = new NavigationPage();
+                await Application.Current.MainPage.Navigation.PushAsync(new PerfilTrabajoPage());
+            }
         }
 
         private void ExecuteBorrarSkills(object param)
@@ -64,6 +79,7 @@ namespace ProyectoDIV1.ViewModels
 
 
         public Command InsertarCommand { get; set; }
+        public Command BackCommand { get; set; }
         public Command BorrarCommand { get; set; }
         public Command GuardarCommand { get; set; }
         public ObservableCollection<Skill> TiposDeKills
@@ -98,33 +114,30 @@ namespace ProyectoDIV1.ViewModels
         {
             try
             {
-
+                UserDialogs.Instance.ShowLoading("guardando...");
                 if (_candidato != null)
                 {
                     if (_candidato.Habilidades.Count == 0)
                     {
                         UserDialogs.Instance.Alert("Guarde por lo menos una habilidad.");
                         return;
-                    }
-                    UserDialogs.Instance.ShowLoading("guardando...");
+                    }   
                     var authenticationService = DependencyService.Resolve<IAuthenticationService>();
                     if (authenticationService.IsSignIn())
                     {
                         var query = await new CandidatoService().GetCandidatoFirebaseObjectAsync(_candidato.UsuarioId);
                         await new FirebaseHelper().UpdateAsync(_candidato, Constantes.COLLECTION_CANDIDATO, query);
                         Settings.Usuario = JsonConvert.SerializeObject(_candidato);
-                        UserDialogs.Instance.HideLoading();
                         await Shell.Current.GoToAsync($"../../{nameof(EditarHojaDeVidaPage)}");
                     }
                     else
                     {
-                        App.Current.MainPage = new NavigationPage();
+                        Application.Current.MainPage = new NavigationPage();
                         Settings.Candidato = JsonConvert.SerializeObject(_candidato);
-                        UserDialogs.Instance.HideLoading();
                         await Application.Current.MainPage.Navigation.PushAsync(new PerfilTrabajoPage());
                     }
+                   
                 }
-
                 else
                 {
                     UserDialogs.Instance.Alert("Guarde por lo menos una habilidad.");
@@ -134,8 +147,10 @@ namespace ProyectoDIV1.ViewModels
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
                 UserDialogs.Instance.HideLoading();
-                return;
             }
         }
 

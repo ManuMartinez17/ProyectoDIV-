@@ -9,10 +9,13 @@
         <ResourceDictionary>
 
             <Color x:Key="Primary">#55669F</Color>
-            <Color x:Key="Secondary">#F3FAFE</Color>
-
+            <Color x:Key="Secondary">#C9E0DD</Color>
+            <Color x:Key="ThirdOrange">#ff8d5d</Color>
+        
             <Color x:Key="Blue">#ff5722</Color>
             <Color x:Key="Orange">#ff5722</Color>
+            <x:String x:Key="IconSearch">&#xE800;</x:String>
+           
             <x:String x:Key="IconDefault">https://i.postimg.cc/BQmWRFDZ/iconuser.jpg</x:String>
             <x:String x:Key="LogoDefault">https://i.postimg.cc/zDkX2Zh7/logo.png</x:String>
             <Style TargetType="Label" x:Key="ErrorTextStyle">

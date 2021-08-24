@@ -52,6 +52,8 @@ namespace ProyectoDIV1.ViewModels
             await _firebase.UpdateAsync(_candidato, Constantes.COLLECTION_CANDIDATO, query);
             Settings.Usuario = JsonConvert.SerializeObject(_candidato);
             UserDialogs.Instance.HideLoading();
+
+            Toasts.Success("editado.", 2000);
         }
 
         private async void ExecuteBorrarSkill(object param)

@@ -10,6 +10,7 @@ using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
 using ProyectoDIV1.Validators.Rules;
 using ProyectoDIV1.Views;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -31,14 +32,14 @@ namespace ProyectoDIV1.ViewModels
         private MediaFile _ImagenArchivo;
         private DateTime _maximumDate;
         private FileResult _curriculum;
-        private Ciudades _ciudad;
         private ArchivosDTO _archivos;
         private Candidato _candidato;
         private string _textoupload;
         private bool _visibleUpload;
+        private string _departamento;
         private string _textoButtonUpload;
         private ObservableCollection<string> _departamentosLista;
-        private ObservableCollection<Ciudades> _ciudadesLista;
+        private ObservableCollection<string> _ciudadesLista;
         #endregion
 
         #region Constructor
@@ -46,11 +47,10 @@ namespace ProyectoDIV1.ViewModels
         {
             _firebaseStorage = new FirebaseStorageHelper();
             _archivos = new ArchivosDTO();
-            LoadDepartamentos();
             _candidato = new Candidato();
-            _ciudad = new Ciudades();
+            LoadDepartamentos();
             AddValidationRules();
-            Imagen = App.Current.Resources["IconDefault"].ToString();
+            Imagen = Application.Current.Resources["IconDefault"].ToString();
             CambiarImagenCommand = new Command(CambiarImagenAsync);
             InsertCommand = new Command(AgregarCandidatoOnclicked);
             UploadCurriculumCommand = new Command(UploadCurriculum);
@@ -100,12 +100,25 @@ namespace ProyectoDIV1.ViewModels
             set => SetProperty(ref _visibleUpload, value);
         }
 
-        public ObservableCollection<Ciudades> CiudadesLista
+        public ObservableCollection<string> CiudadesLista
         {
-            get { return _ciudadesLista; }
+            get => _ciudadesLista;
             set { SetProperty(ref _ciudadesLista, value); }
         }
 
+
+        public string Departamento
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_departamento))
+                {
+                    CiudadesLista = new ObservableCollection<string>(LoadCiudades(_departamento));
+                }
+                return _departamento;
+            }
+            set { SetProperty(ref _departamento, value); }
+        }
 
         public ObservableCollection<string> DepartamentosLista
         {
@@ -116,10 +129,6 @@ namespace ProyectoDIV1.ViewModels
         {
             get
             {
-                if (!string.IsNullOrEmpty(_candidato.Departamento.Value))
-                {
-                    CiudadesLista = new ObservableCollection<Ciudades>(LoadCiudades(_candidato.Departamento.Value));
-                }
                 return _candidato;
             }
 
@@ -129,11 +138,7 @@ namespace ProyectoDIV1.ViewModels
             }
         }
 
-        public Ciudades Ciudad
-        {
-            get { return _ciudad; }
-            set { SetProperty(ref _ciudad, value); }
-        }
+
         #endregion
 
         #region Validaciones y carga de listas
@@ -158,7 +163,7 @@ namespace ProyectoDIV1.ViewModels
 
         }
 
-        bool ValidarFormulario()
+        private bool ValidarFormulario()
         {
             bool isFirstNameValid = Candidato.Nombre.Validate();
             bool isLastNameValid = Candidato.Apellido.Validate();
@@ -177,20 +182,16 @@ namespace ProyectoDIV1.ViewModels
             DepartamentosLista = new ObservableCollection<string>(new JsonColombia().LoadDepartaments(colombia));
 
         }
-        private List<Ciudades> LoadCiudades(string departamento)
+        private List<string> LoadCiudades(string departamento)
         {
-            List<Ciudades> ciudades = new List<Ciudades>();
+            List<string> ciudades = new List<string>();
             if (!string.IsNullOrEmpty(departamento))
             {
                 JsonColombia ciudadescolombia = colombia.FirstOrDefault(x => x.Departamento.Equals(departamento));
 
-                foreach (var item in ciudadescolombia.Ciudades)
+                foreach (string item in ciudadescolombia.Ciudades)
                 {
-                    var ciudad = new Ciudades
-                    {
-                        Nombre = item
-                    };
-                    ciudades.Add(ciudad);
+                    ciudades.Add(item);
                 }
             }
             return ciudades;
@@ -260,7 +261,7 @@ namespace ProyectoDIV1.ViewModels
 
                     if (!CrossMedia.Current.IsCameraAvailable)
                     {
-                        await App.Current.MainPage.DisplayAlert("error", "No soporta la Cámara.", "Aceptar");
+                        await Application.Current.MainPage.DisplayAlert("error", "No soporta la Cámara.", "Aceptar");
                         return;
                     }
 
@@ -277,7 +278,7 @@ namespace ProyectoDIV1.ViewModels
                 {
                     if (!CrossMedia.Current.IsPickPhotoSupported)
                     {
-                        await App.Current.MainPage.DisplayAlert("error", "No hay galeria.", "Aceptar");
+                        await Application.Current.MainPage.DisplayAlert("error", "No hay galeria.", "Aceptar");
                         return;
                     }
 
@@ -296,7 +297,7 @@ namespace ProyectoDIV1.ViewModels
             }
             catch (Exception ex)
             {
-                await App.Current.MainPage.DisplayAlert("error", ex.Message, "Aceptar");
+                await Application.Current.MainPage.DisplayAlert("error", ex.Message, "Aceptar");
                 return;
             }
 
@@ -305,33 +306,23 @@ namespace ProyectoDIV1.ViewModels
 
         private async void AgregarCandidatoOnclicked()
         {
-
-            UserDialogs.Instance.ShowLoading("Cargando...");
+            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
             string RutaImagen = string.Empty;
             string RutaArchivo = string.Empty;
             string nombreCurriculum = string.Empty;
             string nombreImagen = string.Empty;
             try
             {
-                if (Ciudad != null)
+
+                Candidato.Ciudad.Value = Candidato.Ciudad.Value != null ? CiudadesLista.FirstOrDefault(x => x.Equals(Candidato.Ciudad.Value)) : null;
+                Candidato.Nombre.Value = Candidato.Nombre.Value != null ? Candidato.Nombre.Value.Trim() : null;
+                Candidato.Apellido.Value = Candidato.Apellido.Value != null ? Candidato.Apellido.Value.Trim() : null;
+                Candidato.Email.Value = Candidato.Email.Value != null ? Candidato.Email.Value.Trim() : null;
+                if (!string.IsNullOrEmpty(_departamento))
                 {
-                    if (!string.IsNullOrWhiteSpace(Ciudad.Nombre))
-                    {
-                        _candidato.Ciudad.Value = Ciudad.Nombre;
-                    }
+                    Candidato.Departamento.Value = _departamento;
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-                return;
-            }
-            Candidato.Nombre.Value = Candidato.Nombre.Value.Trim();
-            Candidato.Apellido.Value = Candidato.Apellido.Value.Trim();
-            Candidato.Email.Value = Candidato.Email.Value.Trim();
-            if (ValidarFormulario())
-            {
-                try
+                if (ValidarFormulario())
                 {
                     bool existeEmail = await new CandidatoService().GetCandidatoByEmail(Candidato.Email.Value);
                     if (!existeEmail)
@@ -379,30 +370,28 @@ namespace ProyectoDIV1.ViewModels
                         _archivos.Password = Candidato.Password.Item1.Value;
                         Settings.Archivos = JsonConvert.SerializeObject(_archivos);
                         Settings.Candidato = JsonConvert.SerializeObject(entidad);
-                        UserDialogs.Instance.HideLoading();
                         await Shell.Current.GoToAsync($"//{nameof(PerfilTrabajoPage)}");
                     }
                     else
                     {
-                        await App.Current.MainPage.DisplayAlert("Alerta", $"el email {Candidato.Email.Value} ya existe", "OK");
+                        await Application.Current.MainPage.DisplayAlert("Alerta", $"el email {Candidato.Email.Value} ya esta en uso.", "OK");
                     }
-                }
-                catch (Exception ex)
-                {
 
-                    UserDialogs.Instance.HideLoading();
-                    if (ex.Message.ToUpper().Contains("EMAIL"))
-                    {
-                        await App.Current.MainPage.DisplayAlert("Alerta", "El correo ya esta en uso.", "OK");
-                        return;
-                    }
-                    await App.Current.MainPage.DisplayAlert("Alerta", $"{ex.Message}", "OK");
-                    return;
                 }
             }
-            UserDialogs.Instance.HideLoading();
+            catch (Exception ex)
+            {
+                if (ex.Message.ToUpper().Contains("EMAIL"))
+                {
+                    await Application.Current.MainPage.DisplayAlert("Alerta", "El correo ya esta en uso.", "OK");
+                }
+                await Application.Current.MainPage.DisplayAlert("Alerta", $"{ex.Message}", "OK");
+            }
+            finally
+            {
+                await PopupNavigation.Instance.PopAsync();
+            }
         }
-
         #endregion
     }
 }

@@ -41,7 +41,7 @@ namespace ProyectoDIV1.Services
 
         public async Task<List<string>> GetProfesiones()
         {
-            var candidatos = await GetCandidatos();
+            List<ECandidato> candidatos = await GetCandidatos();
             List<string> profesiones = new List<string>();
             candidatos.ForEach(x => profesiones.Add(x.Profesion));
             return profesiones;

@@ -2,10 +2,13 @@
 using Newtonsoft.Json;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
+using ProyectoDIV1.Interfaces;
 using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
 using ProyectoDIV1.Views;
+using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -21,22 +24,63 @@ namespace ProyectoDIV1.ViewModels
         public BusquedaJobViewModel()
         {
             _candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
+            BackCommand = new Command(BackClicked);
             InsertarCommand = new Command(async (param) => await ExecuteInsertarJob(param));
+        }
+
+        private async void BackClicked()
+        {
+            var authenticationService = DependencyService.Resolve<IAuthenticationService>();
+            if (authenticationService.IsSignIn())
+            {
+                await Shell.Current.GoToAsync("..");
+            }
+            else
+            {
+                Application.Current.MainPage = new NavigationPage();
+                await Application.Current.MainPage.Navigation.PushAsync(new PerfilTrabajoPage());
+            }
         }
 
         private async Task ExecuteInsertarJob(object param)
         {
+
             var job = param as Job;
-            if (job != null)
+            try
             {
-                if (_candidato == null)
+                UserDialogs.Instance.ShowLoading("guardando...");
+                if (job != null)
                 {
-                    _candidato = new ECandidato();
+                    if (_candidato == null)
+                    {
+                        _candidato = new ECandidato();
+                    }
+                    _candidato.Profesion = job.name;
+                    var authenticationService = DependencyService.Resolve<IAuthenticationService>();
+                    if (authenticationService.IsSignIn())
+                    {
+                        await Shell.Current.GoToAsync("..");
+                        var query = await new CandidatoService().GetCandidatoFirebaseObjectAsync(_candidato.UsuarioId);
+                        await new FirebaseHelper().UpdateAsync(_candidato, Constantes.COLLECTION_CANDIDATO, query);
+                        Settings.Usuario = JsonConvert.SerializeObject(_candidato);
+                        await Shell.Current.GoToAsync($"../../{nameof(EditarHojaDeVidaPage)}");
+                    }
+                    else
+                    {
+                        Settings.Candidato = JsonConvert.SerializeObject(_candidato);
+                        Application.Current.MainPage = new NavigationPage();
+                        await Application.Current.MainPage.Navigation.PushAsync(new PerfilTrabajoPage());
+                    }
+
                 }
-                _candidato.Profesion = job.name;
-                Settings.Candidato = JsonConvert.SerializeObject(_candidato);
-                Application.Current.MainPage = new NavigationPage();
-                await Application.Current.MainPage.Navigation.PushAsync(new PerfilTrabajoPage());
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -52,7 +96,7 @@ namespace ProyectoDIV1.ViewModels
                 LoadJobs(value);
             }
         }
-
+        public Command BackCommand { get; set; }
         public Command InsertarCommand { get; set; }
         public ObservableCollection<Job> TiposDeJobs
         {

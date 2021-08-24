@@ -9,6 +9,7 @@ using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
 using ProyectoDIV1.Validators.Rules;
 using ProyectoDIV1.Views;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -29,14 +30,14 @@ namespace ProyectoDIV1.ViewModels
         private ImageSource _imagen;
         private MediaFile _ImagenArchivo;
         private FileResult _camaraDeComercio;
-        private Ciudades _ciudad;
         private Empresa _empresa;
+        private string _departamento;
         private string _textoupload;
         private bool _visibleUpload;
         private string _textoButtonUpload;
         private Stream _archivocamaraDeComercio;
         private ObservableCollection<string> _departamentosLista;
-        private ObservableCollection<Ciudades> _ciudadesLista;
+        private ObservableCollection<string> _ciudadesLista;
         #endregion
 
         #region Constructor
@@ -46,7 +47,6 @@ namespace ProyectoDIV1.ViewModels
             _firebaseHelper = new FirebaseHelper();
             LoadDepartamentos();
             _empresa = new Empresa();
-            _ciudad = new Ciudades();
             AddValidationRules();
             Imagen = Application.Current.Resources["LogoDefault"].ToString();
             CambiarImagenCommand = new Command(CambiarImagenAsync);
@@ -81,7 +81,18 @@ namespace ProyectoDIV1.ViewModels
             get => _textoupload;
             set => SetProperty(ref _textoupload, value);
         }
-
+        public string Departamento
+        {
+            get
+            {
+                if (!string.IsNullOrEmpty(_departamento))
+                {
+                    CiudadesLista = new ObservableCollection<string>(LoadCiudades(_departamento));
+                }
+                return _departamento;
+            }
+            set => SetProperty(ref _departamento, value);
+        }
         public string TextoButtonUpload
         {
             get => _textoButtonUpload;
@@ -94,44 +105,24 @@ namespace ProyectoDIV1.ViewModels
             set => SetProperty(ref _visibleUpload, value);
         }
 
-        public ObservableCollection<Ciudades> CiudadesLista
+        public ObservableCollection<string> CiudadesLista
         {
-            get { return _ciudadesLista; }
-            set { SetProperty(ref _ciudadesLista, value); }
+            get => _ciudadesLista;
+            set => SetProperty(ref _ciudadesLista, value);
         }
 
 
         public ObservableCollection<string> DepartamentosLista
         {
-            get { return _departamentosLista; }
-            set { SetProperty(ref _departamentosLista, value); }
+            get => _departamentosLista;
+            set => SetProperty(ref _departamentosLista, value);
         }
         public Empresa Empresa
         {
-            get
-            {
-                if (!string.IsNullOrEmpty(_empresa.Departamento.Value))
-                {
-                    CiudadesLista = new ObservableCollection<Ciudades>(LoadCiudades(_empresa.Departamento.Value));
-                }
-                return _empresa;
-            }
-
-            set
-            {
-                SetProperty(ref _empresa, value);
-            }
+            get => _empresa;
+            set => SetProperty(ref _empresa, value);
         }
 
-        public Ciudades Ciudad
-        {
-            get { return _ciudad; }
-            set
-            {
-
-                SetProperty(ref _ciudad, value);
-            }
-        }
         #endregion
 
         #region Validaciones y carga de listas
@@ -170,20 +161,17 @@ namespace ProyectoDIV1.ViewModels
             DepartamentosLista = new ObservableCollection<string>(new JsonColombia().LoadDepartaments(colombia));
 
         }
-        private List<Ciudades> LoadCiudades(string departamento)
+        private List<string> LoadCiudades(string departamento)
         {
-            List<Ciudades> ciudades = new List<Ciudades>();
+            List<string> ciudades = new List<string>();
             if (!string.IsNullOrEmpty(departamento))
             {
                 JsonColombia ciudadescolombia = colombia.FirstOrDefault(x => x.Departamento.Equals(departamento));
 
-                foreach (var item in ciudadescolombia.Ciudades)
+                foreach (string item in ciudadescolombia.Ciudades)
                 {
-                    var ciudad = new Ciudades
-                    {
-                        Nombre = item
-                    };
-                    ciudades.Add(ciudad);
+
+                    ciudades.Add(item);
                 }
             }
             return ciudades;
@@ -282,31 +270,22 @@ namespace ProyectoDIV1.ViewModels
 
         private async void AgregarEmpresaOnclicked()
         {
+            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
             string RutaImagen = string.Empty;
             string RutaArchivo = string.Empty;
             string nombrecamaraDeComercio = string.Empty;
             string nombreImagen = string.Empty;
             try
             {
-                if (Ciudad != null)
+                Empresa.Ciudad.Value = Empresa.Ciudad.Value != null ? CiudadesLista.FirstOrDefault(x => x.Equals(Empresa.Ciudad.Value)) : null;
+                Empresa.Nit.Value = Empresa.Nit.Value != null ? Empresa.Nit.Value.Trim() : null;
+                Empresa.Nombre.Value = Empresa.Nombre.Value != null ? Empresa.Nombre.Value.Trim() : null;
+                Empresa.Email.Value = Empresa.Email.Value != null ? Empresa.Email.Value.Trim() : null;
+                if (!string.IsNullOrEmpty(_departamento))
                 {
-                    if (!string.IsNullOrWhiteSpace(Ciudad.Nombre))
-                    {
-                        _empresa.Ciudad.Value = Ciudad.Nombre;
-                    }
+                    Empresa.Departamento.Value = _departamento;
                 }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            Empresa.Nit.Value = Empresa.Nit.Value.Trim();
-            Empresa.Email.Value = Empresa.Email.Value.Trim();
-            Empresa.Nombre.Value = Empresa.Nombre.Value.Trim();
-            if (ValidarFormulario())
-            {
-                UserDialogs.Instance.ShowLoading("Cargando...");
-                try
+                if (ValidarFormulario())
                 {
                     var authService = DependencyService.Resolve<IAuthenticationService>();
                     if (await authService.Register($"{Empresa.Nit.Value}",
@@ -343,7 +322,6 @@ namespace ProyectoDIV1.ViewModels
 
                         Settings.Empresa = JsonConvert.SerializeObject(entidad);
                         await _firebaseHelper.CrearAsync(entidad, Constantes.COLLECTION_EMPRESA);
-                        UserDialogs.Instance.HideLoading();
                         UserDialogs.Instance.Toast("Se ha registrado satisfactoriamente", TimeSpan.FromSeconds(2));
                         Application.Current.MainPage = new MasterEmpresaPage();
                         await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
@@ -353,17 +331,17 @@ namespace ProyectoDIV1.ViewModels
                         await Application.Current.MainPage.DisplayAlert("Alerta", $"el email {Empresa.Email.Value} ya existe", "OK");
                     }
                 }
-                catch (Exception ex)
+            }
+            catch (Exception ex)
+            {
+
+                if (ex.Message.ToUpper().Contains("EMAIL"))
                 {
-                    UserDialogs.Instance.HideLoading();
-                    if (ex.Message.ToUpper().Contains("EMAIL"))
-                    {
-                        await Application.Current.MainPage.DisplayAlert("Alerta", "El correo ya esta en uso.", "OK");
-                        return;
-                    }
-                    await Application.Current.MainPage.DisplayAlert("Alerta", $"{ex.Message}", "OK");
+                    await Application.Current.MainPage.DisplayAlert("Alerta", "El correo ya esta en uso.", "OK");
                     return;
                 }
+                await Application.Current.MainPage.DisplayAlert("Alerta", $"{ex.Message}", "OK");
+                return;
             }
         }
 

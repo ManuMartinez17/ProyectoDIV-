@@ -7,9 +7,12 @@
        x:DataType="viewmodels:MasterCandidatoViewModel"
        Title="ProyectoDIV1"
        xmlns:sys="clr-namespace:System;assembly=netstandard"
+       xmlns:badge="clr-namespace:Xam.Shell.Badge;assembly=Xam.Shell.Badge"
        x:Class="ProyectoDIV1.AppShell"   
          FlyoutBackgroundImage="backgroundMasterC.jpg"
-       FlyoutBackgroundImageAspect="AspectFit">
+       FlyoutBackgroundImageAspect="AspectFit"
+       
+       Navigating="Shell_Navigating">
 
     <Shell.Resources>
         <ResourceDictionary>
@@ -73,18 +76,27 @@
         <ShellContent Title="Acerca de"
                       Icon="icon_about.png" Route="AboutPage"
                       ContentTemplate="{DataTemplate local:AboutPage}" />
-        <Tab Title="Home"
+        <Tab Title="Servicios"
              Icon="_home.png">
             <ShellContent Title="Candidatos"
-                          Icon="_home.png" 
+                          Icon="_user.png" 
+
                           ContentTemplate="{DataTemplate local:CandidatosConServiciosPage}" />
             <ShellContent Title="Empresas"
                           Icon="dog.png" 
                           ContentTemplate="{DataTemplate local:AboutPage}" />
         </Tab>
+        <Tab Title="Notificaciones"
+             Icon="icon_bell.png"  
+             badge:Badge.BackgroundColor="Red"
+             badge:Badge.Text="{Binding Candidato.CantidadNotificaciones, TargetNullValue=''}">
+            <ShellContent Title="Candidatos"
+                          Icon="_user.png" 
+                          ContentTemplate="{DataTemplate local:CandidatosConServiciosPage}" />
+        </Tab>
         <ShellContent Title="Perfil"
                       Icon="icon_settings.png"
-                      ContentTemplate="{DataTemplate local:SettingsCandidatoPage}" />
+                      ContentTemplate="{DataTemplate local:SettingsCandidatoPage}"/>
     </FlyoutItem>
     <ShellContent Route="LoginPage"
                    Shell.FlyoutBehavior="Disabled"

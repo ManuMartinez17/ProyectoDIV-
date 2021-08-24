@@ -42,7 +42,7 @@
                 </inputLayout:SfTextInputLayout>
 
                 <SearchBar Placeholder="Busqueda de Profesión" BackgroundColor="#edf8f6"
-                               x:Name="searchJob"
+                               x:Name="searchJob" 
                                SearchCommand="{Binding SearchJobCommand}"
                                SearchCommandParameter="{Binding Text, Source={x:Reference searchJob}}"
                                >
@@ -74,20 +74,19 @@
                         </FormattedString>
                     </Label.FormattedText>
                 </Label>
-                <syncfusion:SfListView ItemsSource="{Binding Habilidades}" SelectionBackgroundColor="Transparent" IsScrollingEnabled="False" >
+                <syncfusion:SfListView ItemsSource="{Binding Habilidades}" AutoFitMode="Height" ItemSpacing="5,5,5,5"
+                                       SelectionBackgroundColor="Transparent" >
                     <syncfusion:SfListView.ItemTemplate>
                         <DataTemplate>
-                            <ViewCell>
-                                <ViewCell.View>
-                                    <Grid>
-                                        <Label Text="{Binding Nombre}" FontAttributes="Bold"  Grid.Row="0" Grid.Column="0" TextColor="White" VerticalOptions="Center" FontSize="Default" />
-                                        <button:SfButton ImageSource="remove.png" ShowIcon="True" Grid.Column="1" VerticalOptions="Center"
+                            <Frame Margin="10,10,10,0" CornerRadius="10" BackgroundColor="AliceBlue">
+                                <StackLayout Orientation="Horizontal">
+                                    <Label Text="{Binding Nombre}" FontAttributes="Bold"   TextColor="White" VerticalOptions="Center" FontSize="Default" />
+                                    <button:SfButton ImageSource="remove.png" ShowIcon="True" HorizontalTextAlignment="Center" VerticalOptions="Center"
                                                          BackgroundColor="Transparent"
                                                          Clicked="BorrarSkill_Clicked">
-                                        </button:SfButton>
-                                    </Grid>
-                                </ViewCell.View>
-                            </ViewCell>
+                                    </button:SfButton>
+                                </StackLayout>
+                            </Frame>
                         </DataTemplate>
                     </syncfusion:SfListView.ItemTemplate>
                 </syncfusion:SfListView>

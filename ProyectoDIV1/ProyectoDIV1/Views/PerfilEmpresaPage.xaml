@@ -87,7 +87,32 @@
 
                     <!--/email-->
 
+                    <!--departamento-->
+                    <Label Text="{Binding  Empresa.Departamento.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                        IsVisible="{Binding  Empresa.Departamento.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Departamento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Picker
+                                ItemsSource="{Binding DepartamentosLista}"  TextColor="Black"
+                                SelectedItem="{Binding Departamento}"
+                               />
+                    </inputLayout:SfTextInputLayout>
 
+                    <!--/departamento-->
+
+
+                    <!--ciudad-->
+                    <Label Text="{Binding  Empresa.Ciudad.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding  Empresa.Ciudad.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Ciudad"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Picker TextColor="Black"
+                                ItemsSource="{Binding CiudadesLista}"
+                                SelectedItem="{Binding Empresa.Ciudad.Value}"
+                               />
+                    </inputLayout:SfTextInputLayout>
+                    <!--/ciudad-->
+                    
                     <!--celular-->
                     <Label Text="{Binding  Empresa.Celular.Errors,  Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding  Empresa.Celular.IsValid, Converter={StaticResource InverseBoolConverter}}"
@@ -129,33 +154,7 @@
                             </Entry.Behaviors>
                         </Entry>
                     </inputLayout:SfTextInputLayout>
-                    <!--/confirm Password-->
-
-                    <!--departamento-->
-                    <Label Text="{Binding  Empresa.Departamento.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
-                        IsVisible="{Binding  Empresa.Departamento.IsValid, Converter={StaticResource InverseBoolConverter}}"
-                        Style="{StaticResource ErrorTextStyle}"/>
-                    <inputLayout:SfTextInputLayout Hint="Departamento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Picker
-                                ItemsSource="{Binding DepartamentosLista}"  TextColor="Black"
-                                SelectedItem="{Binding Empresa.Departamento.Value}"
-                               />
-                    </inputLayout:SfTextInputLayout>
-
-                    <!--/departamento-->
-
-
-                    <!--ciudad-->
-                    <Label Text="{Binding  Empresa.Ciudad.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                        IsVisible="{Binding  Empresa.Ciudad.IsValid, Converter={StaticResource InverseBoolConverter}}"
-                        Style="{StaticResource ErrorTextStyle}"/>
-                    <inputLayout:SfTextInputLayout Hint="Ciudad"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Picker ItemDisplayBinding="{Binding Nombre}" TextColor="Black"
-                                ItemsSource="{Binding CiudadesLista}"
-                                SelectedItem="{Binding Ciudad}"
-                               />
-                    </inputLayout:SfTextInputLayout>
-                    <!--/ciudad-->
+                    <!--/confirm Password-->                   
                 </StackLayout>
             </ScrollView>
             <Button x:Name="insertar"

@@ -34,5 +34,10 @@ namespace ProyectoDIV1
                 Routing.RegisterRoute(item.Key, item.Value);
             }
         }
+
+        private void Shell_Navigating(object sender, ShellNavigatingEventArgs e)
+        {
+
+        }
     }
 }

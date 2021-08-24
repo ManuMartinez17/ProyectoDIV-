@@ -29,10 +29,10 @@
                             <buttons:SfChipGroup x:Name="chipsHabilidades"
 				             ItemsSource="{Binding Habilidades}" 
 				             ChipPadding="10,10,0,0" 
-                             ChipBackgroundColor="#C9E0DD"
+                             ChipBackgroundColor="{StaticResource Secondary}"
                             ChipTextColor="Black"
                             ChipTextSize="Small"
-                            CloseButtonColor="#ff8d5d"
+                            CloseButtonColor="{StaticResource ThirdOrange}"
                             ItemRemoved="chipsHabilidades_ItemRemoved"
                        	    DisplayMemberPath="Nombre">
                             <buttons:SfChipGroup.ChipLayout>

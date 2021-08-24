@@ -87,6 +87,7 @@
 
                     <!--/email-->
 
+              
                     <!--fecha de nacimiento-->
                     <Label Text="{Binding  Candidato.FechaDeNacimiento.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding  Candidato.FechaDeNacimiento.IsValid, Converter={StaticResource InverseBoolConverter}}"
@@ -111,7 +112,31 @@
                         </Entry>
                     </inputLayout:SfTextInputLayout>
                     <!--/celular-->
+                    
+                    <!--departamento-->
+                    <Label Text="{Binding  Candidato.Departamento.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                        IsVisible="{Binding  Candidato.Departamento.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Departamento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Picker
+                                ItemsSource="{Binding DepartamentosLista}"
+                                SelectedItem="{Binding Departamento}"  TextColor="Black"
+                               />
+                    </inputLayout:SfTextInputLayout>
+                    <!--/departamento-->
 
+                    <!--ciudad-->
+                    <Label Text="{Binding  Candidato.Ciudad.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding  Candidato.Ciudad.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Ciudad" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Picker x:Name="pickerCiudades" TextColor="Black"
+                                ItemsSource="{Binding CiudadesLista}"
+                                SelectedItem="{Binding Candidato.Ciudad.Value}"
+                               />
+                    </inputLayout:SfTextInputLayout>
+                    <!--/ciudad-->
+                    
                     <!--Password-->
                     <Label Text="{Binding Candidato.Password.Item1.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding Candidato.Password.Item1.IsValid, Converter={StaticResource InverseBoolConverter}}"
@@ -140,29 +165,7 @@
                     </inputLayout:SfTextInputLayout>
                     <!--/confirm Password-->
 
-                    <!--departamento-->
-                    <Label Text="{Binding  Candidato.Departamento.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
-                        IsVisible="{Binding  Candidato.Departamento.IsValid, Converter={StaticResource InverseBoolConverter}}"
-                        Style="{StaticResource ErrorTextStyle}"/>
-                    <inputLayout:SfTextInputLayout Hint="Departamento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Picker
-                                ItemsSource="{Binding DepartamentosLista}"
-                                SelectedItem="{Binding Candidato.Departamento.Value}"  TextColor="Black"
-                               />
-                    </inputLayout:SfTextInputLayout>
-                    <!--/departamento-->
-
-                    <!--ciudad-->
-                    <Label Text="{Binding  Candidato.Ciudad.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                        IsVisible="{Binding  Candidato.Ciudad.IsValid, Converter={StaticResource InverseBoolConverter}}"
-                        Style="{StaticResource ErrorTextStyle}"/>
-                    <inputLayout:SfTextInputLayout Hint="Ciudad" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Picker ItemDisplayBinding="{Binding Nombre}" TextColor="Black"
-                                ItemsSource="{Binding CiudadesLista}"
-                                SelectedItem="{Binding Ciudad}"
-                               />
-                    </inputLayout:SfTextInputLayout>
-                    <!--/ciudad-->
+              
                     
                 </StackLayout>
             </ScrollView>

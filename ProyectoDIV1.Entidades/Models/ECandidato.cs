@@ -19,6 +19,7 @@ namespace ProyectoDIV1.Entidades.Models
         public List<Lista> Habilidades { get; set; } = new List<Lista>();
         public Archivos Rutas { get; set; } = new Archivos();
         public string Expectativa { get; set; }
+        public List<ENotificacion> Notificaciones { get; set; }
     }
     public class Lista
     {

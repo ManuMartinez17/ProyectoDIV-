@@ -38,7 +38,7 @@ namespace ProyectoDIV1.ViewModels
                 var authService = DependencyService.Resolve<IAuthenticationService>();
                 await authService.ResetPassword(Email);
 
-                await App.Current.MainPage.DisplayAlert("Alerta", "Se ha enviado un email verifique su bandeja.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Alerta", "Se ha enviado un email verifique su bandeja.", "OK");
 
                 await Shell.Current.GoToAsync("..");
             }
@@ -46,7 +46,7 @@ namespace ProyectoDIV1.ViewModels
             {
                 Console.WriteLine(ex.Message);
 
-                await App.Current.MainPage.DisplayAlert("Alerta", "No se ha podido enviar el correo.", "OK");
+                await Application.Current.MainPage.DisplayAlert("Alerta", "No se ha podido enviar el correo.", "OK");
             }
         }
     }

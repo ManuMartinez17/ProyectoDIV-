@@ -7,6 +7,7 @@ using ProyectoDIV1.Interfaces;
 using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
 using ProyectoDIV1.Views;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -47,29 +48,43 @@ namespace ProyectoDIV1.ViewModels
 
         private async Task ExecuteBusquedaJob(object text)
         {
+            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
             var texto = text as string;
-            if (!string.IsNullOrWhiteSpace(texto))
+            try
             {
-                UserDialogs.Instance.ShowLoading("Cargando...");
-                await Task.Delay(1000);
-                UserDialogs.Instance.HideLoading();
-                Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
-                Application.Current.MainPage = new AppShell();
-                await Shell.Current.GoToAsync($"{nameof(BusquedaJobPage)}?{nameof(BusquedaJobViewModel.Texto)}={texto}");
+                if (!string.IsNullOrWhiteSpace(texto))
+                {  
+                    Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
+                    Application.Current.MainPage = new AppShell();
+                    await Shell.Current.GoToAsync($"{nameof(BusquedaJobPage)}?{nameof(BusquedaJobViewModel.Texto)}={texto}");
+                    await PopupNavigation.Instance.PopAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
             }
         }
+
         private async Task ExecuteBusquedaSkills(object text)
         {
+            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
             var texto = text as string;
-            if (!string.IsNullOrWhiteSpace(texto))
+            try
             {
-                UserDialogs.Instance.ShowLoading("Cargando...");
-                await Task.Delay(1000);
-                UserDialogs.Instance.HideLoading();
-                Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
-                Application.Current.MainPage = new AppShell();
-                await Shell.Current.GoToAsync($"{nameof(BusquedaSkillsPage)}?{nameof(BusquedaSkillsViewModel.Texto)}={texto}");
+                if (!string.IsNullOrWhiteSpace(texto))
+                {
+                    Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
+                    Application.Current.MainPage = new AppShell();
+                    await Shell.Current.GoToAsync($"{nameof(BusquedaSkillsPage)}?{nameof(BusquedaSkillsViewModel.Texto)}={texto}");
+                    await PopupNavigation.Instance.PopAsync();
+                }
             }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine(ex.Message);
+            } 
         }
 
         private void BuscarToken()

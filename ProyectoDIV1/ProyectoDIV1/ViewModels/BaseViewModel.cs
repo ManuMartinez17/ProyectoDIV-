@@ -17,7 +17,12 @@ namespace ProyectoDIV1.ViewModels
             get { return title; }
             set { SetProperty(ref title, value); }
         }
-
+        bool isBusy = false;
+        public bool IsBusy
+        {
+            get { return isBusy; }
+            set { SetProperty(ref isBusy, value); }
+        }
         protected bool SetProperty<T>(ref T backingStore, T value,
             [CallerMemberName] string propertyName = "",
             Action onChanged = null)

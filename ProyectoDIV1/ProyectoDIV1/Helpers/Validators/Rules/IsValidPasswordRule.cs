@@ -10,7 +10,7 @@ namespace ProyectoDIV1.Validators.Rules
 
         public bool Check(T value)
         {
-            return (RegexPassword.IsMatch($"{value}"));
+            return RegexPassword.IsMatch($"{value}");
         }
     }
 }

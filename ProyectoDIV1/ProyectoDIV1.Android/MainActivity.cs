@@ -10,6 +10,7 @@ using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using ProyectoDIV1.Droid.Helpers;
 using System;
+using Xam.Shell.Badge.Droid;
 
 namespace ProyectoDIV1.Droid
 {
@@ -35,6 +36,7 @@ namespace ProyectoDIV1.Droid
             }
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init(true);
             UserDialogs.Init(this);
+            BottomBar.Init();
             Rg.Plugins.Popup.Popup.Init(this);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);

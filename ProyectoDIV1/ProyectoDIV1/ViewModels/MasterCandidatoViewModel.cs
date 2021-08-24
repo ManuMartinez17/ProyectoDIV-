@@ -86,7 +86,6 @@ namespace ProyectoDIV1.ViewModels
             CandidatoDTO candidatoDTO = new CandidatoDTO()
             {
                 Candidato = candidato
-
             };
 
             Candidato = candidatoDTO;

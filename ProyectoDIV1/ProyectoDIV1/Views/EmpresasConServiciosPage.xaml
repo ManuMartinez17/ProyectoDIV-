@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pulltoRefresh="clr-namespace:Syncfusion.SfPullToRefresh.XForms;assembly=Syncfusion.SfPullToRefresh.XForms" 
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
+             x:Class="ProyectoDIV1.Views.EmpresasConServiciosPage">
+    <ContentPage.Content>
+        <ScrollView>
+            <pulltoRefresh:SfPullToRefresh x:Name="pullToRefresh" 
+                               ProgressBackgroundColor="#428BCA" 
+                               TransitionMode="SlideOnTop" 
+                               IsRefreshing="False">
+                <pulltoRefresh:SfPullToRefresh.PullableContent>
+                    <syncfusion:SfListView x:Name="listView" 
+                                   ItemSize="120" 
+                                   AutoFitMode="Height" 
+                                   SelectionMode="None">
+                    </syncfusion:SfListView>
+                </pulltoRefresh:SfPullToRefresh.PullableContent>
+            </pulltoRefresh:SfPullToRefresh>
+        </ScrollView>
+    </ContentPage.Content>
+</ContentPage>
