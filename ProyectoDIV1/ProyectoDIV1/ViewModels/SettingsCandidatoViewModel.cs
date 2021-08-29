@@ -59,8 +59,6 @@ namespace ProyectoDIV1.ViewModels
         private void LoadCandidato()
         {
             ECandidato candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Usuario);
-            candidato.Rutas.RutaImagenRegistro = string.IsNullOrEmpty(candidato.Rutas.RutaImagenRegistro) ?
-              "https://i.postimg.cc/BQmWRFDZ/iconuser.jpg" : candidato.Rutas.RutaImagenRegistro;
             CandidatoDTO candidatoDTO = new CandidatoDTO()
             {
                 Candidato = candidato
@@ -150,7 +148,7 @@ namespace ProyectoDIV1.ViewModels
                     _candidato.Candidato.Rutas.NombreImagenRegistro = nombreImagen;
                     _candidato.Candidato.Rutas.RutaImagenRegistro = RutaImagen;
                     var query = await new CandidatoService().GetCandidatoFirebaseObjectAsync(_candidato.Candidato.UsuarioId);
-                    await new FirebaseHelper().UpdateAsync<ECandidato>(_candidato.Candidato, Constantes.COLLECTION_CANDIDATO, query);
+                    await new FirebaseHelper().UpdateAsync(_candidato.Candidato, Constantes.COLLECTION_CANDIDATO, query);
                     UserDialogs.Instance.Toast("Se ha actualizado satisfactoriamente.");
                     await Task.Delay(1000);
                     Settings.Usuario = JsonConvert.SerializeObject(_candidato.Candidato);

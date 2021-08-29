@@ -13,6 +13,7 @@ namespace ProyectoDIV1.Services
     public class CandidatoService
     {
         public FirebaseClient firebase;
+        private static string UrlDefault = "https://i.postimg.cc/BQmWRFDZ/iconuser.jpg"; 
         public CandidatoService()
         {
             firebase = new FirebaseClient("https://proyectodiv-d53ed-default-rtdb.firebaseio.com/");
@@ -33,7 +34,13 @@ namespace ProyectoDIV1.Services
                Departamento = item.Object.Departamento,
                Habilidades = item.Object.Habilidades,
                Profesion = item.Object.Profesion,
-               Rutas = item.Object.Rutas,
+               Rutas = string.IsNullOrWhiteSpace(item.Object.Rutas.RutaImagenRegistro) ? new Archivos()
+               {
+                   RutaImagenRegistro = UrlDefault,
+                   NombreArchivoRegistro = item.Object.Rutas.NombreArchivoRegistro,
+                   NombreImagenRegistro = item.Object.Rutas.NombreImagenRegistro,
+                   RutaArchivoRegistro = item.Object.Rutas.RutaArchivoRegistro
+               } : item.Object.Rutas,
                UsuarioId = item.Object.UsuarioId,
                Expectativa = item.Object.Expectativa
            }).FirstOrDefault(x => x.Email.Equals(email));
@@ -64,7 +71,13 @@ namespace ProyectoDIV1.Services
                 Departamento = item.Object.Departamento,
                 Habilidades = item.Object.Habilidades,
                 Profesion = item.Object.Profesion,
-                Rutas = item.Object.Rutas,
+                Rutas = string.IsNullOrWhiteSpace(item.Object.Rutas.RutaImagenRegistro) ? new Archivos()
+                {
+                    RutaImagenRegistro = UrlDefault,
+                    NombreArchivoRegistro = item.Object.Rutas.NombreArchivoRegistro,
+                    NombreImagenRegistro = item.Object.Rutas.NombreImagenRegistro,
+                    RutaArchivoRegistro = item.Object.Rutas.RutaArchivoRegistro
+                } : item.Object.Rutas,
                 Expectativa = item.Object.Expectativa,
             }).Where(x => x.Profesion.Equals(profesion)).ToList();
         }
@@ -86,8 +99,15 @@ namespace ProyectoDIV1.Services
                 Departamento = item.Object.Departamento,
                 Habilidades = item.Object.Habilidades,
                 Profesion = item.Object.Profesion,
-                Rutas = item.Object.Rutas,
-                Expectativa = item.Object.Expectativa
+                Rutas = string.IsNullOrWhiteSpace(item.Object.Rutas.RutaImagenRegistro) ? new Archivos()
+                {
+                    RutaImagenRegistro = UrlDefault,
+                    NombreArchivoRegistro = item.Object.Rutas.NombreArchivoRegistro,
+                    NombreImagenRegistro = item.Object.Rutas.NombreImagenRegistro,
+                    RutaArchivoRegistro = item.Object.Rutas.RutaArchivoRegistro
+                } : item.Object.Rutas,
+                Expectativa = item.Object.Expectativa,
+                Notificaciones = item.Object.Notificaciones
             }).ToList();
         }
         public List<Lista> BorrarHabilidadCandidato(List<Lista> lista, string item)
@@ -122,9 +142,16 @@ namespace ProyectoDIV1.Services
             Departamento = item.Object.Departamento,
             Habilidades = item.Object.Habilidades,
             Profesion = item.Object.Profesion,
-            Rutas = item.Object.Rutas,
+            Rutas = string.IsNullOrWhiteSpace(item.Object.Rutas.RutaImagenRegistro) ? new Archivos()
+            {
+                RutaImagenRegistro = UrlDefault,
+                NombreArchivoRegistro = item.Object.Rutas.NombreArchivoRegistro,
+                NombreImagenRegistro = item.Object.Rutas.NombreImagenRegistro,
+                RutaArchivoRegistro = item.Object.Rutas.RutaArchivoRegistro
+            } : item.Object.Rutas,
             UsuarioId = item.Object.UsuarioId,
-            Expectativa = item.Object.Expectativa
+            Expectativa = item.Object.Expectativa,
+            Notificaciones = item.Object.Notificaciones
         }).FirstOrDefault(x => x.UsuarioId.Equals(id));
         }
 

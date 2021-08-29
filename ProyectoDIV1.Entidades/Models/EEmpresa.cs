@@ -13,6 +13,7 @@ namespace ProyectoDIV1.Entidades.Models
         public string Departamento { get; set; }
         public List<float> Calificaciones { get; set; }
         public string Telefono { get; set; }
+        public List<ENotificacion> Notificaciones { get; set; }
         public Archivos Rutas { get; set; } = new Archivos();
     }
 }

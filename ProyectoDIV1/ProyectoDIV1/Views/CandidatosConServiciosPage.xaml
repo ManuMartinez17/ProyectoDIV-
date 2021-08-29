@@ -27,10 +27,10 @@
                            Text="&#xE800;" VerticalOptions="Center">
 
                     </Label>
-                    <autocomplete:SfAutoComplete Grid.Column="1" HorizontalOptions="FillAndExpand" ShowBorder="False" AutoCompleteMode="SuggestAppend"
+                    <autocomplete:SfAutoComplete x:Name="Autocomplete" Grid.Column="1" HorizontalOptions="FillAndExpand" ShowBorder="False" AutoCompleteMode="SuggestAppend"
                                                  SuggestionMode="StartsWith" HighlightedTextColor="Red" 
-                                              HighlightedTextFontAttributes="Bold" DisplayMemberPath="name" TextHighlightMode="FirstOccurrence"
-                                              NoResultsFoundText="No hay resultados."
+                                              HighlightedTextFontAttributes="Bold" TextHighlightMode="FirstOccurrence"
+                                              NoResultsFoundText="No hay resultados." 
                                                       Watermark="Busque el servicio" DataSource="{Binding Profesiones}">
                         <autocomplete:SfAutoComplete.Behaviors>
                             <behavioursPack:EventToCommandBehavior EventName="SelectionChanged" 
@@ -39,44 +39,41 @@
                     </autocomplete:SfAutoComplete>
                 </Grid>
             </Frame>
-            <syncfusion:SfListView  x:Name="LV_candidatos" ItemsSource="{Binding Candidatos}" IsBusy="{Binding IsBusy}" LoadMoreCommand="{Binding LoadCandidatosCommand}" 
-                                                AllowSwiping="True" AutoFitMode="Height" LoadMoreCommandParameter="{Binding Source={x:Reference LV_candidatos}}"
-                                               SelectionBackgroundColor="Transparent" >
+            <syncfusion:SfListView  x:Name="LV_candidatos" ItemsSource="{Binding Candidatos}" TapCommand="{Binding MoreInformationCommand}"
+                                    AutoFitMode="Height" SelectionBackgroundColor="Transparent" >
                 <syncfusion:SfListView.ItemTemplate>
                     <DataTemplate>
-                        <Frame Margin="0,10,0,0" CornerRadius="10" BackgroundColor="AliceBlue">
+                        <Frame Margin="5,10,5,10" CornerRadius="10" BackgroundColor="AliceBlue">
                             <StackLayout Orientation="Horizontal">
                                 <ffimageloading:CachedImage Aspect="AspectFit"
                                             Source="{Binding Candidato.Rutas.RutaImagenRegistro}" 
                                             CacheDuration= "50"
-                                            HeightRequest="65"
-                                            Margin="5"
-                                            Grid.Row="0"                 
+                                            HeightRequest="70"
+                                            Margin="5,0,5,0"     
                                             RetryCount= "3"
                                             RetryDelay= "600"
-                                            WidthRequest="80">
+                                            WidthRequest="100">
                                     <ffimageloading:CachedImage.Transformations>
                                         <fftransformations:CircleTransformation />
                                     </ffimageloading:CachedImage.Transformations>
                                 </ffimageloading:CachedImage>
-                                <StackLayout VerticalOptions="Center">
-                                    <Label Text="{Binding FullName}" VerticalOptions="Center" FontSize="Small" Margin="5,0,0,0"  TextColor="Black"
+                                <StackLayout VerticalOptions="Center" HorizontalOptions="StartAndExpand">
+                                    <Label Text="{Binding Candidato.Profesion}" FontSize="Body" FontAttributes="Bold" 
+                                           TextColor="{StaticResource ThirdOrange}"
                                             />
-                                    <Label Text="{Binding Candidato.Profesion}" FontSize="Small" Margin="5,0,0,0" VerticalOptions="Center" 
+                                    <Label Text="{Binding FullName}" FontSize="Small"
                                            TextColor="Black"/>
-                                    <rating:SfRating
-                                     Precision="Half" ReadOnly="True" ItemSize="18" Margin="5,0,0,0"
+                                    <StackLayout Orientation="Horizontal">
+                                        <rating:SfRating
+                                     Precision="Half" ReadOnly="True" VerticalOptions="EndAndExpand" ItemSize="18"
                                      Value="{Binding Calificacion}">
-                                        <rating:SfRating.RatingSettings>
-                                            <rating:SfRatingSettings RatedFill="Yellow" UnRatedFill="Gray" RatedStrokeWidth="3" UnRatedStrokeWidth="2"/>
-                                        </rating:SfRating.RatingSettings>
-                                    </rating:SfRating>
+                                            <rating:SfRating.RatingSettings>
+                                                <rating:SfRatingSettings RatedFill="Yellow" UnRatedFill="Gray" RatedStrokeWidth="3" UnRatedStrokeWidth="2"/>
+                                            </rating:SfRating.RatingSettings>
+                                        </rating:SfRating>
+                                        <Label Text="{Binding CantidadCalificaciones, StringFormat='{0} Calificaciones', TargetNullValue='0 Calificaciones'}"/>
+                                    </StackLayout>
                                 </StackLayout>
-                                <button:SfButton x:Name="SfButton" Text="Más" FontAttributes="Bold" FontSize="18" TextColor="White"
-                              Command="{Binding MoreInformationCommand}" 
-                                       BorderWidth="2" BackgroundColor="{StaticResource Primary}" CornerRadius="20" Margin="10,20,0,20"
-                                      ImageWidth="25" ImageAlignment="End" HorizontalOptions="EndAndExpand"
-                                      ShowIcon="True" ImageSource="icon_rightarrow.png"/>
                             </StackLayout>
                         </Frame>
                     </DataTemplate>

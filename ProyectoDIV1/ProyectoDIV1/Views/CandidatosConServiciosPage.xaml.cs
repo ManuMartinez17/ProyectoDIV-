@@ -1,4 +1,5 @@
 ﻿using ProyectoDIV1.ViewModels;
+using Syncfusion.SfAutoComplete.XForms;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -13,10 +14,16 @@ namespace ProyectoDIV1.Views
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class CandidatosConServiciosPage : ContentPage
     {
+        private CandidatosConServiciosViewModel _viewModel;
         public CandidatosConServiciosPage()
         {
             InitializeComponent();
-            BindingContext = new CandidatosConServiciosViewModel();
+            BindingContext = _viewModel =  new CandidatosConServiciosViewModel();
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.OnAppearing();
         }
     }
 }

@@ -81,8 +81,6 @@ namespace ProyectoDIV1.ViewModels
 
         private void LoadCandidato(ECandidato candidato)
         {
-            candidato.Rutas.RutaImagenRegistro = string.IsNullOrEmpty(candidato.Rutas.RutaImagenRegistro) ?
-                "https://i.postimg.cc/BQmWRFDZ/iconuser.jpg" : candidato.Rutas.RutaImagenRegistro;
             CandidatoDTO candidatoDTO = new CandidatoDTO()
             {
                 Candidato = candidato

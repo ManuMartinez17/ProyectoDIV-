@@ -8,6 +8,7 @@ namespace ProyectoDIV1.DTOs
         public ECandidato Candidato { get; set; } = new ECandidato();
         public string FullName => $"{Candidato.Nombre} {Candidato.Apellido}";
         public string ItLives => $"Vivo en {Candidato.Departamento} en la ciudad de: {Candidato.Ciudad}";
+        public int? CantidadCalificaciones => Candidato.Calificaciones?.Count();
         public float Calificacion => Candidato.Calificaciones == null ? 0 : Candidato.Calificaciones.Average();
         public int? CantidadNotificaciones => Candidato.Notificaciones?.Count();
     }

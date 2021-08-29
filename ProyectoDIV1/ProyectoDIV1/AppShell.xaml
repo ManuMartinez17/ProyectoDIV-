@@ -84,7 +84,7 @@
                           ContentTemplate="{DataTemplate local:CandidatosConServiciosPage}" />
             <ShellContent Title="Empresas"
                           Icon="dog.png" 
-                          ContentTemplate="{DataTemplate local:AboutPage}" />
+                          ContentTemplate="{DataTemplate local:EmpresasConServiciosPage}" />
         </Tab>
         <Tab Title="Notificaciones"
              Icon="icon_bell.png"  
@@ -92,7 +92,7 @@
              badge:Badge.Text="{Binding Candidato.CantidadNotificaciones, TargetNullValue=''}">
             <ShellContent Title="Candidatos"
                           Icon="_user.png" 
-                          ContentTemplate="{DataTemplate local:CandidatosConServiciosPage}" />
+                          ContentTemplate="{DataTemplate local:NotificacionesCandidatosPage}" />
         </Tab>
         <ShellContent Title="Perfil"
                       Icon="icon_settings.png"
