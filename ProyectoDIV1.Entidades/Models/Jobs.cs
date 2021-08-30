@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace ProyectoDIV1.Models
+﻿namespace ProyectoDIV1.Entidades.Models
 {
     public class Jobs
     {

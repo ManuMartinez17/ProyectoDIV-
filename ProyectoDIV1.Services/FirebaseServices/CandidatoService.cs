@@ -1,19 +1,17 @@
 ﻿using Firebase.Database;
 using ProyectoDIV1.Entidades.Models;
-using ProyectoDIV1.Helpers;
+using ProyectoDIV1.Services.Helpers;
 using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
-namespace ProyectoDIV1.Services
+namespace ProyectoDIV1.Services.FirebaseServices
 {
     public class CandidatoService
     {
         public FirebaseClient firebase;
-        private static string UrlDefault = "https://i.postimg.cc/BQmWRFDZ/iconuser.jpg"; 
+        private static string UrlDefault = "https://i.postimg.cc/BQmWRFDZ/iconuser.jpg";
         public CandidatoService()
         {
             firebase = new FirebaseClient("https://proyectodiv-d53ed-default-rtdb.firebaseio.com/");

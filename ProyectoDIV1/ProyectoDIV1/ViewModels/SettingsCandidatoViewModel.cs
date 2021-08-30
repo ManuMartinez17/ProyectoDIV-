@@ -5,7 +5,8 @@ using Plugin.Media.Abstractions;
 using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
-using ProyectoDIV1.Services;
+using ProyectoDIV1.Services.FirebaseServices;
+using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.Views;
 using System;
 using System.Diagnostics;
@@ -17,11 +18,15 @@ namespace ProyectoDIV1.ViewModels
 {
     public class SettingsCandidatoViewModel : BaseViewModel
     {
+        #region Attributes
         private CandidatoDTO _candidato;
         private CandidatoService _candidatoService;
         private ImageSource _imagen;
         private FirebaseStorageHelper _firebaseStorage;
         private MediaFile _ImagenArchivo;
+        #endregion
+
+        #region Commands
         public SettingsCandidatoViewModel()
         {
             _candidatoService = new CandidatoService();
@@ -30,7 +35,27 @@ namespace ProyectoDIV1.ViewModels
             CambiarImagenCommand = new Command(CambiarImagenAsync);
             MoreInformationCommand = new Command(MoreInformation);
         }
+        #endregion
 
+        #region Commands
+        public Command CambiarImagenCommand { get; set; }
+        public Command MoreInformationCommand { get; set; }
+        #endregion
+
+        #region Properties
+        public CandidatoDTO Candidato
+        {
+            get => _candidato;
+            set => SetProperty(ref _candidato, value);
+        }
+        public ImageSource Imagen
+        {
+            get => _imagen;
+            set => SetProperty(ref _imagen, value);
+        }
+        #endregion
+
+        #region Methods
         private async void MoreInformation()
         {
             try
@@ -42,19 +67,6 @@ namespace ProyectoDIV1.ViewModels
                 Debug.WriteLine(ex.Message);
             }
 
-        }
-
-        public Command CambiarImagenCommand { get; set; }
-        public Command MoreInformationCommand { get; set; }
-        public CandidatoDTO Candidato
-        {
-            get => _candidato;
-            set => SetProperty(ref _candidato, value);
-        }
-        public ImageSource Imagen
-        {
-            get => _imagen;
-            set => SetProperty(ref _imagen, value);
         }
         private void LoadCandidato()
         {
@@ -160,6 +172,7 @@ namespace ProyectoDIV1.ViewModels
                 Debug.WriteLine(ex.Message);
             }
         }
+        #endregion
 
     }
 }

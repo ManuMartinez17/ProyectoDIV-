@@ -1,13 +1,12 @@
 ﻿using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Entidades.Models;
-using ProyectoDIV1.Services;
+using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Views;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Text;
 using System.Threading.Tasks;
 using Xamarin.Forms;
 
@@ -15,9 +14,14 @@ namespace ProyectoDIV1.ViewModels
 {
     public class EmpresasConServiciosViewModel : BaseViewModel
     {
+
+        #region Attributes
         private ObservableCollection<EmpresaDTO> _empresas;
         private ObservableCollection<EEmpresa> _empresasBusqueda;
         private EmpresaService _empresaService;
+        #endregion
+
+        #region Constructor
         public EmpresasConServiciosViewModel()
         {
             _empresaService = new EmpresaService();
@@ -26,15 +30,14 @@ namespace ProyectoDIV1.ViewModels
             MostrarListadoEmpresasCommand = new Command((param) => ExecuteListadoEmpresas(param));
             LoadEmpresasCommand = new Command(async () => await RefreshEmpresas());
         }
+        #endregion
 
-        private Task RefreshEmpresas()
-        {
-            throw new NotImplementedException();
-        }
-
+        #region Commands
         public Command MostrarListadoEmpresasCommand { get; set; }
         public Command LoadEmpresasCommand { get; }
         public Command MoreInformationCommand { get; }
+        #endregion
+        #region Properties
         public ObservableCollection<EmpresaDTO> Empresas
         {
             get { return _empresas; }
@@ -46,6 +49,9 @@ namespace ProyectoDIV1.ViewModels
             get { return _empresasBusqueda; }
             set { SetProperty(ref _empresasBusqueda, value); }
         }
+        #endregion
+
+        #region Methods
         private async void LoadEmpresas()
         {
             await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
@@ -71,6 +77,10 @@ namespace ProyectoDIV1.ViewModels
             {
                 await PopupNavigation.Instance.PopAsync();
             }
+        }
+        private Task RefreshEmpresas()
+        {
+            throw new NotImplementedException();
         }
 
         private async void ExecuteListadoEmpresas(object param)
@@ -121,5 +131,6 @@ namespace ProyectoDIV1.ViewModels
                 Debug.WriteLine(ex.Message);
             }
         }
+        #endregion
     }
 }

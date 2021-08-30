@@ -3,9 +3,10 @@ using Newtonsoft.Json;
 using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
-using ProyectoDIV1.Interfaces;
-using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
+using ProyectoDIV1.Services.FirebaseServices;
+using ProyectoDIV1.Services.Helpers;
+using ProyectoDIV1.Services.Interfaces;
 using ProyectoDIV1.Views;
 using Rg.Plugins.Popup.Services;
 using System;
@@ -53,7 +54,7 @@ namespace ProyectoDIV1.ViewModels
             try
             {
                 if (!string.IsNullOrWhiteSpace(texto))
-                {  
+                {
                     Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
                     Application.Current.MainPage = new AppShell();
                     await Shell.Current.GoToAsync($"{nameof(BusquedaJobPage)}?{nameof(BusquedaJobViewModel.Texto)}={texto}");
@@ -84,7 +85,7 @@ namespace ProyectoDIV1.ViewModels
             {
 
                 Debug.WriteLine(ex.Message);
-            } 
+            }
         }
 
         private void BuscarToken()
@@ -197,7 +198,7 @@ namespace ProyectoDIV1.ViewModels
                         CandidatoReceived.Rutas.RutaArchivoRegistro = await _FirebaseStorageHelper.UploadFile(stream,
                             CandidatoReceived.Rutas.NombreArchivoRegistro, Constantes.CARPETA_HOJASDEVIDA);
                     }
-                    await _firebase.CrearAsync<ECandidato>(CandidatoReceived, Constantes.COLLECTION_CANDIDATO);
+                    await _firebase.CrearAsync(CandidatoReceived, Constantes.COLLECTION_CANDIDATO);
                     UserDialogs.Instance.HideLoading();
                     UserDialogs.Instance.Toast("se ha registrado satisfactoriamente", TimeSpan.FromSeconds(2));
                     await Task.Delay(2000);

@@ -1,8 +1,8 @@
 ﻿using Acr.UserDialogs;
 using ProyectoDIV1.Entidades.Models;
-using ProyectoDIV1.Helpers;
-using ProyectoDIV1.Interfaces;
-using ProyectoDIV1.Services;
+using ProyectoDIV1.Services.FirebaseServices;
+using ProyectoDIV1.Services.Helpers;
+using ProyectoDIV1.Services.Interfaces;
 using ProyectoDIV1.Validators;
 using ProyectoDIV1.Validators.Rules;
 using ProyectoDIV1.Views;
@@ -15,9 +15,12 @@ namespace ProyectoDIV1.ViewModels
 {
     public class LoginViewModel : BaseViewModel
     {
+        #region Atributos
         private string _email;
         private string _password;
+        private FirebaseHelper _firebaseHelper;
         public ValidatableObject<string> EmailValid { get; set; } = new ValidatableObject<string>();
+        #endregion
 
         #region Commands
         public Command LoginCommand { get; }
@@ -29,6 +32,7 @@ namespace ProyectoDIV1.ViewModels
         #region Constructor
         public LoginViewModel()
         {
+            _firebaseHelper = new FirebaseHelper();
             LoginCommand = new Command(OnLoginClicked, ValidateSave);
             InicioRegistroCommand = new Command(OnRegistroClicked);
             this.PropertyChanged +=
@@ -90,8 +94,8 @@ namespace ProyectoDIV1.ViewModels
                     var authService = DependencyService.Resolve<IAuthenticationService>();
                     var token = await authService.SignIn(Email, Password);
 
-                    bool candidato = await new FirebaseHelper().GetUsuarioByEmailAsync<ECandidato>(Constantes.COLLECTION_CANDIDATO, Email);
-                    bool empresa = await new FirebaseHelper().GetUsuarioByEmailAsync<EEmpresa>(Constantes.COLLECTION_EMPRESA, Email);
+                    bool candidato = await _firebaseHelper.GetUsuarioByEmailAsync<ECandidato>(Constantes.COLLECTION_CANDIDATO, Email);
+                    bool empresa = await _firebaseHelper.GetUsuarioByEmailAsync<EEmpresa>(Constantes.COLLECTION_EMPRESA, Email);
                     if (candidato)
                     {
                         Application.Current.MainPage = new AppShell();

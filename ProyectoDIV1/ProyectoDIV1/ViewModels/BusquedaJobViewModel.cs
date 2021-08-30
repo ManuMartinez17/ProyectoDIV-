@@ -2,9 +2,10 @@
 using Newtonsoft.Json;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
-using ProyectoDIV1.Interfaces;
-using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
+using ProyectoDIV1.Services.FirebaseServices;
+using ProyectoDIV1.Services.Helpers;
+using ProyectoDIV1.Services.Interfaces;
 using ProyectoDIV1.Views;
 using System;
 using System.Collections.ObjectModel;

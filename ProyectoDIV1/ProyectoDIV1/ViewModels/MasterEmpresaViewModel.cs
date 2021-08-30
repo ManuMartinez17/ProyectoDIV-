@@ -3,8 +3,8 @@ using Newtonsoft.Json;
 using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
-using ProyectoDIV1.Interfaces;
-using ProyectoDIV1.Services;
+using ProyectoDIV1.Services.FirebaseServices;
+using ProyectoDIV1.Services.Interfaces;
 using ProyectoDIV1.Views;
 using System;
 using System.Diagnostics;
@@ -17,13 +17,15 @@ namespace ProyectoDIV1.ViewModels
     {
         private EmpresaDTO _empresa;
         private EmpresaService _empresaService;
-        public Command OnSignOut { get; set; }
+      
         public MasterEmpresaViewModel()
         {
             _empresaService = new EmpresaService();
             OnSignOut = new Command(OnSignOutClicked);
             CheckWhetherTheUserIsSignInAsync();
         }
+
+        public Command OnSignOut { get; set; }
         public EmpresaDTO Empresa
         {
             get => _empresa;

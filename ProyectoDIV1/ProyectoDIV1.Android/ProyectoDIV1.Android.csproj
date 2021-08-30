@@ -267,6 +267,10 @@
     <AndroidResource Include="Resources\values\colors.xml" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\ProyectoDIV1.Services\ProyectoDIV1.Services.csproj">
+      <Project>{C26ED46B-7E4B-419D-8B6F-F63680E751C2}</Project>
+      <Name>ProyectoDIV1.Services</Name>
+    </ProjectReference>
     <ProjectReference Include="..\ProyectoDIV1\ProyectoDIV1.csproj">
       <Project>{9D52B8A5-2E7A-4EC9-94CD-4205BCAA97A5}</Project>
       <Name>ProyectoDIV1</Name>

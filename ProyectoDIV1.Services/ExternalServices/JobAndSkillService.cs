@@ -1,7 +1,7 @@
 ﻿using Newtonsoft.Json;
-using ProyectoDIV1.Helpers;
-using ProyectoDIV1.Interfaces;
-using ProyectoDIV1.Models;
+using ProyectoDIV1.Entidades.Models;
+using ProyectoDIV1.Services.Helpers;
+using ProyectoDIV1.Services.Interfaces;
 using RestSharp;
 using System;
 using System.Diagnostics;
@@ -15,7 +15,7 @@ namespace ProyectoDIV1.Services
         private Skills skills = new Skills();
         public Token GenerarToken()
         {
-           
+
             try
             {
                 var client = new RestClient("https://auth.emsicloud.com/connect/token");
@@ -33,7 +33,7 @@ namespace ProyectoDIV1.Services
             }
             catch (Exception ex)
             {
-              Debug.WriteLine(ex.Message);
+                Debug.WriteLine(ex.Message);
             }
             return null;
         }

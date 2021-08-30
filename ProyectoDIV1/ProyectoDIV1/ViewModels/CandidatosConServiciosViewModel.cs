@@ -1,8 +1,7 @@
 ﻿using ProyectoDIV1.DTOs;
-using ProyectoDIV1.Services;
+using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Views;
 using Rg.Plugins.Popup.Services;
-using Syncfusion.ListView.XForms;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;

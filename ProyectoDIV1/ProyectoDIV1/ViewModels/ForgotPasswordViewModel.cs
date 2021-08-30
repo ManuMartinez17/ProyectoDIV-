@@ -1,4 +1,4 @@
-﻿using ProyectoDIV1.Interfaces;
+﻿using ProyectoDIV1.Services.Interfaces;
 using ProyectoDIV1.Views;
 using System;
 using Xamarin.Forms;

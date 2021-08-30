@@ -1,7 +1,7 @@
-﻿using ProyectoDIV1.Models;
+﻿using ProyectoDIV1.Entidades.Models;
 using System.Threading.Tasks;
 
-namespace ProyectoDIV1.Interfaces
+namespace ProyectoDIV1.Services.Interfaces
 {
     public interface IJobAndSkillService
     {

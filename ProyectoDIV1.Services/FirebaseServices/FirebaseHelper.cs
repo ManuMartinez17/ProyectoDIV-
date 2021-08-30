@@ -1,14 +1,9 @@
 ﻿using Firebase.Database;
 using Firebase.Database.Query;
-using ProyectoDIV1.Entidades.Models;
-using ProyectoDIV1.Helpers;
-using ProyectoDIV1.Models;
-using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ProyectoDIV1.Services
+namespace ProyectoDIV1.Services.FirebaseServices
 {
     public class FirebaseHelper
     {

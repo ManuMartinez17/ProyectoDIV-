@@ -2,17 +2,15 @@
 using Newtonsoft.Json;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
-using ProyectoDIV1.Interfaces;
-using ProyectoDIV1.Models;
 using ProyectoDIV1.Services;
+using ProyectoDIV1.Services.FirebaseServices;
+using ProyectoDIV1.Services.Helpers;
+using ProyectoDIV1.Services.Interfaces;
 using ProyectoDIV1.Views;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels
@@ -121,7 +119,7 @@ namespace ProyectoDIV1.ViewModels
                     {
                         UserDialogs.Instance.Alert("Guarde por lo menos una habilidad.");
                         return;
-                    }   
+                    }
                     var authenticationService = DependencyService.Resolve<IAuthenticationService>();
                     if (authenticationService.IsSignIn())
                     {
@@ -136,7 +134,7 @@ namespace ProyectoDIV1.ViewModels
                         Settings.Candidato = JsonConvert.SerializeObject(_candidato);
                         await Application.Current.MainPage.Navigation.PushAsync(new PerfilTrabajoPage());
                     }
-                   
+
                 }
                 else
                 {

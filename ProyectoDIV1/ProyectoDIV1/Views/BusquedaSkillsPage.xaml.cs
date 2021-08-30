@@ -1,4 +1,4 @@
-﻿using ProyectoDIV1.Models;
+﻿using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.ViewModels;
 
 using Xamarin.Forms;

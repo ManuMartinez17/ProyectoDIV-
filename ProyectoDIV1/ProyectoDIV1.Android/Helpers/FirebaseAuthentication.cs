@@ -1,7 +1,7 @@
 ﻿
 using Firebase.Auth;
 using ProyectoDIV1.Droid.Helpers;
-using ProyectoDIV1.Interfaces;
+using ProyectoDIV1.Services.Interfaces;
 using System.Threading.Tasks;
 
 [assembly: Xamarin.Forms.Dependency(typeof(FirebaseAuthentication))]
@@ -12,7 +12,7 @@ namespace ProyectoDIV1.Droid.Helpers
         public string BuscarEmail()
         {
             string email = string.Empty;
-            if (FirebaseAuth.Instance.CurrentUser !=null)
+            if (FirebaseAuth.Instance.CurrentUser != null)
             {
                 email = FirebaseAuth.Instance.CurrentUser.Email;
             }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace ProyectoDIV1.Helpers
+namespace ProyectoDIV1.Services.Helpers
 {
     public static class Constantes
     {
@@ -12,7 +12,6 @@ namespace ProyectoDIV1.Helpers
         public static readonly string CARPETA_LOGOS_EMPRESAS = "logosempresas";
         public static readonly string COLLECTION_CANDIDATO = "Candidatos";
         public static readonly string COLLECTION_EMPRESA = "Empresas";
-
         public static readonly string CREDENCIALES = "client_id=24oqu4cfzzvmfmyq&client_secret=3pBUEqet&grant_type=client_credentials&scope=emsi_open";
 
     }

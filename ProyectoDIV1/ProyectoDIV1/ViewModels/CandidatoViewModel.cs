@@ -1,8 +1,6 @@
 ﻿using ProyectoDIV1.DTOs;
-using ProyectoDIV1.Services;
+using ProyectoDIV1.Services.FirebaseServices;
 using System;
-using System.Collections.Generic;
-using System.Text;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels

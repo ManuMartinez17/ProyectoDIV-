@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 
-namespace ProyectoDIV1.Interfaces
+namespace ProyectoDIV1.Services.Interfaces
 {
     public interface IAuthenticationService
     {
