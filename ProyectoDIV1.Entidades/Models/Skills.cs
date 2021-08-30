@@ -1,9 +1,11 @@
-﻿namespace ProyectoDIV1.Entidades.Models
+﻿using System.Collections.Generic;
+
+namespace ProyectoDIV1.Entidades.Models
 {
     public class Skills
     {
         public Attribution[] attributions { get; set; }
-        public Skill[] data { get; set; }
+        public List<Skill> data { get; set; }
     }
 
     public class Attribution

@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Services;
+using ProyectoDIV1.Services.ExternalServices;
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.Services.Interfaces;
@@ -20,10 +21,12 @@ namespace ProyectoDIV1.ViewModels
     {
         private string _texto;
         private ECandidato _candidato = new ECandidato();
+        private TraductorService _traductor;
         private JobAndSkillService serviceJobsandSkills = new JobAndSkillService();
         private ObservableCollection<Job> _tiposDeJobs;
         public BusquedaJobViewModel()
         {
+            _traductor = new TraductorService();
             _candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
             BackCommand = new Command(BackClicked);
             InsertarCommand = new Command(async (param) => await ExecuteInsertarJob(param));
@@ -109,8 +112,10 @@ namespace ProyectoDIV1.ViewModels
             var token = JsonConvert.DeserializeObject<Token>(Settings.Token);
             if (token != null && !string.IsNullOrWhiteSpace(value))
             {
-                var lista = await serviceJobsandSkills.GetListJobsAsync($"titles/versions/latest/titles?q=.{value}", token.access_token);
-                TiposDeJobs = new ObservableCollection<Job>(lista.data);
+                string palabra = await _traductor.TraducirPalabra(value, Constantes.CodigoISOEnglish, Constantes.CodigoISOSpanish);
+                var lista = await serviceJobsandSkills.GetListJobsAsync($"titles/versions/latest/titles?q=.{palabra}&limit=10", token.access_token);
+                var listadotraducido = await _traductor.TraducirJobs(lista.data);
+                TiposDeJobs = new ObservableCollection<Job>(listadotraducido);
             }
 
         }

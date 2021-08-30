@@ -2,6 +2,7 @@
 using ProyectoDIV1.ViewModels;
 using Rg.Plugins.Popup.Services;
 using System.Threading.Tasks;
+using System.Web;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -23,7 +24,7 @@ namespace ProyectoDIV1.Views
             string texto = searchBar.Text;
             await PopupNavigation.Instance.PopAsync(true);
             UserDialogs.Instance.ShowLoading("cargando..");
-            await Task.Delay(1000);
+            texto = HttpUtility.UrlEncode(texto);
             await Shell.Current.GoToAsync($"{nameof(BusquedaSkillsPage)}?{nameof(BusquedaSkillsViewModel.Texto)}={texto}");
             UserDialogs.Instance.HideLoading();
 

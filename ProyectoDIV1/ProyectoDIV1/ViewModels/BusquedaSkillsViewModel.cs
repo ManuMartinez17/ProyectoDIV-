@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Services;
+using ProyectoDIV1.Services.ExternalServices;
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.Services.Interfaces;
@@ -11,6 +12,8 @@ using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
+using System.Text;
+using System.Web;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels
@@ -19,13 +22,14 @@ namespace ProyectoDIV1.ViewModels
     public class BusquedaSkillsViewModel : BaseViewModel
     {
         private string _texto;
+        private TraductorService _traductor;
         private ECandidato _candidato = new ECandidato();
         private JobAndSkillService serviceJobsandSkills = new JobAndSkillService();
         private ObservableCollection<Skill> _tiposDeKills;
 
         public BusquedaSkillsViewModel()
         {
-
+            _traductor = new TraductorService();
             _candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
             InsertarCommand = new Command((param) => ExecuteInsertarSkills(param));
             BackCommand = new Command(BackClicked);
@@ -103,8 +107,11 @@ namespace ProyectoDIV1.ViewModels
             var token = JsonConvert.DeserializeObject<Token>(Settings.Token);
             if (token != null && !string.IsNullOrWhiteSpace(value))
             {
-                var lista = await serviceJobsandSkills.GetListJobsRelatedSkills($"skills/versions/latest/skills?q=.{value}", token.access_token);
-                TiposDeKills = new ObservableCollection<Skill>(lista.data);
+                string palabra = await _traductor.TraducirPalabra(value, Constantes.CodigoISOEnglish, Constantes.CodigoISOSpanish);
+                string palabraTraducida = ParsearUrlConCodigoPorciento(palabra);
+                var lista = await serviceJobsandSkills.GetListJobsRelatedSkills($"skills/versions/latest/skills?q=.{palabraTraducida}&limit=10", token.access_token);
+                var listadotraducido = await _traductor.TraducirSkills(lista.data);
+                TiposDeKills = new ObservableCollection<Skill>(listadotraducido);
             }
         }
 

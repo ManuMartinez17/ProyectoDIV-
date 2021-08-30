@@ -1,8 +1,10 @@
-﻿namespace ProyectoDIV1.Entidades.Models
+﻿using System.Collections.Generic;
+
+namespace ProyectoDIV1.Entidades.Models
 {
     public class Jobs
     {
-        public Job[] data { get; set; }
+        public List<Job> data { get; set; }
     }
 
     public class Job

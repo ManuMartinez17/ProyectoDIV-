@@ -3,14 +3,17 @@ using ProyectoDIV1.Services;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Web;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
- 
+
         string title = string.Empty;
         public string Title
         {
@@ -34,6 +37,27 @@ namespace ProyectoDIV1.ViewModels
             onChanged?.Invoke();
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        public string ParsearUrlConCodigoPorciento(string palabra)
+        {
+            string specialChar = @"\|!#$%&/()=?»«@£§€{}.-;'<>_,+";
+            StringBuilder palabraTraducida = new StringBuilder();
+            foreach (var item in palabra)
+            {
+                if (specialChar.Contains(item))
+                {
+                    var item2 = HttpUtility.UrlEncode(item.ToString());
+                    palabraTraducida.Append(item2);
+                    palabraTraducida = palabraTraducida.Replace(" ", string.Empty);
+                }
+                else
+                {
+                    palabraTraducida.Append(item);
+                }
+
+            }
+            return palabraTraducida.ToString();
         }
 
         #region INotifyPropertyChanged
