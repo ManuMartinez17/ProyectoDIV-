@@ -1,4 +1,5 @@
 ﻿using ProyectoDIV1.Helpers;
+using ProyectoDIV1.Views;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1
@@ -10,9 +11,8 @@ namespace ProyectoDIV1
         {
             InitializeComponent();
             Settings.Usuario = null;
-            MainPage = new AppShell();
+            MainPage = new NavigationPage(new AboutPage());
         }
-
         protected override void OnStart()
         {
         }

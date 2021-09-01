@@ -21,7 +21,7 @@ namespace ProyectoDIV1.Models
             try
             {
 
-                var assembly = typeof(AppShell).GetTypeInfo().Assembly;
+                var assembly = typeof(MasterCandidatoPage).GetTypeInfo().Assembly;
 
                 var rutaCompleta = Path.Combine($"{assembly.GetName().Name}.{path}");
                 Stream stream = assembly.GetManifestResourceStream(rutaCompleta);

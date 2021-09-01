@@ -1,13 +1,10 @@
-﻿using ProyectoDIV1.Models;
-using ProyectoDIV1.Services;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Web;
-using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels
 {

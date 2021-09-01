@@ -1,0 +1,132 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:d="http://xamarin.com/schemas/2014/forms/design"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters"
+             xmlns:behaviour="clr-namespace:ProyectoDIV1.Helpers.Behaviours"
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+             mc:Ignorable="d"
+             Visual="Material"
+             x:Class="ProyectoDIV1.Views.Account.LoginPage"
+             Title="Login" BackgroundImage="inicio_1.jpg"
+             Shell.BackgroundColor="{StaticResource Primary}">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <converter:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+    
+            <StackLayout BackgroundColor="#E08C67"
+                         Spacing="20"
+                         Margin="30,0"
+                         Opacity="0.9" 
+                         Padding="10,10,10,10" 
+                         VerticalOptions="Center">
+
+            <ScrollView>
+                <StackLayout Spacing="10">
+                    <Image x:Name="div3"
+				Source="div3.png" WidthRequest="80" HeightRequest="80"
+				AbsoluteLayout.LayoutBounds="400,400,350,350" />
+                    <Label 
+				FontFamily="Lato"
+				FontAttributes="Bold"
+				HorizontalTextAlignment="Center"
+				FontSize="24"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="13,192,327,56"
+				Text="Te damos la bienvenida!"
+			 />
+                    <Label FontFamily="Lato"
+				FontAttributes="Bold"
+				HorizontalTextAlignment="Center"
+				FontSize="14"
+				TextColor="#ffffff"
+				AbsoluteLayout.LayoutBounds="57.5,253,227,53"
+				Text="Regstrate y descubre las mejores oportunidades de empleo"
+			 />
+                    <Label
+                        Text="{Binding EmailValid.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                        IsVisible="{Binding EmailValid.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                         Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout ContainerBackgroundColor="White">
+                        <Entry Text="{Binding Email, Mode=TwoWay}" 
+                           FontFamily="Lato"
+				            FontSize="14"
+                            Placeholder="Email"
+                           BackgroundColor="White"
+				            TextColor="Black">
+                        <Entry.Behaviors>
+                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding EmailValid.IsValid}"/>
+                        </Entry.Behaviors>
+                    </Entry>
+                    </inputLayout:SfTextInputLayout>
+                    <inputLayout:SfTextInputLayout ContainerBackgroundColor="White"
+                                                   EnablePasswordVisibilityToggle="true" ReserveSpaceForAssistiveLabels="False">
+                            <Entry
+				            FontFamily="Lato"
+				            FontSize="14"
+                                 Placeholder="Contraseña"
+				            TextColor="Black" BackgroundColor="White"
+                            IsPassword="True"          
+				            Text="{Binding Password, Mode=TwoWay}"/>
+                        </inputLayout:SfTextInputLayout>
+                </StackLayout>
+            </ScrollView>
+            <Button x:Name="ingresar"
+					FontFamily="Lato"            
+					FontAttributes="Bold"
+					HorizontalOptions="Center"
+					Command="{Binding LoginCommand}"
+					FontSize="14"
+					TextColor="White"
+                    BackgroundColor="#705E78"
+					AbsoluteLayout.LayoutBounds="-2,8,200,40"
+					Text="INGRESAR" >
+            </Button>
+            <Label HorizontalTextAlignment="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="¿si aun no tienes una cuenta?" 
+                                TextColor="White"
+                                          FontAttributes="Italic" />
+                        <Span Text=" "/>
+                        <Span Text="Crea tu cuenta"       
+								TextColor="#705E78"
+                                          FontAttributes="Bold"
+								TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding InicioRegistroCommand}"
+                                          />
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+            <Label HorizontalTextAlignment="Center">
+                <Label.FormattedText>
+                    <FormattedString>
+                        <Span Text="¿Olvidaste tu contraseña?" 
+                                TextColor="White"
+                                          FontAttributes="Italic"
+                                 />
+                        <Span Text=" "/>
+                        <Span Text="Recuperar contraseña"
+                                         
+								TextColor="#705E78"
+                                          FontAttributes="Bold"
+								TextDecorations="Underline">
+                            <Span.GestureRecognizers>
+                                <TapGestureRecognizer Command="{Binding ForgotPasswordCommand}"
+                                          />
+                            </Span.GestureRecognizers>
+                        </Span>
+                    </FormattedString>
+                </Label.FormattedText>
+            </Label>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

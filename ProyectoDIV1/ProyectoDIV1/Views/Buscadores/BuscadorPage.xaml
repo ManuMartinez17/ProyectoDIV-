@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+                 xmlns:animations="clr-namespace:Rg.Plugins.Popup.Animations;assembly=Rg.Plugins.Popup"
+                 xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                    x:Class="ProyectoDIV1.Views.Buscadores.BuscadorPage">
+    <!--  You can set an animation in the xaml file or in the csharp code behind  -->
+    <pages:PopupPage.Animation>
+        <animations:ScaleAnimation DurationIn="400"
+                                   DurationOut="300"
+                                   EasingIn="SinOut"
+                                   EasingOut="SinIn"
+                                   HasBackgroundAnimation="True"
+                                   PositionIn="Center"
+                                   PositionOut="Center"
+                                   ScaleIn="1.2"
+                                   ScaleOut="0.8" />
+    </pages:PopupPage.Animation>
+
+    <StackLayout HorizontalOptions="Center" Margin="40,40,40,40" VerticalOptions="Center">
+        <SearchBar x:Name="Buscar" Placeholder="Busqueda de Habilidades" SearchButtonPressed="Buscar_SearchButtonPressed" BackgroundColor="#edf8f6">
+        </SearchBar>
+    </StackLayout>
+    </pages:PopupPage>
+ 

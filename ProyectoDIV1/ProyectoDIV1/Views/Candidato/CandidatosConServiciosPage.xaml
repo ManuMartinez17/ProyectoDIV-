@@ -1,0 +1,84 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms" 
+             xmlns:behavioursPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms" 
+             xmlns:button="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
+             xmlns:pullToRefresh="clr-namespace:Syncfusion.SfPullToRefresh.XForms;assembly=Syncfusion.SfPullToRefresh.XForms"
+             xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
+             x:Class="ProyectoDIV1.Views.Candidato.CandidatosConServiciosPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <Frame Padding="20,5">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+
+                    </Grid.RowDefinitions>
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="30"/>
+                        <ColumnDefinition Width="*"/>
+                    </Grid.ColumnDefinitions>
+                    <Label HorizontalOptions="Start"
+                           FontFamily="fontello" FontSize="Medium"
+                           Text="&#xE800;" VerticalOptions="Center">
+
+                    </Label>
+                    <autocomplete:SfAutoComplete x:Name="Autocomplete" Grid.Column="1" HorizontalOptions="FillAndExpand" ShowBorder="False" AutoCompleteMode="SuggestAppend"
+                                                 SuggestionMode="StartsWith" HighlightedTextColor="Red" 
+                                              HighlightedTextFontAttributes="Bold" TextHighlightMode="FirstOccurrence"
+                                              NoResultsFoundText="No hay resultados." 
+                                                      Watermark="Busque el servicio" DataSource="{Binding Profesiones}">
+                        <autocomplete:SfAutoComplete.Behaviors>
+                            <behavioursPack:EventToCommandBehavior EventName="SelectionChanged" 
+                                                                       Command="{Binding MostrarListadoCandidatosCommand}" EventArgsPropertyPath="Value"/>
+                        </autocomplete:SfAutoComplete.Behaviors>
+                    </autocomplete:SfAutoComplete>
+                </Grid>
+            </Frame>
+            <syncfusion:SfListView  x:Name="LV_candidatos" ItemsSource="{Binding Candidatos}" TapCommand="{Binding MoreInformationCommand}"
+                                    AutoFitMode="Height" SelectionBackgroundColor="Transparent" >
+                <syncfusion:SfListView.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Margin="5,10,5,10" CornerRadius="10" BackgroundColor="AliceBlue">
+                            <StackLayout Orientation="Horizontal">
+                                <ffimageloading:CachedImage Aspect="AspectFit"
+                                            Source="{Binding Candidato.Rutas.RutaImagenRegistro}" 
+                                            CacheDuration= "50"
+                                            HeightRequest="70"
+                                            Margin="5,0,5,0"     
+                                            RetryCount= "3"
+                                            RetryDelay= "600"
+                                            WidthRequest="100">
+                                    <ffimageloading:CachedImage.Transformations>
+                                        <fftransformations:CircleTransformation />
+                                    </ffimageloading:CachedImage.Transformations>
+                                </ffimageloading:CachedImage>
+                                <StackLayout VerticalOptions="Center" HorizontalOptions="StartAndExpand">
+                                    <Label Text="{Binding Candidato.Profesion}" FontSize="Body" FontAttributes="Bold" 
+                                           TextColor="{StaticResource ThirdOrange}"
+                                            />
+                                    <Label Text="{Binding FullName}" FontSize="Small"
+                                           TextColor="Black"/>
+                                    <StackLayout Orientation="Horizontal">
+                                        <rating:SfRating
+                                     Precision="Half" ReadOnly="True" VerticalOptions="EndAndExpand" ItemSize="18"
+                                     Value="{Binding Calificacion}">
+                                            <rating:SfRating.RatingSettings>
+                                                <rating:SfRatingSettings RatedFill="Yellow" UnRatedFill="Gray" RatedStrokeWidth="3" UnRatedStrokeWidth="2"/>
+                                            </rating:SfRating.RatingSettings>
+                                        </rating:SfRating>
+                                        <Label Text="{Binding CantidadCalificaciones, StringFormat='{0} Calificaciones', TargetNullValue='0 Calificaciones'}"/>
+                                    </StackLayout>
+                                </StackLayout>
+                            </StackLayout>
+                        </Frame>
+                    </DataTemplate>
+                </syncfusion:SfListView.ItemTemplate>
+            </syncfusion:SfListView>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

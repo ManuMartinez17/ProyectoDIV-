@@ -38,6 +38,8 @@ namespace ProyectoDIV1.Droid
             UserDialogs.Init(this);
             BottomBar.Init();
             Rg.Plugins.Popup.Popup.Init(this);
+            Xamarin.Forms.Forms.SetFlags(new string[] { "IndicatorView_Experimental" });
+            FFImageLoading.Forms.Platform.CachedImageRenderer.Init(enableFastRenderer: true);
             Xamarin.Essentials.Platform.Init(this, savedInstanceState);
             global::Xamarin.Forms.Forms.Init(this, savedInstanceState);
             global::Xamarin.Forms.FormsMaterial.Init(this, savedInstanceState);

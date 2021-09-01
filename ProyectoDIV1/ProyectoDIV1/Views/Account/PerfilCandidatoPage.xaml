@@ -1,0 +1,189 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms" 
+             xmlns:behaviour="clr-namespace:ProyectoDIV1.Helpers.Behaviours" 
+             xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters" 
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"   
+             x:Class="ProyectoDIV1.Views.Account.PerfilCandidatoPage" BackgroundImage="registro.jpg"
+               Shell.FlyoutBehavior="Disabled"
+               Shell.BackgroundColor="{StaticResource Primary}" Title="Registro de candidato">
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
+            <converter:FirstValidationErrorConverter x:Key="FirstValidationErrorConverter"/>
+        </ResourceDictionary>
+    </ContentPage.Resources>
+    <ContentPage.Content>
+        <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"
+                     AbsoluteLayout.LayoutFlags="All" Margin="1,0"
+                     Spacing="15"
+                       Padding="15,15,15,15">
+            <ScrollView>
+                <StackLayout Spacing="10">
+                    <ffimageloading:CachedImage Aspect="AspectFit"
+                                                Source="{Binding Imagen}" 
+                                                CacheDuration= "50"
+                                                HeightRequest="150"
+                                                Margin="5"
+                                                RetryCount= "3"
+                                                RetryDelay= "600">
+                        <ffimageloading:CachedImage.Transformations>
+                            <fftransformations:CircleTransformation />
+                        </ffimageloading:CachedImage.Transformations>
+                        <ffimageloading:CachedImage.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding CambiarImagenCommand}"/>
+                        </ffimageloading:CachedImage.GestureRecognizers>
+                    </ffimageloading:CachedImage>
+                    <Label Text="{Binding TextoUpload}" TextColor="White" FontSize="Medium" HorizontalTextAlignment="Center" 
+                           FontAttributes="Bold" IsVisible="{Binding VisibleUpload}">
+                    </Label>
+
+                    <buttons:SfButton x:Name="SfButton" Text="{Binding TextoButtonUpload}" TextColor="Black" CornerRadius="3" HeightRequest="50" 
+                                      WidthRequest="4" BorderWidth="2" BorderColor="Black" ImageWidth="40" Command="{Binding UploadCurriculumCommand}"
+                                      ShowIcon="True" BackgroundColor="#cdfff4" Margin="50,5,50,15" ImageSource="iconUpload.png"/>
+                    <!--nombre-->
+                    <Label Text="{Binding Candidato.Nombre.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding Candidato.Nombre.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Nombres"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Entry Text="{Binding Candidato.Nombre.Value}" TextColor="Black" MaxLength="60" >
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Nombre.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </inputLayout:SfTextInputLayout>
+
+                    <!--/nombre-->
+
+                    <!--apellido-->
+                    <Label Text="{Binding Candidato.Apellido.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding Candidato.Apellido.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Apellidos"  FocusedColor="Black"
+                                                    ContainerBackgroundColor="#edf8f6">
+                        <Entry Text="{Binding Candidato.Apellido.Value}"  TextColor="Black" MaxLength="60" >
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Apellido.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </inputLayout:SfTextInputLayout>
+
+                    <!--/apellido-->
+
+                    <!--email-->
+                    <Label Text="{Binding  Candidato.Email.Errors,  Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding  Candidato.Email.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Email" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Entry Text="{Binding Candidato.Email.Value}" TextColor="Black" MaxLength="60">
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding  Candidato.Email.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </inputLayout:SfTextInputLayout>
+
+                    <!--/email-->
+
+              
+                    <!--fecha de nacimiento-->
+                    <Label Text="{Binding  Candidato.FechaDeNacimiento.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding  Candidato.FechaDeNacimiento.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+
+                    <inputLayout:SfTextInputLayout Hint="Fecha de nacimiento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <DatePicker Date="{Binding Candidato.FechaDeNacimiento.Value}"  TextColor="Black" MaximumDate="{Binding MaximumDate}"/>
+                    </inputLayout:SfTextInputLayout>
+
+                    <!--/fecha de nacimiento-->
+
+                    <!--celular-->
+                    <Label Text="{Binding  Candidato.Celular.Errors,  Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding  Candidato.Celular.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Celular"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Entry Text="{Binding Candidato.Celular.Value}" TextColor="Black"
+                         Keyboard="Telephone"  MaxLength="10">
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding  Candidato.Celular.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </inputLayout:SfTextInputLayout>
+                    <!--/celular-->
+                    
+                    <!--departamento-->
+                    <Label Text="{Binding  Candidato.Departamento.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                        IsVisible="{Binding  Candidato.Departamento.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Departamento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Picker
+                                ItemsSource="{Binding DepartamentosLista}"
+                                SelectedItem="{Binding Departamento}"  TextColor="Black"
+                               />
+                    </inputLayout:SfTextInputLayout>
+                    <!--/departamento-->
+
+                    <!--ciudad-->
+                    <Label Text="{Binding  Candidato.Ciudad.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding  Candidato.Ciudad.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Ciudad" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                        <Picker x:Name="pickerCiudades" TextColor="Black"
+                                ItemsSource="{Binding CiudadesLista}"
+                                SelectedItem="{Binding Candidato.Ciudad.Value}"
+                               />
+                    </inputLayout:SfTextInputLayout>
+                    <!--/ciudad-->
+                    
+                    <!--Password-->
+                    <Label Text="{Binding Candidato.Password.Item1.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding Candidato.Password.Item1.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="Contraseña"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6"
+                                                   EnablePasswordVisibilityToggle="true">
+                        <Entry Text="{Binding Candidato.Password.Item1.Value}" IsPassword="True" MaxLength="60" TextColor="Black">
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Password.Item1.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </inputLayout:SfTextInputLayout>
+                    <!--/Password-->
+
+                    <!-- confirm Password-->
+                    <Label Text="{Binding Candidato.Password.Item2.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding Candidato.Password.Item2.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                    <inputLayout:SfTextInputLayout Hint="confirmar contraseña"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6"
+                                                   EnablePasswordVisibilityToggle="true">
+                        <Entry Text="{Binding Candidato.Password.Item2.Value}" IsPassword="True" TextColor="Black">
+                            <Entry.Behaviors>
+                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Password.Item2.IsValid}"/>
+                            </Entry.Behaviors>
+                        </Entry>
+                    </inputLayout:SfTextInputLayout>
+                    <!--/confirm Password-->
+
+              
+                    
+                </StackLayout>
+            </ScrollView>
+            <Button x:Name="insertar"
+						FontFamily="Lato"
+						FontAttributes="Bold"
+						HorizontalOptions="Center"
+						Command="{Binding InsertCommand}"
+						FontSize="14"
+						TextColor="White"
+						BackgroundColor="#705E78"
+						VerticalOptions="EndAndExpand"
+						Text="SIGUIENTE"/>
+            <Button Text="¿Ya tienes una cuenta? Login"
+                    Command="{Binding SignInCommand}" FontAttributes="Bold"
+                    BackgroundColor="Transparent" TextColor="#cdfff4" />
+
+           
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

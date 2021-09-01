@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms" 
+             xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+             x:Class="ProyectoDIV1.Views.Candidato.CandidatoPage"
+             Title="{Binding Candidato.Candidato.Profesion}">
+    <ContentPage.Content>
+        <StackLayout Spacing="10" Margin="0,30,0,0">
+            <ScrollView>
+                <StackLayout VerticalOptions="Start">
+                    <cards:SfCardView Margin="15" Padding="0,10,0,10" CornerRadius="10">
+                        <StackLayout Orientation="Horizontal">
+                            <ffimageloading:CachedImage Aspect="AspectFit"
+                                                Source="{Binding Candidato.Candidato.Rutas.RutaImagenRegistro}" 
+                                                Margin="15,10,10,10"
+                                                WidthRequest="100"
+                                                CacheDuration= "50"
+                                                HeightRequest="150"
+                                                RetryCount= "3" 
+                                                RetryDelay= "600">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <fftransformations:CircleTransformation />
+                                </ffimageloading:CachedImage.Transformations>
+                            </ffimageloading:CachedImage>
+                            <StackLayout  VerticalOptions="CenterAndExpand">
+                                <Label FontSize="Body" TextColor="Black" FontAttributes="Bold" Text="{Binding Candidato.FullName}">
+                                    <Label.Margin>
+                                        <Thickness Left="8" />
+                                    </Label.Margin>
+                                </Label>
+                                <Label FontSize="Body" HorizontalOptions="Start" TextColor="Black" FontAttributes="Bold"
+                                       Text="{Binding Candidato.Candidato.Edad, StringFormat='{0} años'}">
+                                    <Label.Margin>
+                                        <Thickness Left="8" />
+                                    </Label.Margin>
+                                </Label>
+                                <Label>
+                                    <Label.Margin>
+                                        <Thickness Left="8" />
+                                    </Label.Margin>
+                                    <Label.FormattedText>
+                                        <FormattedString>
+                                            <Span Text="Profesión: " FontSize="Body" TextColor="Black" FontAttributes="Bold"/>
+                                            <Span Text="{Binding Candidato.Candidato.Profesion}" TextColor="Black" FontSize="Small" />
+                                        </FormattedString>
+                                    </Label.FormattedText>
+                                </Label>
+                                <StackLayout Margin="8,0,0,0">
+                                    <Label Text="Calificaciones" TextColor="{StaticResource ThirdOrange}" FontSize="Body" FontAttributes="Bold">
+                                    </Label>
+                                    <rating:SfRating
+                                     ItemSize="20"
+                                     Precision="Half" ReadOnly="True"
+                                     Value="{Binding Candidato.Calificacion}">
+                                        <rating:SfRating.RatingSettings>
+                                            <rating:SfRatingSettings RatedFill="Yellow" UnRatedFill="Gray" RatedStrokeWidth="3" UnRatedStrokeWidth="2"/>
+                                        </rating:SfRating.RatingSettings>
+                                    </rating:SfRating>
+                                </StackLayout>
+                            </StackLayout>
+                        </StackLayout>
+                    </cards:SfCardView>
+                    <cards:SfCardView Margin="15" Padding="10,0,10,0" CornerRadius="10">
+                        <StackLayout Padding="10">
+                            <Label Text="Habilidades y competencias" TextColor="{StaticResource ThirdOrange}" FontSize="Medium" FontAttributes="Bold"/>
+                            <StackLayout>
+                                <buttons:SfChipGroup x:Name="chipsHabilidades" 
+                                    ItemsSource="{Binding Candidato.Candidato.Habilidades}" 
+				                    ChipPadding="0,10,10,5" 
+                                    ChipBackgroundColor="{StaticResource Secondary}"
+                                    ChipTextColor="Black"
+                                    ChipTextSize="Body"
+                                    Type="Action"
+                                    IsEnabled="False"
+                       	            DisplayMemberPath="Nombre">
+                                    <buttons:SfChipGroup.ChipLayout>
+                                        <FlexLayout 
+						                    HorizontalOptions="Start" 
+						                    VerticalOptions="Center"
+						                    Direction="Row" 
+						                    Wrap="Wrap"
+						                    JustifyContent="Start"
+						                    AlignContent="Start" 
+						                    AlignItems="Start"/>
+                                    </buttons:SfChipGroup.ChipLayout>
+                                </buttons:SfChipGroup>
+                            </StackLayout>
+                        </StackLayout>
+                    </cards:SfCardView>             
+                </StackLayout>
+            </ScrollView>
+            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Margin="15">
+                <cards:SfCardView BackgroundColor="#252832" HorizontalOptions="StartAndExpand" CornerRadius="10,10,10,10">
+                    <buttons:SfButton  Text="Hoja de vida" FontSize="20" TextColor="White" FontAttributes="Bold"
+                              Command="{Binding ContactarCommand}" 
+                                       BorderWidth="2" BackgroundColor="Transparent"
+                                      ImageWidth="30" ImageAlignment="End" 
+                                      ShowIcon="True" ImageSource="icon_eye.png"/>
+                </cards:SfCardView>
+                <cards:SfCardView BackgroundColor="{StaticResource ThirdOrange}" HorizontalOptions="EndAndExpand" CornerRadius="10,10,10,10">
+                    <buttons:SfButton Text="Contactar" FontSize="20" TextColor="White" FontAttributes="Bold"
+                              Command="{Binding ContactarCommand}" 
+                                       BorderWidth="2" BackgroundColor="Transparent"
+                                      ImageWidth="30" ImageAlignment="End"
+                                      ShowIcon="True" ImageSource="icon_rightarrow.png"/>
+                </cards:SfCardView>
+            </StackLayout>
+           
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

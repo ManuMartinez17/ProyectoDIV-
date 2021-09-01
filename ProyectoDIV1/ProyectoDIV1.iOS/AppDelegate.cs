@@ -24,7 +24,7 @@ namespace ProyectoDIV1.iOS
         public override bool FinishedLaunching(UIApplication app, NSDictionary options)
         {
             global::Xamarin.Forms.Forms.Init();
-            
+            Xamarin.Forms.Forms.SetFlags(new string[] { "IndicatorView_Experimental" });
             Firebase.Core.App.Configure();
             BottomBar.Init();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();

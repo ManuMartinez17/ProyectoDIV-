@@ -4,7 +4,12 @@
        xmlns:local="clr-namespace:ProyectoDIV1.Views"
        xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
        xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
+       xmlns:account="clr-namespace:ProyectoDIV1.Views.Account"
+       xmlns:candidato="clr-namespace:ProyectoDIV1.Views.Candidato"
+       xmlns:empresa="clr-namespace:ProyectoDIV1.Views.Empresa"
+       xmlns:notificaciones="clr-namespace:ProyectoDIV1.Views.Notificaciones"
        x:Class="ProyectoDIV1.MasterEmpresaPage"
+       xmlns:badge="clr-namespace:Xam.Shell.Badge;assembly=Xam.Shell.Badge"
        xmlns:sys="clr-namespace:System;assembly=netstandard"
        FlyoutBackgroundImage="backgroundMasterC.jpg"
        FlyoutBackgroundImageAspect="AspectFit">
@@ -75,21 +80,26 @@
              Icon="_home.png">
             <ShellContent Title="Candidatos"
                           Icon="_home.png" 
-                          ContentTemplate="{DataTemplate local:CandidatosConServiciosPage}" />
+                          ContentTemplate="{DataTemplate candidato:CandidatosConServiciosPage}" />
             <ShellContent Title="Empresas"
                           Icon="dog.png" 
-                          ContentTemplate="{DataTemplate local:AboutPage}" />
+                          ContentTemplate="{DataTemplate empresa:EmpresasConServiciosPage}" />
+        </Tab>
+        <Tab Title="Notificaciones"
+             Icon="icon_bell.png"  
+             badge:Badge.BackgroundColor="Red"
+             badge:Badge.Text="{Binding Candidato.CantidadNotificaciones, TargetNullValue=''}">
+            <ShellContent Title="Candidatos"
+                          Icon="_user.png" 
+                          ContentTemplate="{DataTemplate notificaciones:NotficacionesEmpresasPage}" />
         </Tab>
         <ShellContent Title="Perfil"
                       Icon="icon_settings.png"
-                      ContentTemplate="{DataTemplate local:SettingsCandidatoPage}" />
+                      ContentTemplate="{DataTemplate empresa:SettingsEmpresaPage}" />
     </FlyoutItem>
     <ShellContent Route="LoginPage"
                    Shell.FlyoutBehavior="Disabled"
-                   ContentTemplate="{DataTemplate local:LoginPage}" />
-    <ShellContent Route="PerfilTrabajoPage"
-                   Shell.FlyoutBehavior="Disabled"
-                   ContentTemplate="{DataTemplate local:PerfilTrabajoPage}" />
+                   ContentTemplate="{DataTemplate account:LoginPage}" />
     <MenuItem Text="Cerrar Sesión" IconImageSource="icon_signOut.png" StyleClass="MenuItemLayoutStyle" Command="{Binding OnSignOut}">
     </MenuItem>
     <Shell.FlyoutHeaderTemplate>
