@@ -2,6 +2,7 @@
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.Services.Interfaces;
+using ProyectoDIV1.Views.Candidato;
 using System;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -15,6 +16,7 @@ namespace ProyectoDIV1.ViewModels
         public AboutViewModel()
         {
             _firebaseHelper = new FirebaseHelper();
+            CheckWhetherTheUserIsSignIn();
             OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://aka.ms/xamarin-quickstart"));
         }
         public ICommand OpenWebCommand { get; }
@@ -32,11 +34,12 @@ namespace ProyectoDIV1.ViewModels
                     if (candidato)
                     {
                         Application.Current.MainPage = new MasterCandidatoPage();
+                        await Shell.Current.GoToAsync(nameof(CandidatosConServiciosPage));
                     }
                     else if (empresa)
                     {
                         Application.Current.MainPage = new MasterEmpresaPage();
-
+                        await Shell.Current.GoToAsync(nameof(CandidatosConServiciosPage));
                     }
                 }
             }

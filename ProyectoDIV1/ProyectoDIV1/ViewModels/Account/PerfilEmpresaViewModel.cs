@@ -322,8 +322,9 @@ namespace ProyectoDIV1.ViewModels.Account
                         Settings.Empresa = JsonConvert.SerializeObject(entidad);
                         await _firebaseHelper.CrearAsync(entidad, Constantes.COLLECTION_EMPRESA);
                         Toasts.Error("Se ha registrado satisfactoriamente", 3000);
+                        Settings.IsLogin = true;
+                        Settings.TipoUsuario = Constantes.ROL_EMPRESA;
                         Application.Current.MainPage = new MasterEmpresaPage();
-                        await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
                     }
                     else
                     {

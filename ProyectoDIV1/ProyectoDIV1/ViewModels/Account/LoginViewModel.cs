@@ -100,10 +100,14 @@ namespace ProyectoDIV1.ViewModels.Account
                     bool empresa = await _firebaseHelper.GetUsuarioByEmailAsync<EEmpresa>(Constantes.COLLECTION_EMPRESA, Email);
                     if (candidato)
                     {
+                        Settings.IsLogin = true;
+                        Settings.TipoUsuario = Constantes.ROL_CANDIDATO;
                         Application.Current.MainPage = new MasterCandidatoPage();
                     }
                     else if (empresa)
                     {
+                        Settings.IsLogin = true;
+                        Settings.TipoUsuario = Constantes.ROL_EMPRESA;
                         Application.Current.MainPage = new MasterEmpresaPage();
                     }
                     UserDialogs.Instance.HideLoading();

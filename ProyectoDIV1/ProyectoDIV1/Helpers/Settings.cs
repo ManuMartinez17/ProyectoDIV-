@@ -17,14 +17,28 @@ namespace ProyectoDIV1.Helpers
         private static readonly string _archivosDefault = string.Empty;
         private const string _url = "url";
         private static readonly string _urlDefault = string.Empty;
+        private const string _tipoUsuario = "tipousuario";
+        private static readonly string _tipoUsuarioDefault = string.Empty;
+
+        private const string _isLogin = "isLogin";
+        private static readonly bool _boolDefault = false;
         private static ISettings AppSettings => CrossSettings.Current;
 
+        public static bool IsLogin
+        {
+            get => AppSettings.GetValueOrDefault(_isLogin, _boolDefault);
+            set => AppSettings.AddOrUpdateValue(_isLogin, value);
+        }
         public static string Usuario
         {
             get => AppSettings.GetValueOrDefault(_usuario, _usuarioDefault);
             set => AppSettings.AddOrUpdateValue(_usuario, value);
         }
-
+        public static string TipoUsuario
+        {
+            get => AppSettings.GetValueOrDefault(_tipoUsuario, _tipoUsuarioDefault);
+            set => AppSettings.AddOrUpdateValue(_tipoUsuario, value);
+        }
         public static string Archivos
         {
             get => AppSettings.GetValueOrDefault(_archivos, _archivosDefault);

@@ -1,4 +1,5 @@
-﻿using ProyectoDIV1.Entidades.Models;
+﻿using Newtonsoft.Json;
+using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Helpers;
@@ -24,7 +25,20 @@ namespace ProyectoDIV1
             }
             else
             {
-                MainPage = new MasterPage();
+                if (Settings.IsLogin)
+                {
+                    string rol = Settings.TipoUsuario;
+                    if (rol.Equals(Constantes.ROL_CANDIDATO))
+                    {
+                        MainPage = new MasterCandidatoPage();
+                    }
+                    else if (rol.Equals(Constantes.ROL_EMPRESA))
+                    {
+                        MainPage = new MasterEmpresaPage();
+                    }
+
+                }
+
             }
         }
         protected override void OnStart()

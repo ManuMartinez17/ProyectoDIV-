@@ -74,6 +74,8 @@ namespace ProyectoDIV1.ViewModels.Candidato
         {
             var authService = DependencyService.Resolve<IAuthenticationService>();
             authService.SignOut();
+            Settings.IsLogin = false;
+            Settings.TipoUsuario = null;
             Application.Current.MainPage = new MasterPage();
             await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
         }

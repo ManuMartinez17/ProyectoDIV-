@@ -226,6 +226,8 @@ namespace ProyectoDIV1.ViewModels.Account
                     Toasts.Success("Se ha registrado satisfactoriamente", 2000);
                     await Task.Delay(1000);
                     Settings.Candidato = null;
+                    Settings.IsLogin = true;
+                    Settings.TipoUsuario = Constantes.ROL_CANDIDATO;
                     Application.Current.MainPage = new MasterCandidatoPage();
                     await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
                 }

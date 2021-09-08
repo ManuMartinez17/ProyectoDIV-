@@ -93,6 +93,8 @@ namespace ProyectoDIV1.ViewModels.Empresa
         {
             var authService = DependencyService.Resolve<IAuthenticationService>();
             authService.SignOut();
+            Settings.IsLogin = false;
+            Settings.TipoUsuario = null;
             Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
         }
     }

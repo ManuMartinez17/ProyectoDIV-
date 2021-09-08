@@ -55,7 +55,7 @@
                     <inputLayout:SfTextInputLayout ContainerBackgroundColor="White">
                         <Entry Text="{Binding Email, Mode=TwoWay}" 
                            FontFamily="Lato"
-				            FontSize="14"
+				            FontSize="Medium"
                             Placeholder="Email"
                            BackgroundColor="White"
 				            TextColor="Black">
@@ -68,7 +68,7 @@
                                                    EnablePasswordVisibilityToggle="true" ReserveSpaceForAssistiveLabels="False">
                             <Entry
 				            FontFamily="Lato"
-				            FontSize="14"
+				            FontSize="Medium"
                                  Placeholder="Contraseña"
 				            TextColor="Black" BackgroundColor="White"
                             IsPassword="True"          
