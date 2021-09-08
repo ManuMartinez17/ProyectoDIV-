@@ -27,7 +27,7 @@ namespace ProyectoDIV1.ViewModels.Account
 
         private async void IrAregistro(object obj)
         {
-            await Shell.Current.GoToAsync(nameof(InicioRegistroPage));
+            await Shell.Current.GoToAsync($"//{nameof(InicioRegistroPage)}");
         }
 
         private async void OnResetPassword(object obj)

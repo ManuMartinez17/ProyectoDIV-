@@ -68,12 +68,17 @@
     </Shell.Resources>
     <FlyoutItem FlyoutDisplayOptions="AsSingleItem">
     </FlyoutItem>
+    <ShellContent Title="Acerca de"
+                      Icon="icon_about.png" Route="AboutPage"
+                      ContentTemplate="{DataTemplate local:AboutPage}" />
     <ShellContent Route="LoginPage"
                   Title="Login"
-                   ContentTemplate="{DataTemplate account:LoginPage}" />
+                  Icon="icon_signin.png"
+                  ContentTemplate="{DataTemplate account:LoginPage}" />
     <ShellContent Route="InicioRegistroPage"
                   Title="Registro"
-                   ContentTemplate="{DataTemplate account:InicioRegistroPage}" />
+                  Icon="icon_register.png"
+                  ContentTemplate="{DataTemplate account:InicioRegistroPage}" />
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>
             <StackLayout HorizontalOptions="Fill" VerticalOptions="Fill"

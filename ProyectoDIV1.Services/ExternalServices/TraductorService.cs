@@ -4,6 +4,7 @@ using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Services.Helpers;
 using RestSharp;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -14,34 +15,52 @@ namespace ProyectoDIV1.Services.ExternalServices
         public async Task<List<Job>> TraducirJobs(List<Job> data)
         {
             List<Job> jobs = new List<Job>();
-            await data.ParallelForEachAsync(async item =>
+            try
             {
-
-                //var result = await translator.TranslateAsync(item.name, LanguajeSpanish, LanguajeEnglish);
-                string palabra = await TraducirPalabra(item.name, Constantes.CodigoISOSpanish, Constantes.CodigoISOEnglish);
-                Job job = new Job()
+                await data.ParallelForEachAsync(async item =>
                 {
-                    name = palabra
-                };
-                jobs.Add(job);
-            }, maxDegreeOfParallelism: 10);
-            return jobs;
+                    //var result = await translator.TranslateAsync(item.name, LanguajeSpanish, LanguajeEnglish);
+                    string palabra = await TraducirPalabra(item.name, Constantes.CodigoISOSpanish, Constantes.CodigoISOEnglish);
+                    Job job = new Job()
+                    {
+                        name = palabra
+                    };
+                    jobs.Add(job);
+                }, maxDegreeOfParallelism: 10);
+
+                return jobs;
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return default;
+
         }
         public async Task<List<Skill>> TraducirSkills(List<Skill> data)
         {
             List<Skill> skills = new List<Skill>();
-            await data.ParallelForEachAsync(async item =>
+            try
             {
-
-                //var result = await translator.TranslateAsync(item.name, LanguajeSpanish, LanguajeEnglish);
-                string palabra = await TraducirPalabra(item.name, Constantes.CodigoISOSpanish, Constantes.CodigoISOEnglish);
-                Skill skill = new Skill()
+                await data.ParallelForEachAsync(async item =>
                 {
-                    name = palabra
-                };
-                skills.Add(skill);
-            }, maxDegreeOfParallelism: 10);
-            return skills;
+
+                    //var result = await translator.TranslateAsync(item.name, LanguajeSpanish, LanguajeEnglish);
+                    string palabra = await TraducirPalabra(item.name, Constantes.CodigoISOSpanish, Constantes.CodigoISOEnglish);
+                    Skill skill = new Skill()
+                    {
+                        name = palabra
+                    };
+                    skills.Add(skill);
+                }, maxDegreeOfParallelism: 10);
+
+                return skills;
+            }
+            catch (System.Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            return default;
         }
 
         public async Task<string> TraducirPalabra(string palabra, string idiomaTO, string idiomaFROM)

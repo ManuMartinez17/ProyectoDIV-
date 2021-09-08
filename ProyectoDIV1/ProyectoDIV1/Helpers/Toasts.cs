@@ -15,7 +15,6 @@ namespace ProyectoDIV1.Helpers
             toasconfig.SetDuration(duration);   
             toasconfig.SetMessageTextColor(Color.White);
             toasconfig.SetIcon("icon_check.png");
-          
             toasconfig.SetBackgroundColor(Color.FromArgb(72, 65,124));
             UserDialogs.Instance.Toast(toasconfig);
         }
@@ -24,7 +23,6 @@ namespace ProyectoDIV1.Helpers
             ToastConfig toasconfig = new ToastConfig(mensaje);
             toasconfig.SetDuration(duration);
             toasconfig.SetMessageTextColor(Color.White);
-
             toasconfig.SetIcon("icon_error.png");
             toasconfig.SetBackgroundColor(Color.FromArgb(199, 0, 36));
             UserDialogs.Instance.Toast(toasconfig);
@@ -35,7 +33,8 @@ namespace ProyectoDIV1.Helpers
             ToastConfig toasconfig = new ToastConfig(mensaje);
             toasconfig.SetDuration(duration);
             toasconfig.SetMessageTextColor(Color.White);
-            toasconfig.SetBackgroundColor(Color.FromArgb(72, 65, 124));
+            toasconfig.SetIcon("icon_about.png");
+            toasconfig.SetBackgroundColor(Color.FromArgb(252, 117, 88));
             UserDialogs.Instance.Toast(toasconfig);
         }
 

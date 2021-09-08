@@ -7,7 +7,6 @@ using ProyectoDIV1.Services.ExternalServices;
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.Services.Interfaces;
-using ProyectoDIV1.Views.Account;
 using ProyectoDIV1.Views.Candidato;
 using System;
 using System.Collections.ObjectModel;
@@ -35,16 +34,8 @@ namespace ProyectoDIV1.ViewModels.Buscadores
 
         private async void BackClicked()
         {
-            var authenticationService = DependencyService.Resolve<IAuthenticationService>();
-            if (authenticationService.IsSignIn())
-            {
-                await Shell.Current.GoToAsync("..");
-            }
-            else
-            {
-                Application.Current.MainPage = new NavigationPage();
-                await Application.Current.MainPage.Navigation.PushAsync(new PerfilTrabajoPage());
-            }
+            await Shell.Current.GoToAsync("..");
+
         }
 
         private async Task ExecuteInsertarJob(object param)
@@ -73,8 +64,7 @@ namespace ProyectoDIV1.ViewModels.Buscadores
                     else
                     {
                         Settings.Candidato = JsonConvert.SerializeObject(_candidato);
-                        Application.Current.MainPage = new NavigationPage();
-                        await Application.Current.MainPage.Navigation.PushAsync(new PerfilTrabajoPage());
+                        await Shell.Current.GoToAsync("..");
                     }
 
                 }
@@ -111,14 +101,23 @@ namespace ProyectoDIV1.ViewModels.Buscadores
         private async void LoadJobs(string value)
         {
             var token = JsonConvert.DeserializeObject<Token>(Settings.Token);
-            if (token != null && !string.IsNullOrWhiteSpace(value))
+            if (token == null)
             {
-                string palabra = await _traductor.TraducirPalabra(value, Constantes.CodigoISOEnglish, Constantes.CodigoISOSpanish);
-                var lista = await serviceJobsandSkills.GetListJobsAsync($"titles/versions/latest/titles?q=.{palabra}&limit=10", token.access_token);
-                var listadotraducido = await _traductor.TraducirJobs(lista.data);
-                TiposDeJobs = new ObservableCollection<Job>(listadotraducido);
+                var tokenNuevo = serviceJobsandSkills.GenerarToken();
+                Settings.Token = JsonConvert.SerializeObject(tokenNuevo);
+                token = tokenNuevo;
             }
-
+            else if (token.Expiration < DateTime.Now)
+            {
+                var tokenNuevo = serviceJobsandSkills.GenerarToken();
+                Settings.Token = JsonConvert.SerializeObject(tokenNuevo);
+                token = tokenNuevo;
+            }
+            string palabra = await _traductor.TraducirPalabra(value, Constantes.CodigoISOEnglish, Constantes.CodigoISOSpanish);
+            string palabraTraducida = ParsearUrlConCodigoPorciento(palabra);
+            var lista = await serviceJobsandSkills.GetListJobsAsync($"titles/versions/latest/titles?q=.{palabraTraducida}&limit=10", token.access_token);
+            var listadotraducido = await _traductor.TraducirJobs(lista.data);
+            TiposDeJobs = new ObservableCollection<Job>(listadotraducido);
         }
     }
 }

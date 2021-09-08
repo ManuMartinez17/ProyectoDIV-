@@ -11,7 +11,8 @@
             <Color x:Key="Primary">#55669F</Color>
             <Color x:Key="Secondary">#C9E0DD</Color>
             <Color x:Key="ThirdOrange">#ff8d5d</Color>
-        
+            <Color x:Key="PurpleDark">#252832</Color>
+
             <Color x:Key="Blue">#ff5722</Color>
             <Color x:Key="Orange">#ff5722</Color>
             <x:String x:Key="IconSearch">&#xE800;</x:String>
@@ -23,11 +24,12 @@
                 <Setter Property="FontSize" Value = "12"   />
             </Style>
             <Style TargetType="Button" x:Key="PrimaryButton" >
-                <Setter Property="BackgroundColor" Value="{StaticResource Orange}" />
+                <Setter Property="BackgroundColor" Value="{StaticResource ThirdOrange}" />
                 <Setter Property="TextColor" Value="White" />
+                <Setter Property="FontAttributes" Value="Bold" />
             </Style>
             <Style TargetType="Button" x:Key="SecondaryButton" >
-                <Setter Property="TextColor" Value="{StaticResource Blue}" />
+                <Setter Property="TextColor" Value="{StaticResource Primary}" />
                 <Setter Property="BackgroundColor" Value="Transparent" />
             </Style>
             <Style TargetType="Label" x:Key="HeaderLabel">

@@ -1,5 +1,10 @@
 ﻿using ProyectoDIV1.Models;
+using ProyectoDIV1.Views;
+using ProyectoDIV1.Views.Account;
+using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.ObjectModel;
+using System.Diagnostics;
 using System.Windows.Input;
 using Xamarin.Forms;
 
@@ -61,8 +66,25 @@ namespace ProyectoDIV1.ViewModels
             });
         }
 
-        private static void ExitOnBoarding()
-            => Application.Current.MainPage.Navigation.PopModalAsync();
+        private async static void ExitOnBoarding()
+        {
+            try
+            {
+                await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
+                Application.Current.MainPage = new MasterPage();
+                await Shell.Current.GoToAsync(nameof(LoginPage));
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                await PopupNavigation.Instance.PopAsync();
+            }
+
+        }
+
 
         private void MoveToNextPosition()
         {

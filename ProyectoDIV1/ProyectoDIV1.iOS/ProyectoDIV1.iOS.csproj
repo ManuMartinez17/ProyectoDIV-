@@ -159,7 +159,13 @@
     <PackageReference Include="Syncfusion.Xamarin.SfBadgeView">
       <Version>19.2.0.56</Version>
     </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfChat">
+      <Version>19.2.0.56</Version>
+    </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfListView">
+      <Version>19.2.0.56</Version>
+    </PackageReference>
+    <PackageReference Include="Syncfusion.Xamarin.SfPdfViewer">
       <Version>19.2.0.56</Version>
     </PackageReference>
     <PackageReference Include="Syncfusion.Xamarin.SfPicker">

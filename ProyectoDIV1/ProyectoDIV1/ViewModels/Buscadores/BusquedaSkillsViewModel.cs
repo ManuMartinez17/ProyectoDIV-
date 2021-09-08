@@ -41,16 +41,7 @@ namespace ProyectoDIV1.ViewModels.Buscadores
 
         private async void BackClicked()
         {
-            var authenticationService = DependencyService.Resolve<IAuthenticationService>();
-            if (authenticationService.IsSignIn())
-            {
-                await Shell.Current.GoToAsync("..");
-            }
-            else
-            {
-                Application.Current.MainPage = new NavigationPage();
-                await Application.Current.MainPage.Navigation.PushAsync(new PerfilTrabajoPage());
-            }
+            await Shell.Current.GoToAsync("..");
         }
 
         private void ExecuteBorrarSkills(object param)
@@ -107,14 +98,24 @@ namespace ProyectoDIV1.ViewModels.Buscadores
         private async void LoadSkills(string value)
         {
             var token = JsonConvert.DeserializeObject<Token>(Settings.Token);
-            if (token != null && !string.IsNullOrWhiteSpace(value))
+            if (token == null)
             {
-                string palabra = await _traductor.TraducirPalabra(value, Constantes.CodigoISOEnglish, Constantes.CodigoISOSpanish);
-                string palabraTraducida = ParsearUrlConCodigoPorciento(palabra);
-                var lista = await serviceJobsandSkills.GetListJobsRelatedSkills($"skills/versions/latest/skills?q=.{palabraTraducida}&limit=10", token.access_token);
-                var listadotraducido = await _traductor.TraducirSkills(lista.data);
-                TiposDeKills = new ObservableCollection<Skill>(listadotraducido);
+                var tokenNuevo = serviceJobsandSkills.GenerarToken();
+                Settings.Token = JsonConvert.SerializeObject(tokenNuevo);
+                token = tokenNuevo;
             }
+            else if (token.Expiration < DateTime.Now)
+            {
+                var tokenNuevo = serviceJobsandSkills.GenerarToken();
+                Settings.Token = JsonConvert.SerializeObject(tokenNuevo);
+                token = tokenNuevo;
+            }
+            string palabra = await _traductor.TraducirPalabra(value, Constantes.CodigoISOEnglish, Constantes.CodigoISOSpanish);
+            string palabraTraducida = ParsearUrlConCodigoPorciento(palabra);
+            var lista = await serviceJobsandSkills.GetListJobsRelatedSkills($"skills/versions/latest/skills?q=.{palabraTraducida}&limit=10",
+                token.access_token);
+            var listadotraducido = await _traductor.TraducirSkills(lista.data);
+            TiposDeKills = new ObservableCollection<Skill>(listadotraducido);
         }
 
         private async void OnGuardarClicked()
@@ -139,9 +140,8 @@ namespace ProyectoDIV1.ViewModels.Buscadores
                     }
                     else
                     {
-                        Application.Current.MainPage = new NavigationPage();
                         Settings.Candidato = JsonConvert.SerializeObject(_candidato);
-                        await Application.Current.MainPage.Navigation.PushAsync(new PerfilTrabajoPage());
+                        await Shell.Current.GoToAsync("..");
                     }
 
                 }

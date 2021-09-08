@@ -42,7 +42,7 @@
                 </inputLayout:SfTextInputLayout>
 
                 <SearchBar Placeholder="Busqueda de Profesión" BackgroundColor="#edf8f6"
-                               x:Name="searchJob" 
+                               x:Name="searchJob" Text="{Binding TextoJob}"
                                SearchCommand="{Binding SearchJobCommand}"
                                SearchCommandParameter="{Binding Text, Source={x:Reference searchJob}}"
                                >
@@ -62,6 +62,7 @@
                 <SearchBar Placeholder="Busqueda de habilidades" BackgroundColor="#edf8f6"
                                x:Name="searchSkills"
                                SearchCommand="{Binding SearchSkillsCommand}"
+                           Text="{Binding TextoSkill}"
                                SearchCommandParameter="{Binding Text, Source={x:Reference searchSkills}}"
                                >
                 </SearchBar>
@@ -75,13 +76,13 @@
                     </Label.FormattedText>
                 </Label>
                 <syncfusion:SfListView ItemsSource="{Binding Habilidades}" AutoFitMode="Height" ItemSpacing="5,5,5,5"
-                                       SelectionBackgroundColor="Transparent" >
+                                       SelectionBackgroundColor="Transparent">
                     <syncfusion:SfListView.ItemTemplate>
                         <DataTemplate>
                             <Frame Margin="10,10,10,0" CornerRadius="10" BackgroundColor="AliceBlue">
                                 <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Nombre}" FontAttributes="Bold"   TextColor="White" VerticalOptions="Center" FontSize="Default" />
-                                    <button:SfButton ImageSource="remove.png" ShowIcon="True" HorizontalTextAlignment="Center" VerticalOptions="Center"
+                                    <Label Text="{Binding Nombre}" FontAttributes="Bold"   TextColor="Black" VerticalOptions="Center" FontSize="Default" />
+                                    <button:SfButton ImageSource="remove.png" ShowIcon="True" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" VerticalOptions="Center"
                                                          BackgroundColor="Transparent"
                                                          Clicked="BorrarSkill_Clicked">
                                     </button:SfButton>

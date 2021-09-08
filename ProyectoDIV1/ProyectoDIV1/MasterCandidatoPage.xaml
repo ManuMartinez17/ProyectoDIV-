@@ -74,9 +74,6 @@
         </ResourceDictionary>
     </Shell.Resources>
     <FlyoutItem FlyoutDisplayOptions="AsMultipleItems">
-        <ShellContent Title="Acerca de"
-                      Icon="icon_about.png" Route="AboutPage"
-                      ContentTemplate="{DataTemplate local:AboutPage}" />
         <Tab Title="Servicios"
              Icon="_home.png">
             <ShellContent Title="Candidatos"

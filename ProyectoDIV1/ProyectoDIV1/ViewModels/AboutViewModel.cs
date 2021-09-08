@@ -2,8 +2,6 @@
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.Services.Interfaces;
-using ProyectoDIV1.Views;
-using ProyectoDIV1.Views.Account;
 using System;
 using System.Windows.Input;
 using Xamarin.Essentials;
@@ -13,32 +11,20 @@ namespace ProyectoDIV1.ViewModels
 {
     public class AboutViewModel : BaseViewModel
     {
-        private FirebaseHelper _firebaseHelper;
+        private readonly FirebaseHelper _firebaseHelper;
         public AboutViewModel()
         {
-            Title = "About";
             _firebaseHelper = new FirebaseHelper();
-            CheckWhetherTheUserIsSignIn();
             OpenWebCommand = new Command(async () => await Browser.OpenAsync("https://aka.ms/xamarin-quickstart"));
         }
+        public ICommand OpenWebCommand { get; }
 
-        private async void CheckWhetherTheUserIsSignIn()
+        public async void CheckWhetherTheUserIsSignIn()
         {
             try
             {
                 var authenticationService = DependencyService.Resolve<IAuthenticationService>();
-                if (!authenticationService.IsSignIn())
-                    if (VersionTracking.IsFirstLaunchEver)
-                    {
-                        Application.Current.MainPage = new NavigationPage();
-                        await Application.Current.MainPage.Navigation.PushModalAsync(new OnboardingPage());
-                    }
-                    else
-                    {
-                        Application.Current.MainPage = new MasterPage();
-                        await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
-                    }     
-                else
+                if (authenticationService.IsSignIn())
                 {
                     string Email = authenticationService.BuscarEmail();
                     bool candidato = await _firebaseHelper.GetUsuarioByEmailAsync<ECandidato>(Constantes.COLLECTION_CANDIDATO, Email);
@@ -50,6 +36,7 @@ namespace ProyectoDIV1.ViewModels
                     else if (empresa)
                     {
                         Application.Current.MainPage = new MasterEmpresaPage();
+
                     }
                 }
             }
@@ -58,7 +45,5 @@ namespace ProyectoDIV1.ViewModels
                 Console.WriteLine(e.Message);
             }
         }
-
-        public ICommand OpenWebCommand { get; }
     }
 }

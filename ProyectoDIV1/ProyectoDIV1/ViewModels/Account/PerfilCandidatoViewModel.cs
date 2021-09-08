@@ -6,6 +6,7 @@ using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Models;
 using ProyectoDIV1.Services.FirebaseServices;
+using ProyectoDIV1.Validators;
 using ProyectoDIV1.Validators.Rules;
 using ProyectoDIV1.Views;
 using ProyectoDIV1.Views.Account;
@@ -32,9 +33,10 @@ namespace ProyectoDIV1.ViewModels.Account
         private FileResult _curriculum;
         private ArchivosDTO _archivos;
         private CandidatoModel _candidato;
+        private ValidatableObject<string> _departamento;
+        private ValidatableObject<string> _ciudad;
         private string _textoupload;
         private bool _visibleUpload;
-        private string _departamento;
         private string _textoButtonUpload;
         private ObservableCollection<string> _departamentosLista;
         private ObservableCollection<string> _ciudadesLista;
@@ -46,6 +48,8 @@ namespace ProyectoDIV1.ViewModels.Account
             _firebaseStorage = new FirebaseStorageHelper();
             _archivos = new ArchivosDTO();
             _candidato = new CandidatoModel();
+            _departamento = new ValidatableObject<string>();
+            _ciudad = new ValidatableObject<string>();
             LoadDepartamentos();
             AddValidationRules();
             Imagen = Application.Current.Resources["IconDefault"].ToString();
@@ -54,14 +58,18 @@ namespace ProyectoDIV1.ViewModels.Account
             UploadCurriculumCommand = new Command(UploadCurriculum);
             SignInCommand = new Command(OnSignIn);
             VisibleUpload = false;
+            VerAyuda = new Command(VerHelpClicked);
             TextoButtonUpload = "hoja de vida pdf/docx";
             MaximumDate = DateTime.Today.AddYears(-18);
         }
+
+
 
         #endregion
 
         #region Commands
         public Command InsertCommand { get; }
+        public Command VerAyuda { get; }
         public Command CambiarImagenCommand { get; set; }
         public Command UploadCurriculumCommand { get; set; }
         public Command SignInCommand { get; }
@@ -97,6 +105,18 @@ namespace ProyectoDIV1.ViewModels.Account
             get => _visibleUpload;
             set => SetProperty(ref _visibleUpload, value);
         }
+        public ValidatableObject<string> Ciudad
+        {
+            get
+            {
+                return _ciudad;
+            }
+
+            set
+            {
+                SetProperty(ref _ciudad, value);
+            }
+        }
 
         public ObservableCollection<string> CiudadesLista
         {
@@ -105,13 +125,13 @@ namespace ProyectoDIV1.ViewModels.Account
         }
 
 
-        public string Departamento
+        public ValidatableObject<string> Departamento
         {
             get
             {
-                if (!string.IsNullOrEmpty(_departamento))
+                if (!string.IsNullOrEmpty(_departamento.Value))
                 {
-                    CiudadesLista = new ObservableCollection<string>(LoadCiudades(_departamento));
+                    CiudadesLista = new ObservableCollection<string>(LoadCiudades(_departamento.Value));
                 }
                 return _departamento;
             }
@@ -144,8 +164,8 @@ namespace ProyectoDIV1.ViewModels.Account
         {
             Candidato.Nombre.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Nombre requerido." });
             Candidato.Apellido.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Apellido requerido." });
-            Candidato.Departamento.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Departamento requerido." });
-            Candidato.Ciudad.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Ciudad requerida." });
+            Departamento.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Departamento requerido." });
+            Ciudad.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Ciudad requerida." });
             Candidato.FechaDeNacimiento.Validations.Add(new HasValidAgeRule<DateTime> { ValidationMessage = "Debes tener 18 años o más." });
             Candidato.Celular.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Celular requerido." });
             Candidato.Celular.Validations.Add(new IsLenghtValidRule<string> { ValidationMessage = "El celular debe tener 10 digitos", MaximunLenght = 10, MinimunLenght = 10 });
@@ -155,7 +175,7 @@ namespace ProyectoDIV1.ViewModels.Account
             Candidato.Email.Validations.Add(new IsValidEmailRule<string> { ValidationMessage = "Email invalido." });
             //Password Validation Rules
             Candidato.Password.Item1.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Contraseña Requerida." });
-            Candidato.Password.Item1.Validations.Add(new IsValidPasswordRule<string> { ValidationMessage = "Contraseña entre 8-20 caracteres; debe contener al menos una letra minúscula, una letra mayúscula, un dígito numérico y un carácter especial " });
+            Candidato.Password.Item1.Validations.Add(new IsValidPasswordRule<string> { ValidationMessage = "Contraseña entre 8-20 caracteres; debe contener al menos una letra minúscula, una letra mayúscula, un dígito numérico y un carácter especial." });
             Candidato.Password.Item2.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Confirme la contraseña requerida." });
             Candidato.Password.Validations.Add(new MatchPairValidationRule<string> { ValidationMessage = "La contraseña y la contraseña de confirmación no coinciden." });
 
@@ -163,12 +183,16 @@ namespace ProyectoDIV1.ViewModels.Account
 
         private bool ValidarFormulario()
         {
+            string ciudad = Ciudad.Value;
+            bool isDepartamentValid = Departamento.Validate();
+            Ciudad.Value = ciudad;
+            bool isCiudadValid = Ciudad.Validate();
             bool isFirstNameValid = Candidato.Nombre.Validate();
             bool isLastNameValid = Candidato.Apellido.Validate();
             bool isBirthDayValid = Candidato.FechaDeNacimiento.Validate();
             bool isPhoneNumberValid = Candidato.Celular.Validate();
-            bool isDepartamentValid = Candidato.Departamento.Validate();
-            bool isCiudadValid = Candidato.Ciudad.Validate();
+          
+
             bool isEmailValid = Candidato.Email.Validate();
             bool isPasswordValid = Candidato.Password.Validate();
             return isFirstNameValid && isLastNameValid && isBirthDayValid && isDepartamentValid && isCiudadValid
@@ -198,7 +222,11 @@ namespace ProyectoDIV1.ViewModels.Account
         #endregion
 
         #region Methods
-
+        private async void VerHelpClicked()
+        {
+            await PopupNavigation.Instance.PushAsync(new PopupVerAyudaPage("Contraseña entre 8-20 caracteres; debe contener al menos una letra minúscula," +
+                " una letra mayúscula, un dígito numérico y un carácter especial"));
+        }
         private async void UploadCurriculum()
         {
             var customFileType =
@@ -306,20 +334,16 @@ namespace ProyectoDIV1.ViewModels.Account
         {
             await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
             string RutaImagen = string.Empty;
+            string ciudad = string.Empty;
             string RutaArchivo = string.Empty;
             string nombreCurriculum = string.Empty;
             string nombreImagen = string.Empty;
             try
             {
-
-                Candidato.Ciudad.Value = Candidato.Ciudad.Value != null ? CiudadesLista.FirstOrDefault(x => x.Equals(Candidato.Ciudad.Value)) : null;
                 Candidato.Nombre.Value = Candidato.Nombre.Value != null ? Candidato.Nombre.Value.Trim() : null;
                 Candidato.Apellido.Value = Candidato.Apellido.Value != null ? Candidato.Apellido.Value.Trim() : null;
                 Candidato.Email.Value = Candidato.Email.Value != null ? Candidato.Email.Value.Trim() : null;
-                if (!string.IsNullOrEmpty(_departamento))
-                {
-                    Candidato.Departamento.Value = _departamento;
-                }
+                ciudad = Ciudad.Value;
                 if (ValidarFormulario())
                 {
                     bool existeEmail = await new CandidatoService().GetCandidatoByEmail(Candidato.Email.Value);
@@ -352,11 +376,11 @@ namespace ProyectoDIV1.ViewModels.Account
                         var entidad = new ECandidato
                         {
                             UsuarioId = Candidato.UsuarioId,
-                            Departamento = Candidato.Departamento.Value,
+                            Departamento = Departamento.Value,
                             Nombre = Candidato.Nombre.Value,
                             Apellido = Candidato.Apellido.Value,
                             Email = Candidato.Email.Value,
-                            Ciudad = Candidato.Ciudad.Value,
+                            Ciudad = Ciudad.Value,
                             Celular = Candidato.Celular.Value,
                             Edad = age,
                             Rutas =
@@ -368,11 +392,11 @@ namespace ProyectoDIV1.ViewModels.Account
                         _archivos.Password = Candidato.Password.Item1.Value;
                         Settings.Archivos = JsonConvert.SerializeObject(_archivos);
                         Settings.Candidato = JsonConvert.SerializeObject(entidad);
-                        await Shell.Current.GoToAsync($"//{nameof(PerfilTrabajoPage)}");
+                        await Shell.Current.GoToAsync(nameof(PerfilTrabajoPage));
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alerta", $"el email {Candidato.Email.Value} ya esta en uso.", "OK");
+                        Toasts.Error($"el correo {Candidato.Email.Value} ya esta en uso.", 3000);
                     }
 
                 }
@@ -381,12 +405,17 @@ namespace ProyectoDIV1.ViewModels.Account
             {
                 if (ex.Message.ToUpper().Contains("EMAIL"))
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alerta", "El correo ya esta en uso.", "OK");
+                    Toasts.Error($"el correo {Candidato.Email.Value} ya esta en uso.", 3000);
                 }
-                await Application.Current.MainPage.DisplayAlert("Alerta", $"{ex.Message}", "OK");
+                else
+                {
+                    Toasts.Error($"Error {ex.Message}", 3000);
+                }
             }
             finally
             {
+                Ciudad.Value = ciudad;
+                Ciudad.Value = Ciudad.Value != null ? CiudadesLista.FirstOrDefault(x => x.Equals(Ciudad.Value)) : null;
                 await PopupNavigation.Instance.PopAsync();
             }
         }

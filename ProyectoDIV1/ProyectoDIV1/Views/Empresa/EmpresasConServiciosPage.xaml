@@ -69,16 +69,14 @@
                                             </FormattedString>
                                         </Label.FormattedText>
                                     </Label>
-                                    <StackLayout Orientation="Horizontal">
-                                        <rating:SfRating
+                                    <rating:SfRating
                                      Precision="Half" ReadOnly="True" VerticalOptions="EndAndExpand" ItemSize="18"
                                      Value="{Binding Calificacion}">
-                                            <rating:SfRating.RatingSettings>
-                                                <rating:SfRatingSettings RatedFill="Yellow" UnRatedFill="Gray" RatedStrokeWidth="3" UnRatedStrokeWidth="2"/>
-                                            </rating:SfRating.RatingSettings>
-                                        </rating:SfRating>
-                                        <Label Text="{Binding CantidadCalificaciones, StringFormat='{0} Calificaciones', TargetNullValue='0 Calificaciones'}"/>
-                                    </StackLayout>
+                                        <rating:SfRating.RatingSettings>
+                                            <rating:SfRatingSettings RatedFill="Yellow" UnRatedFill="Gray" RatedStrokeWidth="3" UnRatedStrokeWidth="2"/>
+                                        </rating:SfRating.RatingSettings>
+                                    </rating:SfRating>
+                                    <Label TextColor="Black" Text="{Binding CantidadCalificaciones, StringFormat='{0} Calificaciones', TargetNullValue='0 Calificaciones'}"/>
                                 </StackLayout>
                             </StackLayout>
                         </Frame>

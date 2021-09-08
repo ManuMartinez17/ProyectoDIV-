@@ -18,6 +18,7 @@ using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Threading.Tasks;
+using System.Web;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels.Account
@@ -30,6 +31,8 @@ namespace ProyectoDIV1.ViewModels.Account
         private Token _token;
         private ECandidato _candidatoReceived = new ECandidato();
         private ArchivosDTO _archivos = new ArchivosDTO();
+        private string _textoJob;
+        private string _textoSkill;
         private ObservableCollection<Lista> _habilidades;
         JobAndSkillService serviceJobsandSkills = new JobAndSkillService();
         private FirebaseStorageHelper _FirebaseStorageHelper;
@@ -45,7 +48,6 @@ namespace ProyectoDIV1.ViewModels.Account
             _archivos = JsonConvert.DeserializeObject<ArchivosDTO>(Settings.Archivos);
             CandidatoReceived = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
             RegisterCommand = new Command(RegistrarClicked);
-            SignInCommand = new Command(OnSignInClicked);
             SearchJobCommand = new Command(async (text) => await ExecuteBusquedaJob(text));
             SearchSkillsCommand = new Command(async (text) => await ExecuteBusquedaSkills(text));
         }
@@ -59,14 +61,19 @@ namespace ProyectoDIV1.ViewModels.Account
                 if (!string.IsNullOrWhiteSpace(texto))
                 {
                     Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
-                    Application.Current.MainPage = new MasterCandidatoPage();
+                       _textoJob = texto;
+                    texto = HttpUtility.UrlEncode(texto);
                     await Shell.Current.GoToAsync($"{nameof(BusquedaJobPage)}?{nameof(BusquedaJobViewModel.Texto)}={texto}");
-                    await PopupNavigation.Instance.PopAsync();
+
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                await PopupNavigation.Instance.PopAsync();
             }
         }
 
@@ -79,15 +86,20 @@ namespace ProyectoDIV1.ViewModels.Account
                 if (!string.IsNullOrWhiteSpace(texto))
                 {
                     Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
-                    Application.Current.MainPage = new MasterCandidatoPage();
+                    _textoSkill = texto;
+                    texto = HttpUtility.UrlEncode(texto);
                     await Shell.Current.GoToAsync($"{nameof(BusquedaSkillsPage)}?{nameof(BusquedaSkillsViewModel.Texto)}={texto}");
-                    await PopupNavigation.Instance.PopAsync();
+
                 }
             }
             catch (Exception ex)
             {
 
                 Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                await PopupNavigation.Instance.PopAsync();
             }
         }
 
@@ -101,7 +113,6 @@ namespace ProyectoDIV1.ViewModels.Account
 
         #region commands
         public Command RegisterCommand { get; set; }
-        public Command SignInCommand { get; set; }
         public Command BorrarHabilidadCommand
         {
             get
@@ -134,7 +145,16 @@ namespace ProyectoDIV1.ViewModels.Account
 
             }
         }
-
+        public string TextoJob
+        {
+            get { return _textoJob; }
+            set { SetProperty(ref _textoJob, value); }
+        }
+        public string TextoSkill
+        {
+            get { return _textoSkill; }
+            set { SetProperty(ref _textoSkill, value); }
+        }
         public ObservableCollection<Lista> Habilidades
         {
             get { return _habilidades; }
@@ -143,6 +163,10 @@ namespace ProyectoDIV1.ViewModels.Account
         #endregion
 
         #region methods
+        public void OnAppearing()
+        {
+            CandidatoReceived = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
+        }
         private void GenerarToken()
         {
             if (_token == null)
@@ -160,10 +184,6 @@ namespace ProyectoDIV1.ViewModels.Account
             }
         }
 
-        private async void OnSignInClicked()
-        {
-            await Application.Current.MainPage.Navigation.PushAsync(new LoginPage());
-        }
 
         private async void RegistrarClicked()
         {
@@ -203,8 +223,8 @@ namespace ProyectoDIV1.ViewModels.Account
                     }
                     await _firebase.CrearAsync(CandidatoReceived, Constantes.COLLECTION_CANDIDATO);
                     UserDialogs.Instance.HideLoading();
-                    UserDialogs.Instance.Toast("se ha registrado satisfactoriamente", TimeSpan.FromSeconds(2));
-                    await Task.Delay(2000);
+                    Toasts.Success("Se ha registrado satisfactoriamente", 2000);
+                    await Task.Delay(1000);
                     Settings.Candidato = null;
                     Application.Current.MainPage = new MasterCandidatoPage();
                     await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");

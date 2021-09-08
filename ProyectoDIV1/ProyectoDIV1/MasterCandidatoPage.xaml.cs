@@ -2,6 +2,7 @@
 using ProyectoDIV1.Views.Account;
 using ProyectoDIV1.Views.Buscadores;
 using ProyectoDIV1.Views.Candidato;
+using ProyectoDIV1.Views.Chat;
 using ProyectoDIV1.Views.Empresa;
 using System;
 using System.Collections.Generic;
@@ -27,12 +28,14 @@ namespace ProyectoDIV1
         private void RegisterRoutes()
         {
             routes.Add(nameof(BusquedaJobPage), typeof(BusquedaJobPage));
+            routes.Add(nameof(ChatCandidatoPage), typeof(ChatCandidatoPage));
             routes.Add(nameof(ForgotPasswordPage), typeof(ForgotPasswordPage));
             routes.Add(nameof(InicioRegistroPage), typeof(InicioRegistroPage));
             routes.Add(nameof(PerfilCandidatoPage), typeof(PerfilCandidatoPage));
             routes.Add(nameof(PerfilEmpresaPage), typeof(PerfilEmpresaPage));
             routes.Add(nameof(BusquedaSkillsPage), typeof(BusquedaSkillsPage));
             routes.Add(nameof(CandidatoPage), typeof(CandidatoPage));
+            routes.Add(nameof(VerHojaDeVidaPage), typeof(VerHojaDeVidaPage));
             routes.Add(nameof(EmpresaPage), typeof(EmpresaPage));
             routes.Add(nameof(EditarHojaDeVidaPage), typeof(EditarHojaDeVidaPage));
             foreach (var item in routes)

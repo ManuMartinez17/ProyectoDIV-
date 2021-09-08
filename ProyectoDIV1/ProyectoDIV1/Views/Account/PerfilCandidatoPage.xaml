@@ -6,10 +6,14 @@
              xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters" 
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"   
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              x:Class="ProyectoDIV1.Views.Account.PerfilCandidatoPage" BackgroundImage="registro.jpg"
                Shell.FlyoutBehavior="Disabled"
                Shell.BackgroundColor="{StaticResource Primary}" Title="Registro de candidato">
+
+    <ContentPage.ToolbarItems>
+        <ToolbarItem IconImageSource="icon_info.png" Priority="0" Command="{Binding VerAyuda}" Order="Primary"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <converter:InverseBoolConverter x:Key="InverseBoolConverter"/>
@@ -114,25 +118,25 @@
                     <!--/celular-->
                     
                     <!--departamento-->
-                    <Label Text="{Binding  Candidato.Departamento.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
-                        IsVisible="{Binding  Candidato.Departamento.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                    <Label Text="{Binding  Departamento.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
+                        IsVisible="{Binding  Departamento.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Departamento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
                         <Picker
                                 ItemsSource="{Binding DepartamentosLista}"
-                                SelectedItem="{Binding Departamento}"  TextColor="Black"
+                                SelectedItem="{Binding Departamento.Value}"  TextColor="Black"
                                />
                     </inputLayout:SfTextInputLayout>
                     <!--/departamento-->
 
                     <!--ciudad-->
-                    <Label Text="{Binding  Candidato.Ciudad.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                        IsVisible="{Binding  Candidato.Ciudad.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                    <Label Text="{Binding Ciudad.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding  Ciudad.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Ciudad" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
                         <Picker x:Name="pickerCiudades" TextColor="Black"
                                 ItemsSource="{Binding CiudadesLista}"
-                                SelectedItem="{Binding Candidato.Ciudad.Value}"
+                                SelectedItem="{Binding Ciudad.Value}"
                                />
                     </inputLayout:SfTextInputLayout>
                     <!--/ciudad-->

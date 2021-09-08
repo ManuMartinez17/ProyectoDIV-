@@ -70,11 +70,12 @@ namespace ProyectoDIV1.ViewModels.Candidato
                        );
         }
 
-        private void CerrarSesion()
+        private async void CerrarSesion()
         {
             var authService = DependencyService.Resolve<IAuthenticationService>();
             authService.SignOut();
-            Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
+            Application.Current.MainPage = new MasterPage();
+            await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
         }
 
         public Command OnSignOut { get; set; }

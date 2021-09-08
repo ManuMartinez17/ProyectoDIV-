@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:sfChat="clr-namespace:Syncfusion.XForms.Chat;assembly=Syncfusion.SfChat.XForms"
+             x:Class="ProyectoDIV1.Views.Chat.ChatCandidatoPage">
+    <ContentPage.Content>
+        <StackLayout>
+            <sfChat:SfChat x:Name="sfChat"
+                       Messages="{Binding Messages}"
+                       ShowTimeBreak="True"
+                       ShowIncomingMessageTimestamp="True"
+                       ShowOutgoingMessageTimestamp="True"
+                       IncomingMessageTimestampFormat="hh:mm tt"
+                       OutgoingMessageTimestampFormat="hh:mm tt"
+                       CurrentUser="{Binding CurrentUserEmisor}"
+                       AutomationId="SyncfusionChat"
+                       ShowOutgoingMessageAvatar="True"/>
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

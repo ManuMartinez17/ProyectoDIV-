@@ -37,6 +37,7 @@ namespace ProyectoDIV1.ViewModels.Empresa
         public Command LoadEmpresasCommand { get; }
         public Command MoreInformationCommand { get; }
         #endregion
+
         #region Properties
         public ObservableCollection<EmpresaDTO> Empresas
         {

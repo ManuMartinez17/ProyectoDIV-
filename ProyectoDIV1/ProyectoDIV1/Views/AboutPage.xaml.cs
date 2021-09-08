@@ -11,11 +11,17 @@ namespace ProyectoDIV1.Views
     [DesignTimeVisible(false)]
     public partial class AboutPage : ContentPage
     {
+        private AboutViewModel _viewModel;
         public AboutPage()
         {
             InitializeComponent();
-           
-            BindingContext = new AboutViewModel();
+
+            BindingContext = _viewModel = new AboutViewModel();
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.CheckWhetherTheUserIsSignIn();
         }
     }
 }

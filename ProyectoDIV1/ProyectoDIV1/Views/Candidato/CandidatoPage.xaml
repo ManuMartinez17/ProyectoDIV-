@@ -96,7 +96,7 @@
             <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Margin="15">
                 <cards:SfCardView BackgroundColor="#252832" HorizontalOptions="StartAndExpand" CornerRadius="10,10,10,10">
                     <buttons:SfButton  Text="Hoja de vida" FontSize="20" TextColor="White" FontAttributes="Bold"
-                              Command="{Binding ContactarCommand}" 
+                              Command="{Binding VerHojaDeVidaCommand}" 
                                        BorderWidth="2" BackgroundColor="Transparent"
                                       ImageWidth="30" ImageAlignment="End" 
                                       ShowIcon="True" ImageSource="icon_eye.png"/>

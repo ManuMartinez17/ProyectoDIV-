@@ -15,6 +15,8 @@ namespace ProyectoDIV1.Helpers
         private static readonly string _tokenDefault = string.Empty;
         private const string _archivos = "archivos";
         private static readonly string _archivosDefault = string.Empty;
+        private const string _url = "url";
+        private static readonly string _urlDefault = string.Empty;
         private static ISettings AppSettings => CrossSettings.Current;
 
         public static string Usuario
@@ -36,6 +38,11 @@ namespace ProyectoDIV1.Helpers
             set => AppSettings.AddOrUpdateValue(_candidato, value);
         }
 
+        public static string Url
+        {
+            get => AppSettings.GetValueOrDefault(_url, _urlDefault);
+            set => AppSettings.AddOrUpdateValue(_url, value);
+        }
         public static string Empresa
         {
             get => AppSettings.GetValueOrDefault(_empresa, _empresaDefault);

@@ -1,5 +1,6 @@
 ﻿using Acr.UserDialogs;
 using ProyectoDIV1.Entidades.Models;
+using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.Services.Interfaces;
@@ -106,13 +107,12 @@ namespace ProyectoDIV1.ViewModels.Account
                         Application.Current.MainPage = new MasterEmpresaPage();
                     }
                     UserDialogs.Instance.HideLoading();
-                    await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
                 }
                 catch (Exception ex)
                 {
                     Debug.WriteLine(ex.Message);
                     UserDialogs.Instance.HideLoading();
-                    await Application.Current.MainPage.DisplayAlert("Alert", "La contraseña o email es invalido", "OK");
+                    Toasts.Error("La contraseña y/o email es invalido.", 3000);
                 }
             }
         }

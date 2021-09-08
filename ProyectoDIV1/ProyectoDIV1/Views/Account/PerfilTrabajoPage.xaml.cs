@@ -10,18 +10,23 @@ namespace ProyectoDIV1.Views.Account
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class PerfilTrabajoPage : ContentPage
     {
+        PerfilTrabajoViewModel _viewModel;
         public PerfilTrabajoPage()
         {
             InitializeComponent();
-            BindingContext = new PerfilTrabajoViewModel();
+            BindingContext = _viewModel = new PerfilTrabajoViewModel();
         }
 
         private void BorrarSkill_Clicked(object sender, EventArgs e)
         {
             var button = sender as SfButton;
             var skill = button?.BindingContext as Lista;
-            var vm = BindingContext as PerfilTrabajoViewModel;
-            vm?.BorrarHabilidadCommand.Execute(skill);
+            _viewModel?.BorrarHabilidadCommand.Execute(skill);
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.OnAppearing();
         }
     }
 }

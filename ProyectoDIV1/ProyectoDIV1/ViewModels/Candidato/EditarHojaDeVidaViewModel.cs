@@ -139,10 +139,10 @@ namespace ProyectoDIV1.ViewModels.Candidato
                     _candidato.Rutas.RutaArchivoRegistro = RutaArchivo;
                     var query = await _candidatoService.GetCandidatoFirebaseObjectAsync(_candidato.UsuarioId);
                     await _firebase.UpdateAsync(_candidato, Constantes.COLLECTION_CANDIDATO, query);
-                    UserDialogs.Instance.Toast("Se ha actualizado satisfactoriamente.");
-                    await Task.Delay(1000);
+                    Toasts.Success("Se actualizo la hoja de vida.", 2000);
+                    await Task.Delay(2000);
                     Settings.Usuario = JsonConvert.SerializeObject(_candidato);
-                    await Shell.Current.GoToAsync($"../../{nameof(SettingsCandidatoPage)}");
+                    Extension = $"Hoja de vida{Path.GetExtension(_candidato.Rutas.NombreArchivoRegistro)}";
                 }
             }
             catch (Exception ex)
