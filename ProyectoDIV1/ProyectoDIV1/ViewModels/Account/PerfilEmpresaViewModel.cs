@@ -1,5 +1,4 @@
-﻿using Acr.UserDialogs;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using Plugin.Media;
 using Plugin.Media.Abstractions;
 using ProyectoDIV1.Entidades.Models;
@@ -181,7 +180,6 @@ namespace ProyectoDIV1.ViewModels.Account
         #endregion
 
         #region Methods
-
         private async void UploadcamaraDeComercio()
         {
             var customFileType =
@@ -323,26 +321,23 @@ namespace ProyectoDIV1.ViewModels.Account
 
                         Settings.Empresa = JsonConvert.SerializeObject(entidad);
                         await _firebaseHelper.CrearAsync(entidad, Constantes.COLLECTION_EMPRESA);
-                        UserDialogs.Instance.Toast("Se ha registrado satisfactoriamente", TimeSpan.FromSeconds(2));
+                        Toasts.Error("Se ha registrado satisfactoriamente", 3000);
                         Application.Current.MainPage = new MasterEmpresaPage();
                         await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
                     }
                     else
                     {
-                        await Application.Current.MainPage.DisplayAlert("Alerta", $"el email {Empresa.Email.Value} ya existe", "OK");
+                        Toasts.Error($"el correo {Empresa.Email.Value} ya esta en uso.", 3000);
                     }
                 }
             }
             catch (Exception ex)
             {
-
                 if (ex.Message.ToUpper().Contains("EMAIL"))
                 {
-                    await Application.Current.MainPage.DisplayAlert("Alerta", "El correo ya esta en uso.", "OK");
-                    return;
+                    Toasts.Error($"el correo {Empresa.Email.Value} ya esta en uso.", 3000);
                 }
-                await Application.Current.MainPage.DisplayAlert("Alerta", $"{ex.Message}", "OK");
-                return;
+                Toasts.Error($"el correo {ex.Message} ya esta en uso.", 3000);
             }
         }
 
