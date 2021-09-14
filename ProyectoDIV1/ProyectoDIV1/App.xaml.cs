@@ -1,11 +1,7 @@
-﻿using Newtonsoft.Json;
-using ProyectoDIV1.Entidades.Models;
-using ProyectoDIV1.Helpers;
+﻿using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Helpers;
-using ProyectoDIV1.Services.Interfaces;
 using ProyectoDIV1.Views;
-using System;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -37,6 +33,10 @@ namespace ProyectoDIV1
                         MainPage = new MasterEmpresaPage();
                     }
 
+                }
+                else
+                {
+                    MainPage = new MasterPage();
                 }
 
             }

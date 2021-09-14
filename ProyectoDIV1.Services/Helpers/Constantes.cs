@@ -6,6 +6,8 @@ namespace ProyectoDIV1.Services.Helpers
 {
     public static class Constantes
     {
+        public static readonly string SEARCH_JOB = "buscadorJobs";
+        public static readonly string SEARCH_SKILL = "buscadorSkills";
         public static readonly string ROL_CANDIDATO = "Candidato";
         public static readonly string ROL_EMPRESA = "Empresa";
         public static readonly string CARPETA_CAMARADECOMERCIO = "camaradecomercio";

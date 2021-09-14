@@ -1,5 +1,4 @@
-﻿using Acr.UserDialogs;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Services;
@@ -7,11 +6,13 @@ using ProyectoDIV1.Services.ExternalServices;
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.Services.Interfaces;
+using ProyectoDIV1.Views;
 using ProyectoDIV1.Views.Candidato;
+using Rg.Plugins.Popup.Services;
 using System;
+using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
-using System.Threading.Tasks;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels.Buscadores
@@ -19,6 +20,7 @@ namespace ProyectoDIV1.ViewModels.Buscadores
     [QueryProperty(nameof(Texto), nameof(Texto))]
     public class BusquedaJobViewModel : BaseViewModel
     {
+        private IEnumerable<object> _items;
         private string _texto;
         private ECandidato _candidato = new ECandidato();
         private TraductorService _traductor;
@@ -29,22 +31,17 @@ namespace ProyectoDIV1.ViewModels.Buscadores
             _traductor = new TraductorService();
             _candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
             BackCommand = new Command(BackClicked);
-            InsertarCommand = new Command(async (param) => await ExecuteInsertarJob(param));
+            InsertarCommand = new Command<object>(JobSelected, CanNavigate);
         }
 
-        private async void BackClicked()
+        private async void JobSelected(object objeto)
         {
-            await Shell.Current.GoToAsync("..");
-
-        }
-
-        private async Task ExecuteInsertarJob(object param)
-        {
-
-            var job = param as Job;
+            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage("Guardando..."));
+            var lista = objeto as Syncfusion.ListView.XForms.ItemTappedEventArgs;
+            var job = lista.ItemData as Job;
             try
             {
-                UserDialogs.Instance.ShowLoading("guardando...");
+
                 if (job != null)
                 {
                     if (_candidato == null)
@@ -54,12 +51,9 @@ namespace ProyectoDIV1.ViewModels.Buscadores
                     _candidato.Profesion = job.name;
                     var authenticationService = DependencyService.Resolve<IAuthenticationService>();
                     if (authenticationService.IsSignIn())
-                    {
-                        await Shell.Current.GoToAsync("..");
-                        var query = await new CandidatoService().GetCandidatoFirebaseObjectAsync(_candidato.UsuarioId);
-                        await new FirebaseHelper().UpdateAsync(_candidato, Constantes.COLLECTION_CANDIDATO, query);
+                    {               
                         Settings.Usuario = JsonConvert.SerializeObject(_candidato);
-                        await Shell.Current.GoToAsync($"../../{nameof(EditarHojaDeVidaPage)}");
+                        await Shell.Current.GoToAsync("..");
                     }
                     else
                     {
@@ -75,10 +69,20 @@ namespace ProyectoDIV1.ViewModels.Buscadores
             }
             finally
             {
-                UserDialogs.Instance.HideLoading();
+                await PopupNavigation.Instance.PopAllAsync();
             }
         }
 
+        private bool CanNavigate(object argument)
+        {
+            return true;
+        }
+
+        private async void BackClicked()
+        {
+            await Shell.Current.GoToAsync("..");
+
+        }
         public string Texto
         {
             get
@@ -91,6 +95,11 @@ namespace ProyectoDIV1.ViewModels.Buscadores
                 LoadJobs(value);
             }
         }
+        public IEnumerable<object> Items
+        {
+            get { return _items; }
+            set { SetProperty(ref _items, value); }
+        }
         public Command BackCommand { get; set; }
         public Command InsertarCommand { get; set; }
         public ObservableCollection<Job> TiposDeJobs
@@ -100,24 +109,36 @@ namespace ProyectoDIV1.ViewModels.Buscadores
         }
         private async void LoadJobs(string value)
         {
-            var token = JsonConvert.DeserializeObject<Token>(Settings.Token);
-            if (token == null)
+            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
+            try
             {
-                var tokenNuevo = serviceJobsandSkills.GenerarToken();
-                Settings.Token = JsonConvert.SerializeObject(tokenNuevo);
-                token = tokenNuevo;
+                var token = JsonConvert.DeserializeObject<Token>(Settings.Token);
+                if (token == null)
+                {
+                    var tokenNuevo = serviceJobsandSkills.GenerarToken();
+                    Settings.Token = JsonConvert.SerializeObject(tokenNuevo);
+                    token = tokenNuevo;
+                }
+                else if (token.Expiration < DateTime.Now)
+                {
+                    var tokenNuevo = serviceJobsandSkills.GenerarToken();
+                    Settings.Token = JsonConvert.SerializeObject(tokenNuevo);
+                    token = tokenNuevo;
+                }
+                string palabra = await _traductor.TraducirPalabra(value, Constantes.CodigoISOEnglish, Constantes.CodigoISOSpanish);
+                string palabraTraducida = ParsearUrlConCodigoPorciento(palabra);
+                var lista = await serviceJobsandSkills.GetListJobsAsync($"titles/versions/latest/titles?q=.{palabraTraducida}&limit=10", token.access_token);
+                var listadotraducido = await _traductor.TraducirJobs(lista.data);
+                TiposDeJobs = new ObservableCollection<Job>(listadotraducido);
             }
-            else if (token.Expiration < DateTime.Now)
+            catch (Exception ex)
             {
-                var tokenNuevo = serviceJobsandSkills.GenerarToken();
-                Settings.Token = JsonConvert.SerializeObject(tokenNuevo);
-                token = tokenNuevo;
+                Debug.WriteLine(ex.Message);
             }
-            string palabra = await _traductor.TraducirPalabra(value, Constantes.CodigoISOEnglish, Constantes.CodigoISOSpanish);
-            string palabraTraducida = ParsearUrlConCodigoPorciento(palabra);
-            var lista = await serviceJobsandSkills.GetListJobsAsync($"titles/versions/latest/titles?q=.{palabraTraducida}&limit=10", token.access_token);
-            var listadotraducido = await _traductor.TraducirJobs(lista.data);
-            TiposDeJobs = new ObservableCollection<Job>(listadotraducido);
+            finally
+            {
+                await PopupNavigation.Instance.PopAllAsync();
+            }
         }
     }
 }

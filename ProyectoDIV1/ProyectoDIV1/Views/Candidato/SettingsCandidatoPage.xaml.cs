@@ -8,10 +8,16 @@ namespace ProyectoDIV1.Views.Candidato
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class SettingsCandidatoPage : ContentPage
     {
+        private SettingsCandidatoViewModel _viewModel;
         public SettingsCandidatoPage()
         {
             InitializeComponent();
-            BindingContext = new SettingsCandidatoViewModel();
+            BindingContext = _viewModel = new SettingsCandidatoViewModel();
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.OnAppearing();
         }
     }
 }

@@ -78,7 +78,7 @@ namespace ProyectoDIV1.ViewModels.Candidato
         {
             var candidato = await _candidatoService.GetCandidatoAsync(_candidato.UsuarioId);
             Settings.Candidato = JsonConvert.SerializeObject(candidato);
-            await PopupNavigation.Instance.PushAsync(new BuscadorPage());
+            await PopupNavigation.Instance.PushAsync(new BuscadorPage(Constantes.SEARCH_SKILL));
         }
 
         private async void DescargarCurriculum()

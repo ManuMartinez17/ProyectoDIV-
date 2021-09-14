@@ -66,7 +66,7 @@
                                 </Label>
                             </StackLayout>
                             <buttons:SfButton VerticalOptions="Center" ImageWidth="50" BackgroundColor="Transparent" 
-                                              ImageSource="icon_edit.png" ShowIcon="True">
+                                              ImageSource="icon_edit.png" Command="{Binding editarDatosCommand}" ShowIcon="True">
                             </buttons:SfButton>
                         </StackLayout>
                     </cards:SfCardView>

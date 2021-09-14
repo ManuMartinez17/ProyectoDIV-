@@ -20,6 +20,12 @@ namespace ProyectoDIV1.ViewModels.Candidato
     {
         #region Attributes
         private CandidatoDTO _candidato;
+
+        public void OnAppearing()
+        {
+            LoadCandidato();
+        }
+
         private CandidatoService _candidatoService;
         private ImageSource _imagen;
         private FirebaseStorageHelper _firebaseStorage;
@@ -33,12 +39,16 @@ namespace ProyectoDIV1.ViewModels.Candidato
             _firebaseStorage = new FirebaseStorageHelper();
             LoadCandidato();
             CambiarImagenCommand = new Command(CambiarImagenAsync);
+            editarDatosCommand = new Command(NavegarEditClicked);
             MoreInformationCommand = new Command(MoreInformation);
         }
+
+
         #endregion
 
         #region Commands
         public Command CambiarImagenCommand { get; set; }
+        public Command editarDatosCommand { get; set; }
         public Command MoreInformationCommand { get; set; }
         #endregion
 
@@ -56,6 +66,11 @@ namespace ProyectoDIV1.ViewModels.Candidato
         #endregion
 
         #region Methods
+        private async void NavegarEditClicked()
+        {
+            await Shell.Current.Navigation.PushModalAsync(new EditarDatosPage(_candidato.Candidato.UsuarioId.ToString()));
+            //await Shell.Current.GoToAsync($"{nameof(EditarDatosPage)}?{nameof(EditarDatosViewModel.Id)}={Candidato.Candidato.UsuarioId}");
+        }
         private async void MoreInformation()
         {
             try
@@ -68,9 +83,10 @@ namespace ProyectoDIV1.ViewModels.Candidato
             }
 
         }
-        private void LoadCandidato()
+        private async void LoadCandidato()
         {
-            ECandidato candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Usuario);
+            ECandidato id = JsonConvert.DeserializeObject<ECandidato>(Settings.Usuario);
+            ECandidato candidato = await _candidatoService.GetCandidatoAsync(id.UsuarioId);
             CandidatoDTO candidatoDTO = new CandidatoDTO()
             {
                 Candidato = candidato

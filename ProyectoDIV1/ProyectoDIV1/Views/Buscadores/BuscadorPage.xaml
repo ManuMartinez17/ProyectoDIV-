@@ -18,7 +18,7 @@
     </pages:PopupPage.Animation>
 
     <StackLayout HorizontalOptions="Center" Margin="40,40,40,40" VerticalOptions="Center">
-        <SearchBar x:Name="Buscar" Placeholder="Busqueda de Habilidades" SearchButtonPressed="Buscar_SearchButtonPressed" BackgroundColor="#edf8f6">
+        <SearchBar x:Name="Buscar" SearchButtonPressed="Buscar_SearchButtonPressed" BackgroundColor="#edf8f6">
         </SearchBar>
     </StackLayout>
     </pages:PopupPage>

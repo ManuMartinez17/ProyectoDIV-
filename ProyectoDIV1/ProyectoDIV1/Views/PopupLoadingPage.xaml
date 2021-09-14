@@ -6,7 +6,7 @@
     <ContentPage.Content>
         <StackLayout VerticalOptions="Center">
             <ActivityIndicator IsRunning="True" />
-            <Label Text="Cargando..." TextColor="White" HorizontalTextAlignment="Center"></Label>
+            <Label x:Name="LB_texto" TextColor="White" HorizontalTextAlignment="Center"></Label>
         </StackLayout>
     </ContentPage.Content>
 </pages:PopupPage>

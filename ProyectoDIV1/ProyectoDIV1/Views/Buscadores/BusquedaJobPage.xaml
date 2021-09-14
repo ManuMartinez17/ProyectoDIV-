@@ -3,7 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
              xmlns:autocomplete="clr-namespace:Syncfusion.SfAutoComplete.XForms;assembly=Syncfusion.SfAutoComplete.XForms" 
              xmlns:behavioursPack="clr-namespace:Xamarin.Forms.BehaviorsPack;assembly=Xamarin.Forms.BehaviorsPack"
-             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              x:Class="ProyectoDIV1.Views.Buscadores.BusquedaJobPage"
              Shell.FlyoutBehavior="Disabled"
              Shell.TabBarIsVisible="False"
@@ -12,11 +12,12 @@
     <ContentPage.Content>
         <StackLayout>
             <StackLayout BackgroundColor="{StaticResource Primary}" Orientation="Horizontal">
-                <buttons:SfButton BackgroundColor="Transparent" HorizontalOptions="Start" Margin="10,10,10,10" VerticalOptions="CenterAndExpand"
+                <buttons:SfButton BackgroundColor="Transparent" HorizontalOptions="Start" Margin="10" VerticalOptions="CenterAndExpand"
                                       ShowIcon="True" ImageSource="backarrow.png" Command="{Binding BackCommand}"/>
                 <Label Text="Profesión" FontSize="20" TextColor="White" FontAttributes="Bold" VerticalOptions="CenterAndExpand"/>
             </StackLayout>
-            <Frame Padding="20,5" Margin="10,10,10,10" BorderColor="{StaticResource Secondary}">
+            <StackLayout>
+                <Frame Padding="20,5" Margin="10" BorderColor="{StaticResource Secondary}">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*"/>
@@ -29,16 +30,39 @@
                            FontFamily="fontello" FontSize="Medium"
                            Text="{StaticResource IconSearch}" VerticalOptions="Center">
                     </Label>
-                    <autocomplete:SfAutoComplete  AutoCompleteMode="SuggestAppend" ShowBorder="False" Grid.Column="1" HorizontalOptions="FillAndExpand"
+                        <autocomplete:SfAutoComplete x:Name="autocomplete_jobs" SuggestionMode="Contains" SuggestionBoxPlacement="None" ShowBorder="False"
+                                                     Grid.Column="1" 
+                                                 HorizontalOptions="FillAndExpand"
                                                   DisplayMemberPath="name" NoResultsFoundText="No hay resultados."
-                                                      Watermark="{Binding Texto, StringFormat='Busqueda relacionada con {0}'}" DataSource="{Binding TiposDeJobs}" >
-                        <autocomplete:SfAutoComplete.Behaviors>
-                            <behavioursPack:EventToCommandBehavior EventName="SelectionChanged" 
-                                                                       Command="{Binding InsertarCommand}" EventArgsPropertyPath="Value"/>
-                        </autocomplete:SfAutoComplete.Behaviors>
-                    </autocomplete:SfAutoComplete>
+                                                  Watermark="{Binding Texto, StringFormat='Busqueda relacionada con {0}'}" 
+                                                  DataSource="{Binding TiposDeJobs}"
+                                                 HeightRequest="100"
+                                                  FilteredItems="{Binding Items, Mode=TwoWay}"
+                                                  FilterCollectionChanged="autocomplete_jobs_FilterCollectionChanged">
+                        </autocomplete:SfAutoComplete>
                 </Grid>
             </Frame>
+                <StackLayout Orientation="Vertical">
+                    <Label Text="Profesiones" HorizontalTextAlignment="Center"
+               FontSize="20" 
+               FontAttributes="Bold" 
+               TextColor="{StaticResource Orange}"/>
+                    <syncfusion:SfListView x:Name="ListaJobs" ItemsSource="{Binding TiposDeJobs}" TapCommand="{Binding InsertarCommand}" 
+                                           AutoFitMode="Height" ItemSpacing="2"
+                                       SelectionBackgroundColor="Transparent">
+                        <syncfusion:SfListView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame Margin="10,10,10,0" CornerRadius="10" BackgroundColor="AliceBlue">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding name}" FontAttributes="Bold" TextColor="Black" VerticalOptions="Center"
+                                           FontSize="Default" />
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </syncfusion:SfListView.ItemTemplate>
+                    </syncfusion:SfListView>
+                </StackLayout>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>
