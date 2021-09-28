@@ -36,6 +36,8 @@
     <PackageReference Include="Syncfusion.Xamarin.SfPicker" Version="19.2.0.56" />
     <PackageReference Include="Syncfusion.Xamarin.SfPullToRefresh" Version="19.2.0.56" />
     <PackageReference Include="Syncfusion.Xamarin.SfRating" Version="19.2.0.56" />
+    <PackageReference Include="Syncfusion.Xamarin.SfRichTextEditor" Version="19.2.0.56" />
+    <PackageReference Include="System.Linq.Parallel" Version="4.3.0" />
     <PackageReference Include="Xam.Plugin.Media" Version="5.0.1" />
     <PackageReference Include="Xam.Plugins.Settings" Version="3.1.1" />
     <PackageReference Include="Xam.Shell.Badge" Version="1.0.11" />
@@ -63,6 +65,12 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="Views\Empresa\EditarDatosEmpresaPage.xaml.cs">
+      <DependentUpon>EditarDatosEmpresaPage.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
     <EmbeddedResource Update="MasterPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
@@ -81,13 +89,22 @@
     <EmbeddedResource Update="Views\Chat\ChatCandidatoPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Empresa\EditarDatosEmpresaPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\Empresa\SettingsEmpresaPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="MasterCandidatoPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Views\Notificaciones\PopupEnviarNotificacionPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
     <EmbeddedResource Update="Views\OnboardingPage.xaml">
+      <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Views\Account\PopupSignOutPage.xaml">
       <Generator>MSBuild:UpdateDesignTimeXaml</Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Views\PopupVerAyudaPage.xaml">

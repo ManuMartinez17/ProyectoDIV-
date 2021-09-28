@@ -1,4 +1,5 @@
 ﻿
+using Android.Util;
 using Firebase.Auth;
 using ProyectoDIV1.Droid.Helpers;
 using ProyectoDIV1.Services.Interfaces;
@@ -9,6 +10,7 @@ namespace ProyectoDIV1.Droid.Helpers
 {
     public class FirebaseAuthentication : IAuthenticationService
     {
+        private GetTokenResult token;
         public string BuscarEmail()
         {
             string email = string.Empty;
@@ -17,6 +19,16 @@ namespace ProyectoDIV1.Droid.Helpers
                 email = FirebaseAuth.Instance.CurrentUser.Email;
             }
             return email;
+        }
+
+        public async Task<string> BuscarToken()
+        {
+            
+            if (FirebaseAuth.Instance.CurrentUser != null)
+            {
+               token = await FirebaseAuth.Instance.CurrentUser.GetIdTokenAsync(false);
+            }
+            return token.Token;
         }
 
         public bool IsSignIn()
@@ -43,6 +55,7 @@ namespace ProyectoDIV1.Droid.Helpers
         {
             var authResult = await FirebaseAuth.Instance.SignInWithEmailAndPasswordAsync(email, password);
             var token = await authResult.User.GetIdTokenAsync(false);
+            Log.Debug("Token", token.Token);
             return token.Token;
         }
 

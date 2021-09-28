@@ -1,10 +1,16 @@
-﻿using System;
+﻿using ProyectoDIV1.Helpers;
+using ProyectoDIV1.Services.Interfaces;
+using ProyectoDIV1.Views.Account;
+using Rg.Plugins.Popup.Services;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
+using System.Threading.Tasks;
 using System.Web;
+using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels
 {
@@ -34,6 +40,30 @@ namespace ProyectoDIV1.ViewModels
             onChanged?.Invoke();
             OnPropertyChanged(propertyName);
             return true;
+        }
+
+        public Command OnSignOutCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    await PopupNavigation.Instance.PushAsync(new PopupSignOutPage());
+
+                });
+            }
+        }
+
+        public Command BackCommand
+        {
+            get
+            {
+                return new Command(async () =>
+                {
+                    await Shell.Current.GoToAsync("..");
+
+                });
+            }
         }
 
         public string ParsearUrlConCodigoPorciento(string palabra)

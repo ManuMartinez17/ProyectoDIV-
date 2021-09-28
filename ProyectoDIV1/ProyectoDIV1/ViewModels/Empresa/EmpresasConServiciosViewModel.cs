@@ -1,7 +1,10 @@
-﻿using ProyectoDIV1.DTOs;
+﻿using Newtonsoft.Json;
+using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Entidades.Models;
+using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Views;
+using ProyectoDIV1.Views.Empresa;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -27,11 +30,24 @@ namespace ProyectoDIV1.ViewModels.Empresa
             _empresaService = new EmpresaService();
             LoadEmpresasBusqueda();
             LoadEmpresas();
+            MoreInformationCommand = new Command<object>(EmpresaSelected, CanNavigate);
             MostrarListadoEmpresasCommand = new Command((param) => ExecuteListadoEmpresas(param));
             LoadEmpresasCommand = new Command(async () => await RefreshEmpresas());
         }
-        #endregion
 
+        private async void EmpresaSelected(object objeto)
+        {
+            var lista = objeto as Syncfusion.ListView.XForms.ItemTappedEventArgs;
+            var empresa = lista.ItemData as EmpresaDTO;
+            if (empresa == null)
+                return;
+            await Shell.Current.GoToAsync($"{nameof(EmpresaPage)}?{nameof(EmpresaViewModel.Id)}={empresa.Empresa.UsuarioId}");
+        }
+        #endregion
+        private bool CanNavigate(object argument)
+        {
+            return true;
+        }
         #region Commands
         public Command MostrarListadoEmpresasCommand { get; set; }
         public Command LoadEmpresasCommand { get; }
@@ -63,6 +79,12 @@ namespace ProyectoDIV1.ViewModels.Empresa
                     Empresas.Clear();
                 }
                 var empresas = await _empresaService.GetEmpresas();
+                var user = JsonConvert.DeserializeObject<EEmpresa>(Settings.Usuario);
+                var empresaIam = empresas.Find(x => x.UsuarioId == user.UsuarioId);
+                if (empresaIam != null)
+                {
+                    empresas.Remove(empresaIam);
+                }
                 List<EmpresaDTO> empresasDTOs = new List<EmpresaDTO>();
                 empresas.ForEach(x => empresasDTOs.Add(new EmpresaDTO
                 {
@@ -98,10 +120,14 @@ namespace ProyectoDIV1.ViewModels.Empresa
                     await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
                     var empresas = await _empresaService.GetEmpresaBySearch(busqueda.RazonSocial);
                     List<EmpresaDTO> empresasDTOs = new List<EmpresaDTO>();
-                    empresas.ForEach(x => empresasDTOs.Add(new EmpresaDTO
-                    {
-                        Empresa = x
-                    }));
+                    Parallel.ForEach(empresas,
+                        item =>
+                        {
+                            empresasDTOs.Add(new EmpresaDTO
+                            {
+                                Empresa = item
+                            });
+                        });
                     Empresas = new ObservableCollection<EmpresaDTO>(empresasDTOs);
                     await PopupNavigation.Instance.PopAllAsync();
                 }

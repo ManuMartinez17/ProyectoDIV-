@@ -96,7 +96,10 @@
                       Icon="icon_settings.png"
                       ContentTemplate="{DataTemplate candidato:SettingsCandidatoPage}"/>
     </FlyoutItem>
-    <MenuItem Text="Cerrar Sesión" IconImageSource="icon_signOut.png" StyleClass="MenuItemLayoutStyle" Command="{Binding OnSignOut}">
+    <ShellContent Route="LoginPage"
+                   Shell.FlyoutBehavior="Disabled"
+                   ContentTemplate="{DataTemplate account:LoginPage}" />
+    <MenuItem Text="Cerrar Sesión" IconImageSource="icon_signOut.png" StyleClass="MenuItemLayoutStyle" Command="{Binding OnSignOutCommand}">
     </MenuItem>
     <Shell.FlyoutHeaderTemplate>
         <DataTemplate>

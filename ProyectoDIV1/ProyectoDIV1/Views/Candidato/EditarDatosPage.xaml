@@ -15,62 +15,68 @@
         </ResourceDictionary>
     </ContentPage.Resources>
     <ContentPage.Content>
-        <StackLayout VerticalOptions="CenterAndExpand">
-            <ScrollView>
-                <StackLayout Spacing="10">
-                    <cards:SfCardView Margin="20,20,20,20" Padding="15" CornerRadius="30,30,30,30">
-                        <StackLayout>
-                            <inputLayout:SfTextInputLayout Hint="Email" IsEnabled="False" FocusedColor="Black"
+        <StackLayout>
+            <StackLayout BackgroundColor="{StaticResource Primary}" Orientation="Horizontal">
+                <buttons:SfButton BackgroundColor="Transparent" HorizontalOptions="Start" Margin="10" VerticalOptions="CenterAndExpand"
+                                      ShowIcon="True" ImageSource="backarrow.png" Command="{Binding BackCommand}"/>
+                <Label Text="Editar Datos" FontSize="20" TextColor="White" FontAttributes="Bold" VerticalOptions="CenterAndExpand"/>
+            </StackLayout>
+            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+                <ScrollView>
+                    <StackLayout Spacing="10">
+                        <cards:SfCardView Margin="20,20,20,20" Padding="15" CornerRadius="30,30,30,30">
+                            <StackLayout>
+                                <inputLayout:SfTextInputLayout Hint="Email" IsEnabled="False" FocusedColor="Black"
                                                     ContainerBackgroundColor="#edf8f6">
-                                <Entry Text="{Binding Candidato.Email}" TextColor="Black" MaxLength="60" />
-                            </inputLayout:SfTextInputLayout>
-                            <!--nombre-->
-                            <Label Text="{Binding Nombre.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                                    <Entry Text="{Binding Candidato.Email}" TextColor="Black" MaxLength="60" />
+                                </inputLayout:SfTextInputLayout>
+                                <!--nombre-->
+                                <Label Text="{Binding Nombre.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding Nombre.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
-                            <inputLayout:SfTextInputLayout Hint="Nombres"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                                <Entry Text="{Binding Nombre.Value}" TextColor="Black" MaxLength="60" >
-                                    <Entry.Behaviors>
-                                        <behaviour:EntryLineValidationBehaviour IsValid="{Binding Nombre.IsValid}"/>
-                                    </Entry.Behaviors>
-                                </Entry>
-                            </inputLayout:SfTextInputLayout>
-                            <!--/nombre-->
-                            <!--apellido-->
-                            <Label Text="{Binding Apellido.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                        IsVisible="{Binding Apellido.IsValid, Converter={StaticResource InverseBoolConverter}}"
-                        Style="{StaticResource ErrorTextStyle}"/>
-                            <inputLayout:SfTextInputLayout Hint="Apellidos" FocusedColor="Black"
-                                                    ContainerBackgroundColor="#edf8f6">
-                                <Entry Text="{Binding Apellido.Value}"  TextColor="Black" MaxLength="60" >
-                                    <Entry.Behaviors>
-                                        <behaviour:EntryLineValidationBehaviour IsValid="{Binding Apellido.IsValid}"/>
-                                    </Entry.Behaviors>
-                                </Entry>
-                            </inputLayout:SfTextInputLayout>
-                            <!--/apellido-->
-                            <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10,10,10,10">
-                                <Label Text="{Binding Profesion.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
-                                       IsVisible="{Binding Profesion.IsValid, Converter={StaticResource InverseBoolConverter}}"
-                                        Style="{StaticResource ErrorTextStyle}"/>
-                                <inputLayout:SfTextInputLayout Hint="Profesión" HorizontalOptions="FillAndExpand" FocusedColor="Black"
-                                                    ContainerBackgroundColor="#edf8f6">
-                                    <Entry Text="{Binding Profesion.Value}" TextColor="Black" MaxLength="60">
+                                <inputLayout:SfTextInputLayout Hint="Nombres"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                                    <Entry Text="{Binding Nombre.Value}" TextColor="Black" MaxLength="60" >
                                         <Entry.Behaviors>
-                                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding Profesion.IsValid}"/>
+                                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding Nombre.IsValid}"/>
                                         </Entry.Behaviors>
                                     </Entry>
                                 </inputLayout:SfTextInputLayout>
-                                <buttons:SfButton ImageAlignment="End" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"
+                                <!--/nombre-->
+                                <!--apellido-->
+                                <Label Text="{Binding Apellido.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                        IsVisible="{Binding Apellido.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                        Style="{StaticResource ErrorTextStyle}"/>
+                                <inputLayout:SfTextInputLayout Hint="Apellidos" FocusedColor="Black"
+                                                    ContainerBackgroundColor="#edf8f6">
+                                    <Entry Text="{Binding Apellido.Value}"  TextColor="Black" MaxLength="60" >
+                                        <Entry.Behaviors>
+                                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding Apellido.IsValid}"/>
+                                        </Entry.Behaviors>
+                                    </Entry>
+                                </inputLayout:SfTextInputLayout>
+                                <!--/apellido-->
+                                <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10,10,10,10">
+                                    <Label Text="{Binding Profesion.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                                       IsVisible="{Binding Profesion.IsValid, Converter={StaticResource InverseBoolConverter}}"
+                                        Style="{StaticResource ErrorTextStyle}"/>
+                                    <inputLayout:SfTextInputLayout Hint="Profesión" HorizontalOptions="FillAndExpand" FocusedColor="Black"
+                                                    ContainerBackgroundColor="#edf8f6">
+                                        <Entry Text="{Binding Profesion.Value}" TextColor="Black" MaxLength="60">
+                                            <Entry.Behaviors>
+                                                <behaviour:EntryLineValidationBehaviour IsValid="{Binding Profesion.IsValid}"/>
+                                            </Entry.Behaviors>
+                                        </Entry>
+                                    </inputLayout:SfTextInputLayout>
+                                    <buttons:SfButton ImageAlignment="End" HorizontalOptions="EndAndExpand" VerticalOptions="CenterAndExpand"
                                                   BackgroundColor="Transparent" ImageWidth="30"
                                               ImageSource="icon_buscar.png" ShowIcon="True" Command="{Binding MostrarBuscadorCommand}">
-                                </buttons:SfButton>
+                                    </buttons:SfButton>
+                                </StackLayout>
                             </StackLayout>
-                        </StackLayout>
-                    </cards:SfCardView>
-                </StackLayout>
-            </ScrollView>
-            <Button FontFamily="Lato"
+                        </cards:SfCardView>
+                    </StackLayout>
+                </ScrollView>
+                <Button FontFamily="Lato"
 						FontAttributes="Bold"
 						HorizontalOptions="Center"
 						Command="{Binding EditarCommand}"
@@ -79,6 +85,7 @@
 						BackgroundColor="#705E78"
 						VerticalOptions="EndAndExpand"
 						Text="Guardar"/>
+            </StackLayout>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

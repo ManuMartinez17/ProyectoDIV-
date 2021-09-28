@@ -1,0 +1,23 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup" 
+             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms" xmlns:inputLayout="clr-namespace:Syncfusion.XForms.TextInputLayout;assembly=Syncfusion.Core.XForms"
+                 x:Class="ProyectoDIV1.Views.Notificaciones.PopupEnviarNotificacionPage">
+    <StackLayout HorizontalOptions="Center" VerticalOptions="CenterAndExpand" Padding="10" Margin="20">
+        <ScrollView>
+            <cards:SfCardView BackgroundColor="WhiteSmoke" VerticalOptions="FillAndExpand">
+                <StackLayout Padding="10" Margin="10">
+                    <Label Text="Enviar Mensaje" TextColor="Black" FontSize="Large" FontAttributes="Bold" Padding="20" HorizontalTextAlignment="Center" 
+                       VerticalTextAlignment="Center" />
+                    <inputLayout:SfTextInputLayout Hint="Mensaje">
+                        <Editor AutoSize="TextChanges" BackgroundColor="{StaticResource Secondary}" Text= "{Binding Mensaje}" />
+                    </inputLayout:SfTextInputLayout>
+                    <Button Command="{Binding EnviarMensajeCommand}" BackgroundColor="{StaticResource ThirdOrange}" CornerRadius="4"
+                        TextColor="White" HorizontalOptions="Center" VerticalOptions="EndAndExpand" Text="Enviar">
+                    </Button>
+                </StackLayout>
+            </cards:SfCardView>
+        </ScrollView>
+    </StackLayout>
+</pages:PopupPage>

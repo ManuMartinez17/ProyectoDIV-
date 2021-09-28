@@ -19,6 +19,7 @@ namespace ProyectoDIV1
         {
             InitializeComponent();
             RegisterRoutes();
+          
         }
         private void RegisterRoutes()
         {

@@ -6,6 +6,7 @@ using ProyectoDIV1.ViewModels.Chat;
 using ProyectoDIV1.Views;
 using ProyectoDIV1.Views.Candidato;
 using ProyectoDIV1.Views.Chat;
+using ProyectoDIV1.Views.Notificaciones;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Diagnostics;
@@ -26,7 +27,12 @@ namespace ProyectoDIV1.ViewModels.Candidato
         {
             _candidatoService = new CandidatoService();
             VerHojaDeVidaCommand = new Command(VerHojaDeVida);
-            ContactarCommand = new Command(MostrarChat);
+            ContactarCommand = new Command(MostrarPopupCreateNotification);
+        }
+
+        private async void MostrarPopupCreateNotification()
+        {
+            await PopupNavigation.Instance.PushAsync(new PopupEnviarNotificacionPage(_candidato.Candidato.UsuarioId.ToString()));
         }
 
         private async void MostrarChat(object obj)

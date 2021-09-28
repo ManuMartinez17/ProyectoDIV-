@@ -6,6 +6,7 @@ namespace ProyectoDIV1.Entidades.Models
 {
     public class ENotificacion
     {
+        public Guid Id { get; set; }
         public Guid EmisorId { get; set; }
         public bool Estado { get; set; }
         public DateTime Fecha { get; set; }

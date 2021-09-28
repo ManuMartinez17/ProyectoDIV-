@@ -7,15 +7,11 @@ using ProyectoDIV1.Services.ExternalServices;
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.Services.Interfaces;
-using ProyectoDIV1.Views;
-using ProyectoDIV1.Views.Account;
 using ProyectoDIV1.Views.Candidato;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.Linq;
-using System.Text;
-using System.Web;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels.Buscadores
@@ -34,15 +30,11 @@ namespace ProyectoDIV1.ViewModels.Buscadores
             _traductor = new TraductorService();
             _candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
             InsertarCommand = new Command((param) => ExecuteInsertarSkills(param));
-            BackCommand = new Command(BackClicked);
             BorrarCommand = new Command((param) => ExecuteBorrarSkills(param));
             GuardarCommand = new Command(OnGuardarClicked);
         }
 
-        private async void BackClicked()
-        {
-            await Shell.Current.GoToAsync("..");
-        }
+
 
         private void ExecuteBorrarSkills(object param)
         {
@@ -72,9 +64,7 @@ namespace ProyectoDIV1.ViewModels.Buscadores
             Settings.Candidato = JsonConvert.SerializeObject(_candidato);
         }
 
-
         public Command InsertarCommand { get; set; }
-        public Command BackCommand { get; set; }
         public Command BorrarCommand { get; set; }
         public Command GuardarCommand { get; set; }
         public ObservableCollection<Skill> TiposDeKills
@@ -97,25 +87,32 @@ namespace ProyectoDIV1.ViewModels.Buscadores
 
         private async void LoadSkills(string value)
         {
-            var token = JsonConvert.DeserializeObject<Token>(Settings.Token);
-            if (token == null)
+            try
             {
-                var tokenNuevo = serviceJobsandSkills.GenerarToken();
-                Settings.Token = JsonConvert.SerializeObject(tokenNuevo);
-                token = tokenNuevo;
+                var token = JsonConvert.DeserializeObject<Token>(Settings.Token);
+                if (token == null)
+                {
+                    var tokenNuevo = serviceJobsandSkills.GenerarToken();
+                    Settings.Token = JsonConvert.SerializeObject(tokenNuevo);
+                    token = tokenNuevo;
+                }
+                else if (token.Expiration < DateTime.Now)
+                {
+                    var tokenNuevo = serviceJobsandSkills.GenerarToken();
+                    Settings.Token = JsonConvert.SerializeObject(tokenNuevo);
+                    token = tokenNuevo;
+                }
+                string palabra = await _traductor.TraducirPalabra(value, Constantes.CodigoISOEnglish, Constantes.CodigoISOSpanish);
+                string palabraTraducida = ParsearUrlConCodigoPorciento(palabra);
+                var lista = await serviceJobsandSkills.GetListJobsRelatedSkills($"skills/versions/latest/skills?q=.{palabraTraducida}&limit=10",
+                    token.access_token);
+                var listadotraducido = await _traductor.TraducirSkills(lista.data);
+                TiposDeKills = new ObservableCollection<Skill>(listadotraducido);
             }
-            else if (token.Expiration < DateTime.Now)
+            catch (Exception ex)
             {
-                var tokenNuevo = serviceJobsandSkills.GenerarToken();
-                Settings.Token = JsonConvert.SerializeObject(tokenNuevo);
-                token = tokenNuevo;
+                Debug.WriteLine(ex.Message);
             }
-            string palabra = await _traductor.TraducirPalabra(value, Constantes.CodigoISOEnglish, Constantes.CodigoISOSpanish);
-            string palabraTraducida = ParsearUrlConCodigoPorciento(palabra);
-            var lista = await serviceJobsandSkills.GetListJobsRelatedSkills($"skills/versions/latest/skills?q=.{palabraTraducida}&limit=10",
-                token.access_token);
-            var listadotraducido = await _traductor.TraducirSkills(lista.data);
-            TiposDeKills = new ObservableCollection<Skill>(listadotraducido);
         }
 
         private async void OnGuardarClicked()

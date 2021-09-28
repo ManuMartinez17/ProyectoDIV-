@@ -3,11 +3,9 @@ using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Services;
 using ProyectoDIV1.Services.ExternalServices;
-using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.Services.Interfaces;
 using ProyectoDIV1.Views;
-using ProyectoDIV1.Views.Candidato;
 using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.Generic;
@@ -30,7 +28,6 @@ namespace ProyectoDIV1.ViewModels.Buscadores
         {
             _traductor = new TraductorService();
             _candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
-            BackCommand = new Command(BackClicked);
             InsertarCommand = new Command<object>(JobSelected, CanNavigate);
         }
 
@@ -51,7 +48,7 @@ namespace ProyectoDIV1.ViewModels.Buscadores
                     _candidato.Profesion = job.name;
                     var authenticationService = DependencyService.Resolve<IAuthenticationService>();
                     if (authenticationService.IsSignIn())
-                    {               
+                    {
                         Settings.Usuario = JsonConvert.SerializeObject(_candidato);
                         await Shell.Current.GoToAsync("..");
                     }
@@ -78,11 +75,7 @@ namespace ProyectoDIV1.ViewModels.Buscadores
             return true;
         }
 
-        private async void BackClicked()
-        {
-            await Shell.Current.GoToAsync("..");
 
-        }
         public string Texto
         {
             get
@@ -100,7 +93,6 @@ namespace ProyectoDIV1.ViewModels.Buscadores
             get { return _items; }
             set { SetProperty(ref _items, value); }
         }
-        public Command BackCommand { get; set; }
         public Command InsertarCommand { get; set; }
         public ObservableCollection<Job> TiposDeJobs
         {

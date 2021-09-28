@@ -7,6 +7,12 @@
              xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms" 
              xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms" 
              x:Class="ProyectoDIV1.Views.Candidato.SettingsCandidatoPage" Title="Configuración de cuenta">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Ayuda"
+                 Order="Secondary"/>
+        <ToolbarItem Text="Cerrar Sesión" Command="{Binding OnSignOutCommand}"
+                 Order="Secondary"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout VerticalOptions="Start" Spacing="10" Margin="0,30,0,0">
             <ScrollView>

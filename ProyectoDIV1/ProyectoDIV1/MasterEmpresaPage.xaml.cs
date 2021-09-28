@@ -1,5 +1,8 @@
 ﻿using ProyectoDIV1.ViewModels.Empresa;
 using ProyectoDIV1.Views.Buscadores;
+using ProyectoDIV1.Views.Candidato;
+using ProyectoDIV1.Views.Empresa;
+using ProyectoDIV1.Views.Notificaciones;
 using System;
 using System.Collections.Generic;
 
@@ -27,6 +30,9 @@ namespace ProyectoDIV1
         {
             routes.Add(nameof(BusquedaJobPage), typeof(BusquedaJobPage));
             routes.Add(nameof(BusquedaSkillsPage), typeof(BusquedaSkillsPage));
+            routes.Add(nameof(CandidatoPage), typeof(CandidatoPage));
+            routes.Add(nameof(EmpresaPage), typeof(EmpresaPage));
+            routes.Add(nameof(NotficacionesEmpresasPage), typeof(NotficacionesEmpresasPage));
 
             foreach (var item in routes)
             {

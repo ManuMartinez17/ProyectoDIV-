@@ -23,19 +23,10 @@ namespace ProyectoDIV1.ViewModels.Candidato
         private FirebaseHelper _firebase;
         private ValidatableObject<string> _nombre = new ValidatableObject<string>();
         private ValidatableObject<string> _apellido = new ValidatableObject<string>();
-
-        public void OnAppearing()
-        {
-            LoadCandidato();
-        }
-
-        private void LoadCandidato()
-        {
-            Candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Usuario);
-            Profesion.Value = Candidato.Profesion;
-        }
-
         private ValidatableObject<string> _profesion = new ValidatableObject<string>();
+
+    
+      
         public EditarDatosViewModel()
         {
             _candidato = new ECandidato();
@@ -46,12 +37,6 @@ namespace ProyectoDIV1.ViewModels.Candidato
             AddValidationRules();
         }
 
-        private void AddValidationRules()
-        {
-            Nombre.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Nombre requerido." });
-            Apellido.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Apellido requerido." });
-            Profesion.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Profesión requerida." });
-        }
 
         public ValidatableObject<string> Nombre
         {
@@ -68,6 +53,22 @@ namespace ProyectoDIV1.ViewModels.Candidato
             get => _apellido;
             set => SetProperty(ref _apellido, value);
         }
+        public void OnAppearing()
+        {
+            LoadCandidato();
+        }
+
+        private void LoadCandidato()
+        {
+            Candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Usuario);
+            Profesion.Value = Candidato.Profesion;
+        }
+        private void AddValidationRules()
+        {
+            Nombre.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Nombre requerido." });
+            Apellido.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Apellido requerido." });
+            Profesion.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Profesión requerida." });
+        }
         private bool ValidarFormulario()
         {
 
@@ -76,35 +77,7 @@ namespace ProyectoDIV1.ViewModels.Candidato
             bool isJobValid = Profesion.Validate();
             return isFirstNameValid && isLastNameValid && isJobValid;
         }
-        private async void EditarClicked()
-        {
-            try
-            {
-                if (ValidarFormulario())
-                {
-                    _candidato.Nombre = Nombre.Value.Trim();
-                    _candidato.Apellido = Apellido.Value.Trim();
-                    _candidato.Profesion = Profesion.Value.Trim();
-                    var query = await _candidatoService.GetCandidatoFirebaseObjectAsync(_candidato.UsuarioId);
-                    await _firebase.UpdateAsync(_candidato, Constantes.COLLECTION_CANDIDATO, query);
-                    Toasts.Success("Se actualizo el perfil.", 2000);
-                    await Task.Delay(2000);
-                    Settings.Usuario = JsonConvert.SerializeObject(Candidato);
-                    await Shell.Current.Navigation.PopModalAsync();
-                }
-            }
-            catch (Exception ex)
-            {
-
-                Debug.WriteLine(ex.Message);
-            }
-        }
-        private async void MostrarBuscador()
-        {
-            var candidato = await _candidatoService.GetCandidatoAsync(_candidato.UsuarioId);
-            Settings.Candidato = JsonConvert.SerializeObject(candidato);
-            await PopupNavigation.Instance.PushAsync(new BuscadorPage(Constantes.SEARCH_JOB));
-        }
+       
         public Command EditarCommand { get; }
         public Command MostrarBuscadorCommand { get; }
         public string Id
@@ -135,6 +108,35 @@ namespace ProyectoDIV1.ViewModels.Candidato
             Nombre.Value = Candidato.Nombre;
             Apellido.Value = Candidato.Apellido;
             Profesion.Value = Candidato.Profesion;
+        }
+        private async void EditarClicked()
+        {
+            try
+            {
+                if (ValidarFormulario())
+                {
+                    _candidato.Nombre = Nombre.Value.Trim();
+                    _candidato.Apellido = Apellido.Value.Trim();
+                    _candidato.Profesion = Profesion.Value.Trim();
+                    var query = await _candidatoService.GetCandidatoFirebaseObjectAsync(_candidato.UsuarioId);
+                    await _firebase.UpdateAsync(_candidato, Constantes.COLLECTION_CANDIDATO, query);
+                    Toasts.Success("Se actualizo el perfil.", 2000);
+                    await Task.Delay(2000);
+                    Settings.Usuario = JsonConvert.SerializeObject(Candidato);
+                    await Shell.Current.Navigation.PopModalAsync();
+                }
+            }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine(ex.Message);
+            }
+        }
+        private async void MostrarBuscador()
+        {
+            var candidato = await _candidatoService.GetCandidatoAsync(_candidato.UsuarioId);
+            Settings.Candidato = JsonConvert.SerializeObject(candidato);
+            await PopupNavigation.Instance.PushAsync(new BuscadorPage(Constantes.SEARCH_JOB));
         }
     }
 }

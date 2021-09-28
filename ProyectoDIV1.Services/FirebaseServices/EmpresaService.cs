@@ -1,7 +1,9 @@
-﻿using ProyectoDIV1.Entidades.Models;
+﻿using Firebase.Database;
+using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Services.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -36,8 +38,36 @@ namespace ProyectoDIV1.Services.FirebaseServices
 
         public async Task<EEmpresa> GetEmpresaAsync(Guid id)
         {
-            return (await firebase.Child(Constantes.COLLECTION_EMPRESA)
-            .OnceAsync<EEmpresa>()).FirstOrDefault(x => x.Object.UsuarioId == id).Object;
+            try
+            {
+                var empresa = (await firebase
+                .Child(Constantes.COLLECTION_EMPRESA)
+                .OnceAsync<EEmpresa>()).Select(item => new EEmpresa
+                {
+                    UsuarioId = item.Object.UsuarioId,
+                    Nit = item.Object.Nit,
+                    RazonSocial = item.Object.RazonSocial,
+                    Calificaciones = item.Object.Calificaciones,
+                    Email = item.Object.Email,
+                    Ciudad = item.Object.Ciudad,
+                    Telefono = item.Object.Telefono,
+                    Departamento = item.Object.Departamento,
+                    Rutas = string.IsNullOrWhiteSpace(item.Object.Rutas.RutaImagenRegistro) ? new Archivos()
+                    {
+                        RutaImagenRegistro = "https://i.postimg.cc/zDkX2Zh7/logo.png",
+                        NombreArchivoRegistro = item.Object.Rutas.NombreArchivoRegistro,
+                        NombreImagenRegistro = item.Object.Rutas.NombreImagenRegistro,
+                        RutaArchivoRegistro = item.Object.Rutas.RutaArchivoRegistro
+                    } : item.Object.Rutas,
+                    Notificaciones = item.Object.Notificaciones
+                }).FirstOrDefault(x => x.UsuarioId == id);
+                return empresa;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
         }
 
         public async Task<List<EEmpresa>> GetEmpresas()
@@ -88,6 +118,12 @@ namespace ProyectoDIV1.Services.FirebaseServices
                    } : item.Object.Rutas,
                    Notificaciones = item.Object.Notificaciones
                }).Where(x => x.RazonSocial.Equals(busqueda)).ToList();
+        }
+        public async Task<FirebaseObject<EEmpresa>> GetEmpresaFirebaseObjectAsync(Guid id)
+        {
+            return (await firebase
+           .Child(Constantes.COLLECTION_EMPRESA)
+           .OnceAsync<EEmpresa>().ConfigureAwait(false)).FirstOrDefault(x => x.Object.UsuarioId == id);
         }
     }
 }

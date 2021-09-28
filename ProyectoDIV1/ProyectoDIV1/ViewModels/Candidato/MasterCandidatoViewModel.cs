@@ -20,7 +20,6 @@ namespace ProyectoDIV1.ViewModels.Candidato
         public MasterCandidatoViewModel()
         {
             _candidatoService = new CandidatoService();
-            OnSignOut = new Command(OnSignOutClicked);
             CheckWhetherTheUserIsSignIn();
         }
 
@@ -60,28 +59,6 @@ namespace ProyectoDIV1.ViewModels.Candidato
             }
             return default;
         }
-
-        private void OnSignOutClicked()
-        {
-            UserDialogs.Instance.ActionSheet(new ActionSheetConfig()
-                           .SetTitle("¿Está seguro que quiere cerrar la sesión?")
-                           .Add("Aceptar", () => CerrarSesion())
-                           .SetCancel("Cancelar")
-                       );
-        }
-
-        private async void CerrarSesion()
-        {
-            var authService = DependencyService.Resolve<IAuthenticationService>();
-            authService.SignOut();
-            Settings.IsLogin = false;
-            Settings.TipoUsuario = null;
-            Application.Current.MainPage = new MasterPage();
-            await Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
-        }
-
-        public Command OnSignOut { get; set; }
-
         private void LoadCandidato(ECandidato candidato)
         {
             CandidatoDTO candidatoDTO = new CandidatoDTO()

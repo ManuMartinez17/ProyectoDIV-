@@ -131,7 +131,12 @@ namespace ProyectoDIV1.ViewModels.Account
             Empresa.Departamento.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Departamento requerido." });
             Empresa.Ciudad.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Ciudad requerida." });
             Empresa.Celular.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Celular requerido." });
-            Empresa.Celular.Validations.Add(new IsLenghtValidRule<string> { ValidationMessage = "El celular debe tener 10 digitos", MaximunLenght = 10, MinimunLenght = 10 });
+            Empresa.Celular.Validations.Add(new IsLenghtValidRule<string>
+            {
+                MaximunLenght = 10,
+                MinimunLenght = 7,
+                ValidationMessage = "El teléfono y/o celular debe tener minimo 7 y maximo 10 digitos."
+            });
             Empresa.Nit.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Celular requerido." });
             //Email Validation Rules
             Empresa.Email.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Email Requerido." });
@@ -186,7 +191,8 @@ namespace ProyectoDIV1.ViewModels.Account
                 new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
                 {
                      { DevicePlatform.iOS, new[] { "com.adobe.pdf" , "com.microsoft.word.doc" } }, // or general UTType values
-                     { DevicePlatform.Android, new[] { "application/pdf", "application/msword", "application/vnd.openxmlformats-officedocument.wordprocessingml.document" } },
+                     { DevicePlatform.Android, new[] { "application/pdf", "application/msword", 
+                         "application/vnd.openxmlformats-officedocument.wordprocessingml.document" } },
                      { DevicePlatform.UWP, new[] { ".pdf" ,".doc"} },
                      { DevicePlatform.Tizen, new[] { "*/*" } },
                      { DevicePlatform.macOS, new[] { "pdf","doc"} }, // or general UTType values
@@ -299,7 +305,8 @@ namespace ProyectoDIV1.ViewModels.Account
                         if (_archivocamaraDeComercio != null)
                         {
                             nombrecamaraDeComercio = $"{Empresa.UsuarioId}{Path.GetExtension(_camaraDeComercio.FileName)}";
-                            RutaArchivo = await _firebaseStorage.UploadFile(_archivocamaraDeComercio, nombrecamaraDeComercio, Constantes.CARPETA_CAMARADECOMERCIO);
+                            RutaArchivo = await _firebaseStorage.UploadFile(_archivocamaraDeComercio, nombrecamaraDeComercio, 
+                                Constantes.CARPETA_CAMARADECOMERCIO);
                         }
                         var entidad = new EEmpresa
                         {
@@ -321,7 +328,7 @@ namespace ProyectoDIV1.ViewModels.Account
 
                         Settings.Empresa = JsonConvert.SerializeObject(entidad);
                         await _firebaseHelper.CrearAsync(entidad, Constantes.COLLECTION_EMPRESA);
-                        Toasts.Error("Se ha registrado satisfactoriamente", 3000);
+                        Toasts.Success("Se ha registrado satisfactoriamente", 3000);
                         Settings.IsLogin = true;
                         Settings.TipoUsuario = Constantes.ROL_EMPRESA;
                         Application.Current.MainPage = new MasterEmpresaPage();
@@ -339,6 +346,10 @@ namespace ProyectoDIV1.ViewModels.Account
                     Toasts.Error($"el correo {Empresa.Email.Value} ya esta en uso.", 3000);
                 }
                 Toasts.Error($"el correo {ex.Message} ya esta en uso.", 3000);
+            }
+            finally
+            {
+                await PopupNavigation.Instance.PopAsync();
             }
         }
 

@@ -1,11 +1,4 @@
-﻿using ProyectoDIV1.Entidades.Models;
-using ProyectoDIV1.Services.FirebaseServices;
-using ProyectoDIV1.ViewModels.Candidato;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using ProyectoDIV1.ViewModels.Candidato;
 
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;

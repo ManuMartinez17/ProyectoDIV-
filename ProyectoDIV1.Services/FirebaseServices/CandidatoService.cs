@@ -3,14 +3,14 @@ using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Services.Helpers;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 
 namespace ProyectoDIV1.Services.FirebaseServices
 {
-    public class CandidatoService
+    public class CandidatoService : FirebaseHelper
     {
-        public FirebaseClient firebase;
         private static string UrlDefault = "https://i.postimg.cc/BQmWRFDZ/iconuser.jpg";
         public CandidatoService()
         {
@@ -31,6 +31,7 @@ namespace ProyectoDIV1.Services.FirebaseServices
                Edad = item.Object.Edad,
                Departamento = item.Object.Departamento,
                Habilidades = item.Object.Habilidades,
+               Notificaciones = item.Object.Notificaciones,
                Profesion = item.Object.Profesion,
                Rutas = string.IsNullOrWhiteSpace(item.Object.Rutas.RutaImagenRegistro) ? new Archivos()
                {
@@ -47,9 +48,15 @@ namespace ProyectoDIV1.Services.FirebaseServices
         public async Task<List<string>> GetProfesiones()
         {
             List<ECandidato> candidatos = await GetCandidatos();
+
             List<string> profesiones = new List<string>();
-            candidatos.ForEach(x => profesiones.Add(x.Profesion));
-            return profesiones;
+            Parallel.ForEach(candidatos,
+                item =>
+                {
+                    profesiones.Add(item.Profesion);
+                });
+            IEnumerable<string> profesionesSinRepetidos = profesiones.Distinct();
+            return profesionesSinRepetidos.ToList();
         }
 
         public async Task<List<ECandidato>> GetCandidatosPorServicio(string profesion)
@@ -120,9 +127,20 @@ namespace ProyectoDIV1.Services.FirebaseServices
 
         public async Task<FirebaseObject<ECandidato>> GetCandidatoFirebaseObjectAsync(Guid id)
         {
-            return (await firebase
-           .Child(Constantes.COLLECTION_CANDIDATO)
-           .OnceAsync<ECandidato>().ConfigureAwait(false)).FirstOrDefault(x => x.Object.UsuarioId == id);
+            try
+            {
+                var query = (await firebase
+                    .Child(Constantes.COLLECTION_CANDIDATO)
+                    .OnceAsync<ECandidato>().ConfigureAwait(false)).FirstOrDefault(x => x.Object.UsuarioId == id);
+                return query;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
+
+
         }
         public async Task<ECandidato> GetCandidatoAsync(Guid id)
         {
@@ -150,7 +168,7 @@ namespace ProyectoDIV1.Services.FirebaseServices
             UsuarioId = item.Object.UsuarioId,
             Expectativa = item.Object.Expectativa,
             Notificaciones = item.Object.Notificaciones
-        }).FirstOrDefault(x => x.UsuarioId.Equals(id));
+        }).FirstOrDefault(x => x.UsuarioId == id);
         }
 
         public async Task<bool> GetCandidatoByEmail(string value)

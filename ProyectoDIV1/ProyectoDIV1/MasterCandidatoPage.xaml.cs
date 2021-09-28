@@ -4,6 +4,7 @@ using ProyectoDIV1.Views.Buscadores;
 using ProyectoDIV1.Views.Candidato;
 using ProyectoDIV1.Views.Chat;
 using ProyectoDIV1.Views.Empresa;
+using ProyectoDIV1.Views.Notificaciones;
 using System;
 using System.Collections.Generic;
 
@@ -15,6 +16,7 @@ namespace ProyectoDIV1
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class MasterCandidatoPage : Shell
     {
+        private MasterCandidatoViewModel _viewModel;
         Dictionary<string, Type> routes = new Dictionary<string, Type>();
 
         public Dictionary<string, Type> Routes { get { return routes; } }
@@ -22,7 +24,7 @@ namespace ProyectoDIV1
         {
             InitializeComponent();
             RegisterRoutes();
-            BindingContext = new MasterCandidatoViewModel();
+            BindingContext = _viewModel = new MasterCandidatoViewModel();
         }
 
         private void RegisterRoutes()
@@ -36,6 +38,7 @@ namespace ProyectoDIV1
             routes.Add(nameof(BusquedaSkillsPage), typeof(BusquedaSkillsPage));
             routes.Add(nameof(CandidatoPage), typeof(CandidatoPage));
             routes.Add(nameof(EditarDatosPage), typeof(EditarDatosPage));
+            routes.Add(nameof(NotificacionesCandidatosPage), typeof(NotificacionesCandidatosPage));
             routes.Add(nameof(VerHojaDeVidaPage), typeof(VerHojaDeVidaPage));
             routes.Add(nameof(EmpresaPage), typeof(EmpresaPage));
             routes.Add(nameof(EditarHojaDeVidaPage), typeof(EditarHojaDeVidaPage));

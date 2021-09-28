@@ -1,12 +1,107 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ProyectoDIV1.Views.Empresa.SettingsEmpresaPage">
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms"
+             xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms" 
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
+             xmlns:empresa="clr-namespace:ProyectoDIV1.ViewModels.Empresa" x:DataType="empresa:SettingsEmpresaViewModel"
+             x:Class="ProyectoDIV1.Views.Empresa.SettingsEmpresaPage" Title="Configuración de cuenta">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Ayuda"
+                 Order="Secondary"/>
+        <ToolbarItem Text="Cerrar Sesión" Command="{Binding OnSignOutCommand}"
+                 Order="Secondary"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout VerticalOptions="Start" Spacing="10" Margin="0,30,0,0">
+            <ScrollView>
+                <StackLayout VerticalOptions="Start">
+                    <Label Text="Mi perfil" TextColor="Black" FontSize="Large" HorizontalTextAlignment="Center" FontAttributes="Bold">
+
+                    </Label>
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*" />
+                        </Grid.RowDefinitions>
+                        <ScrollView Grid.Row="0">
+                            <ffimageloading:CachedImage Aspect="AspectFit"
+                                                Source="{Binding Imagen}" 
+                                                CacheDuration= "50"
+                                                HeightRequest="150"
+                                                Margin="50,30,50,0"
+                                                RetryCount= "3" 
+                                                RetryDelay= "600">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <fftransformations:CircleTransformation />
+                                </ffimageloading:CachedImage.Transformations>
+                                <ffimageloading:CachedImage.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding CambiarImagenCommand}"/>
+                                </ffimageloading:CachedImage.GestureRecognizers>
+                            </ffimageloading:CachedImage>
+                        </ScrollView>
+                        <buttons:SfButton  Grid.Row="0" ImageWidth="50" BackgroundColor="Transparent"
+                                              ImageSource="pencil.png" Command="{Binding CambiarImagenCommand}"
+                                           ShowIcon="True" HorizontalOptions="Center" Margin="120,0,0,6" VerticalOptions="End">
+                        </buttons:SfButton>
+                    </Grid>
+                    <cards:SfCardView Margin="15,15,15,15" Padding="0,10,0,10" CornerRadius="30,30,30,30">
+                        <StackLayout Orientation="Horizontal">
+                            <StackLayout Margin="20">
+                                <Label FontSize="Medium" TextColor="Black" FontAttributes="Bold" Text="{Binding Empresa.FullName}">
+                                    <Label.Margin>
+                                        <Thickness Left="8" />
+                                    </Label.Margin>
+                                </Label>
+                                <Label FontSize="Medium" HorizontalOptions="Start" TextColor="Black" FontAttributes="Bold"
+                                       Text="{Binding Empresa.ItPlace, StringFormat='{0}'}">
+                                    <Label.Margin>
+                                        <Thickness Left="8" />
+                                    </Label.Margin>
+                                </Label>
+                               
+                            </StackLayout>
+                            <buttons:SfButton VerticalOptions="Center" ImageWidth="50" BackgroundColor="Transparent" 
+                                              ImageSource="icon_edit.png" Command="{Binding NavigateEditCommand}" ShowIcon="True">
+                            </buttons:SfButton>
+                        </StackLayout>
+                    </cards:SfCardView>
+                    <cards:SfCardView Margin="15,15,15,15" Padding="0,10,0,10" CornerRadius="30,30,30,30">
+                        <StackLayout>
+                            <Label Text="Camara de comercio" HorizontalOptions="Center" TextColor="Black"
+                                       FontSize="Medium" FontFamily="" FontAttributes="Bold"/>
+
+                       
+                        <StackLayout Orientation="Horizontal" Margin="15" VerticalOptions="CenterAndExpand">
+                        <buttons:SfButton  HorizontalOptions="Start" Text="{Binding Extension}" FontSize="15"
+                                               FontAttributes="Italic" CornerRadius="3"   ImageSource="icon_download.png" ShowIcon="True"
+                                              BorderColor="{StaticResource Primary}" BackgroundColor="White" 
+                                               BorderWidth="4" Command="{Binding DownloadCamaraDeComercioCommand}" 
+                                       TextColor="Black">
+                        </buttons:SfButton>
+                        <buttons:SfButton ImageAlignment="End" HorizontalOptions="EndAndExpand" BackgroundColor="Transparent" ImageWidth="50"
+                                              ImageSource="{Binding ImagenButtonUpload}" ShowIcon="True" Command="{Binding UploadcamaraDeComercioCommand}">
+                        </buttons:SfButton>
+                            </StackLayout>
+                        </StackLayout>
+                    </cards:SfCardView>
+                    <cards:SfCardView BackgroundColor="White" Margin="20,0,20,20" CornerRadius="30,30,30,30">
+                        <StackLayout Padding="15">
+                            <Label Text="Mi Calificación" TextColor="Black" FontSize="Large" HorizontalTextAlignment="Center" FontAttributes="Bold">
+                            </Label>
+                            <rating:SfRating HorizontalOptions="Center" 
+                                     Margin="0,5"
+                                     Precision="Half" ReadOnly="True"
+                                     Value="{Binding Empresa.Calificacion}">
+                                <rating:SfRating.RatingSettings>
+                                    <rating:SfRatingSettings RatedFill="Yellow" UnRatedFill="Gray" RatedStrokeWidth="3" UnRatedStrokeWidth="2"/>
+                                </rating:SfRating.RatingSettings>
+                            </rating:SfRating>
+                        </StackLayout>
+                    </cards:SfCardView>
+                </StackLayout>
+            </ScrollView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

@@ -6,6 +6,7 @@ namespace ProyectoDIV1.Services.Interfaces
     {
         bool IsSignIn();
         string BuscarEmail();
+        Task<string> BuscarToken();
         Task<bool> Register(string username, string email, string password);
         void SignOut();
         Task<string> SignIn(string email, string password);

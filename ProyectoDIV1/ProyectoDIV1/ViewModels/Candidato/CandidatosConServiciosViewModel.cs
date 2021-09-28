@@ -1,4 +1,7 @@
-﻿using ProyectoDIV1.DTOs;
+﻿using Newtonsoft.Json;
+using ProyectoDIV1.DTOs;
+using ProyectoDIV1.Entidades.Models;
+using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Views;
 using ProyectoDIV1.Views.Candidato;
@@ -94,11 +97,23 @@ namespace ProyectoDIV1.ViewModels.Candidato
                 Candidatos.Clear();
             }
             var candidatos = await _candidatoService.GetCandidatos();
-            List<CandidatoDTO> candidatoDTOs = new List<CandidatoDTO>();
-            candidatos.ForEach(x => candidatoDTOs.Add(new CandidatoDTO
+
+            var user = JsonConvert.DeserializeObject<ECandidato>(Settings.Usuario);
+            var candidatoIam = candidatos.Find(x => x.UsuarioId == user.UsuarioId);
+            if (candidatoIam != null)
             {
-                Candidato = x
-            }));
+                candidatos.Remove(candidatoIam);
+            }
+            List<CandidatoDTO> candidatoDTOs = new List<CandidatoDTO>();
+
+            Parallel.ForEach(candidatos,
+                item =>
+                {
+                    candidatoDTOs.Add(new CandidatoDTO
+                    {
+                        Candidato = item
+                    });
+                });
             Candidatos = new ObservableCollection<CandidatoDTO>(candidatoDTOs);
         }
 
@@ -122,7 +137,15 @@ namespace ProyectoDIV1.ViewModels.Candidato
                     await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
                     var candidatos = await _candidatoService.GetCandidatosPorServicio(profesion);
                     List<CandidatoDTO> candidatoDTOs = new List<CandidatoDTO>();
-                    candidatos.ForEach(x => candidatoDTOs.Add(new CandidatoDTO { Candidato = x }));
+
+                    Parallel.ForEach(candidatos,
+                        item =>
+                        {
+                            candidatoDTOs.Add(new CandidatoDTO
+                            {
+                                Candidato = item
+                            });
+                        });
                     Candidatos = new ObservableCollection<CandidatoDTO>(candidatoDTOs);
                     await PopupNavigation.Instance.PopAsync();
                 }

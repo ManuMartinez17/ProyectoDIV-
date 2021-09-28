@@ -21,11 +21,9 @@ namespace ProyectoDIV1.ViewModels.Empresa
         public MasterEmpresaViewModel()
         {
             _empresaService = new EmpresaService();
-            OnSignOut = new Command(OnSignOutClicked);
             CheckWhetherTheUserIsSignInAsync();
         }
 
-        public Command OnSignOut { get; set; }
         public EmpresaDTO Empresa
         {
             get => _empresa;
@@ -78,24 +76,6 @@ namespace ProyectoDIV1.ViewModels.Empresa
 
             };
             Empresa = empresaDTO;
-        }
-
-        private void OnSignOutClicked()
-        {
-            UserDialogs.Instance.ActionSheet(new ActionSheetConfig()
-                         .SetTitle("¿Está seguro que quiere cerrar la sesión?")
-                         .Add("Aceptar", () => CerrarSesion())
-                         .SetCancel("Cancelar")
-                     );
-        }
-
-        private void CerrarSesion()
-        {
-            var authService = DependencyService.Resolve<IAuthenticationService>();
-            authService.SignOut();
-            Settings.IsLogin = false;
-            Settings.TipoUsuario = null;
-            Shell.Current.GoToAsync($"//{nameof(LoginPage)}");
         }
     }
 }

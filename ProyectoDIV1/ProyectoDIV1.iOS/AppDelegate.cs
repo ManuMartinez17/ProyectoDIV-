@@ -27,6 +27,7 @@ namespace ProyectoDIV1.iOS
             Xamarin.Forms.Forms.SetFlags(new string[] { "IndicatorView_Experimental" });
             Firebase.Core.App.Configure();
             BottomBar.Init();
+            Syncfusion.XForms.iOS.RichTextEditor.SfRichTextEditorRenderer.Init();
             FFImageLoading.Forms.Platform.CachedImageRenderer.Init();
             LoadApplication(new App());
 

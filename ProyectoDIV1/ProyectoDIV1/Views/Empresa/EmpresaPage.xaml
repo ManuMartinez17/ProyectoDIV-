@@ -1,12 +1,72 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ProyectoDIV1.Views.Empresa.EmpresaPage">
+             xmlns:empresa="clr-namespace:ProyectoDIV1.ViewModels.Empresa" 
+             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms" 
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
+             xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
+             xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms" 
+             xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
+             x:DataType="empresa:EmpresaViewModel"
+             x:Class="ProyectoDIV1.Views.Empresa.EmpresaPage"
+             Title="{Binding Empresa.Empresa.RazonSocial}">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Ayuda"
+                 Order="Secondary"/>
+        <ToolbarItem Text="Cerrar Sesión" Command="{Binding OnSignOutCommand}"
+                 Order="Secondary"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
+        <StackLayout VerticalOptions="CenterAndExpand">
+            <ScrollView>
+                <StackLayout  Spacing="10" Margin="10">
+                    <cards:SfCardView Margin="15" Padding="0,10,0,10" CornerRadius="10">
+                        <StackLayout Orientation="Vertical">
+                            <ffimageloading:CachedImage Aspect="AspectFit"
+                                                Source="{Binding Empresa.Empresa.Rutas.RutaImagenRegistro}" 
+                                                Margin="15,10,10,10"
+                                                WidthRequest="100"
+                                                CacheDuration= "50"
+                                                HeightRequest="150"
+                                                RetryCount= "3" 
+                                                RetryDelay= "600">
+                                <ffimageloading:CachedImage.Transformations>
+                                    <fftransformations:CircleTransformation />
+                                </ffimageloading:CachedImage.Transformations>
+                            </ffimageloading:CachedImage>
+                            <StackLayout  VerticalOptions="CenterAndExpand" Margin="15">
+                                <Label FontSize="Body" TextColor="Black" FontAttributes="Bold" Text="{Binding Empresa.Empresa.RazonSocial}">
+                                </Label>
+                                <Label FontSize="Body" TextColor="Black" FontAttributes="Bold" Text="{Binding Empresa.Empresa.Nit, StringFormat='Nit: {0}'}">
+                                </Label>
+                                <Label FontSize="Body" TextColor="Black" FontAttributes="Bold" Text="{Binding Empresa.ItPlace}">
+                                  
+                                </Label>
+
+                                <StackLayout Orientation="Horizontal"  HorizontalOptions="FillAndExpand">
+                                    <Label Text="Calificaciones: " VerticalTextAlignment="Center"  TextColor="{StaticResource ThirdOrange}" FontSize="Body" FontAttributes="Bold">
+                                    </Label>
+                                    <rating:SfRating
+                                     ItemSize="20"
+                                     Precision="Half" ReadOnly="True"
+                                     Value="{Binding Empresa.Calificacion}">
+                                        <rating:SfRating.RatingSettings>
+                                            <rating:SfRatingSettings RatedFill="Yellow" UnRatedFill="Gray" RatedStrokeWidth="3" UnRatedStrokeWidth="2"/>
+                                        </rating:SfRating.RatingSettings>
+                                    </rating:SfRating>
+                                </StackLayout>
+                            </StackLayout>
+                            <cards:SfCardView BackgroundColor="{StaticResource ThirdOrange}" Margin="0,25,0,20" HorizontalOptions="CenterAndExpand" CornerRadius="10,10,10,10">
+                                <buttons:SfButton Text="Contactar" FontSize="20" TextColor="White" FontAttributes="Bold"
+                              Command="{Binding ContactarCommand}" 
+                                       BorderWidth="2" BackgroundColor="Transparent"
+                                      ImageWidth="30" ImageAlignment="End"
+                                      ShowIcon="True" ImageSource="icon_rightarrow.png"/>
+                            </cards:SfCardView>
+                        </StackLayout>
+                    </cards:SfCardView>
+                </StackLayout>
+            </ScrollView>
         </StackLayout>
     </ContentPage.Content>
 </ContentPage>

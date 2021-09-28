@@ -1,4 +1,5 @@
-﻿using System;
+﻿using ProyectoDIV1.ViewModels.Empresa;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -15,6 +16,7 @@ namespace ProyectoDIV1.Views.Empresa
         public EmpresaPage()
         {
             InitializeComponent();
+            BindingContext = new EmpresaViewModel();
         }
     }
 }

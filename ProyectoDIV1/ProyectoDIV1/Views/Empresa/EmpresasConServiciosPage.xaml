@@ -10,6 +10,12 @@
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
              x:Class="ProyectoDIV1.Views.Empresa.EmpresasConServiciosPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Ayuda"
+                 Order="Secondary"/>
+        <ToolbarItem Text="Cerrar Sesión" Command="{Binding OnSignOutCommand}"
+                 Order="Secondary"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <Frame Padding="20,5">
@@ -39,8 +45,8 @@
                     </autocomplete:SfAutoComplete>
                 </Grid>
             </Frame>
-            <syncfusion:SfListView ItemsSource="{Binding Empresas}" SelectionBackgroundColor="Transparent"
-                                   AutoFitMode="Height"
+            <syncfusion:SfListView ItemsSource="{Binding Empresas}"  SelectionBackgroundColor="Transparent"
+                                   AutoFitMode="Height" TapCommand="{Binding MoreInformationCommand}"
                                    SelectionMode="None">
                 <syncfusion:SfListView.ItemTemplate>
                     <DataTemplate>
@@ -56,7 +62,7 @@
                                         <fftransformations:CircleTransformation />
                                     </ffimageloading:CachedImage.Transformations>
                                 </ffimageloading:CachedImage>
-                                <StackLayout VerticalOptions="Center" Orientation="Vertical">
+                                <StackLayout  HorizontalOptions="FillAndExpand" Orientation="Vertical">
                                     <Label Text="{Binding Empresa.RazonSocial}" FontAttributes="Bold" FontSize="Body" 
                                                    TextColor="{StaticResource ThirdOrange}" />
 
@@ -70,7 +76,7 @@
                                         </Label.FormattedText>
                                     </Label>
                                     <rating:SfRating
-                                     Precision="Half" ReadOnly="True" VerticalOptions="EndAndExpand" ItemSize="18"
+                                     Precision="Half" ReadOnly="True" ItemSize="18"
                                      Value="{Binding Calificacion}">
                                         <rating:SfRating.RatingSettings>
                                             <rating:SfRatingSettings RatedFill="Yellow" UnRatedFill="Gray" RatedStrokeWidth="3" UnRatedStrokeWidth="2"/>

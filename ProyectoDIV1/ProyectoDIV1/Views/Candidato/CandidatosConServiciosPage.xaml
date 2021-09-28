@@ -10,6 +10,12 @@
              xmlns:pullToRefresh="clr-namespace:Syncfusion.SfPullToRefresh.XForms;assembly=Syncfusion.SfPullToRefresh.XForms"
              xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
              x:Class="ProyectoDIV1.Views.Candidato.CandidatosConServiciosPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Ayuda"
+                 Order="Secondary"/>
+        <ToolbarItem Text="Cerrar Sesión" Command="{Binding OnSignOutCommand}"
+                 Order="Secondary"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <StackLayout>
             <Frame Padding="20,5">
@@ -24,7 +30,7 @@
                     </Grid.ColumnDefinitions>
                     <Label HorizontalOptions="Start"
                            FontFamily="fontello" FontSize="Medium"
-                           Text="&#xE800;" VerticalOptions="Center">
+                           Text="{StaticResource IconSearch}" VerticalOptions="Center">
 
                     </Label>
                     <autocomplete:SfAutoComplete x:Name="Autocomplete" Grid.Column="1" HorizontalOptions="FillAndExpand" ShowBorder="False" AutoCompleteMode="SuggestAppend"
@@ -57,14 +63,13 @@
                                         <fftransformations:CircleTransformation />
                                     </ffimageloading:CachedImage.Transformations>
                                 </ffimageloading:CachedImage>
-                                <StackLayout VerticalOptions="Center" HorizontalOptions="StartAndExpand">
+                                <StackLayout VerticalOptions="Center" HorizontalOptions="FillAndExpand">
                                     <Label Text="{Binding Candidato.Profesion}" FontSize="Body" FontAttributes="Bold" 
-                                           TextColor="{StaticResource ThirdOrange}"
-                                            />
+                                           TextColor="{StaticResource ThirdOrange}"/>
                                     <Label Text="{Binding FullName}" FontSize="Small"
                                            TextColor="Black"/>
                                     <rating:SfRating
-                                     Precision="Half" ReadOnly="True" VerticalOptions="EndAndExpand" ItemSize="18"
+                                     Precision="Half" ReadOnly="True" ItemSize="18"
                                      Value="{Binding Calificacion}">
                                         <rating:SfRating.RatingSettings>
                                             <rating:SfRatingSettings RatedFill="Yellow" UnRatedFill="Gray" RatedStrokeWidth="3" UnRatedStrokeWidth="2"/>

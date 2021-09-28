@@ -28,7 +28,8 @@ namespace ProyectoDIV1.ViewModels.Chat
             _candidatoReceptor = new ECandidato();
             _candidatoEmisor = JsonConvert.DeserializeObject<ECandidato>(Settings.Usuario);
             TappedCommand = new Command<object>(MessageTapped);
-            currentUserEmisor = new Author() { Name = $"{_candidatoEmisor.Nombre} {_candidatoEmisor.Apellido}", Avatar = _candidatoEmisor.Rutas.RutaImagenRegistro };
+            currentUserEmisor = new Author() { Name = $"{_candidatoEmisor.Nombre} {_candidatoEmisor.Apellido}",
+                Avatar = _candidatoEmisor.Rutas.RutaImagenRegistro };
             GenerateMessages();
         }
 
@@ -91,6 +92,7 @@ namespace ProyectoDIV1.ViewModels.Chat
             {
                 Author = CurrentUserEmisor,
                 Text = "Buen día para solicitar de sus servicios.",
+                
             });
         }
         private void MessageTapped(object args)

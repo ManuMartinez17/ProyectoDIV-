@@ -1,12 +1,32 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms"
              x:Class="ProyectoDIV1.Views.Notificaciones.NotificacionesCandidatosPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Ayuda"
+                 Order="Secondary"/>
+        <ToolbarItem Text="Cerrar Sesión" Command="{Binding OnSignOutCommand}"
+                 Order="Secondary"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
-            <Label Text="Welcome to Xamarin.Forms!"
-                VerticalOptions="CenterAndExpand" 
-                HorizontalOptions="CenterAndExpand" />
-        </StackLayout>
+        <syncfusion:SfListView  x:Name="LV_notficaciones" ItemsSource="{Binding Notificaciones}" TapCommand="{Binding MoreInformationCommand}"
+                                    AutoFitMode="Height" SelectionBackgroundColor="Transparent" >
+            <syncfusion:SfListView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Margin="5,10,5,10" CornerRadius="10" BackgroundColor="AliceBlue">
+                        <StackLayout Orientation="Horizontal" VerticalOptions="CenterAndExpand">
+                            <Label Text="{Binding FullNameCandidato}" FontSize="Body" FontAttributes="Bold" 
+                                           TextColor="{StaticResource ThirdOrange}"/>
+                                <Label Text="{Binding Notificacion.Fecha}" FontSize="Small"
+                                           TextColor="Black"/>
+                            <Image Source="{Binding IsVisto}" Aspect="AspectFit" WidthRequest="30">
+
+                            </Image>
+                        </StackLayout>
+                    </Frame>
+                </DataTemplate>
+            </syncfusion:SfListView.ItemTemplate>
+        </syncfusion:SfListView>
     </ContentPage.Content>
 </ContentPage>
