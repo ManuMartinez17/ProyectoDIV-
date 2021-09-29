@@ -13,6 +13,7 @@
   <ItemGroup>
     <None Remove="ArchivosLocales\Colombia.json" />
     <None Remove="Fonts\fontello.ttf" />
+    <None Remove="ViewModels\Notificaciones\PopupEnviarNotificacionViewModel.cs~RF91f914.TMP" />
   </ItemGroup>
 
   <ItemGroup>

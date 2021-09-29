@@ -4,7 +4,8 @@
              xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms" 
              xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
              xmlns:notificaciones="clr-namespace:ProyectoDIV1.ViewModels.Notificaciones" x:DataType="notificaciones:InfoNotificacionViewModel"
-             x:Class="ProyectoDIV1.Views.Notificaciones.InfoNotificacionPage">
+             x:Class="ProyectoDIV1.Views.Notificaciones.InfoNotificacionPage"
+             Title="Notificación">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Ayuda"
                  Order="Secondary"/>
@@ -12,30 +13,68 @@
                  Order="Secondary"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout Spacing="10" Margin="15" Padding="20" VerticalOptions="CenterAndExpand">
+        <StackLayout Spacing="10" Padding="10" VerticalOptions="CenterAndExpand">
+            <cards:SfCardView  Margin="15" Padding="5,20,5,20" CornerRadius="10" BackgroundColor="{StaticResource Secondary}">
+                <StackLayout>
+                    <Image Source="{Binding IconIsAccepted}" Aspect="AspectFit" WidthRequest="60"/>
+                    <Label VerticalOptions="CenterAndExpand" HorizontalOptions="Center">
+                        <Label.Margin>
+                            <Thickness Left="8" />
+                        </Label.Margin>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Enviado por: " FontSize="Medium" TextColor="{StaticResource ThirdOrange}" FontAttributes="Bold"/>
+                                <Span Text="{Binding FullName}" TextColor="{StaticResource PurpleDark}" FontSize="Small" FontAttributes="Bold" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label>
+                        <Label.Margin>
+                            <Thickness Left="8" />
+                        </Label.Margin>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Fecha: " FontSize="Medium" TextColor="Black" FontAttributes="Bold"/>
+                                <Span Text="{Binding Fecha}" TextColor="Black" FontSize="Small" FontAttributes="Italic" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
 
-            <Label FontSize="Body" TextColor="Black" FontAttributes="Bold"
-                                       Text="{Binding Detalle.FullName}">
-
-            </Label>
-            <Label Text="{Binding Detalle.notificacion.Fecha, StringFormat='Fecha: {0}'}" FontSize="Large">
-
-            </Label>
-            <Label Text="{Binding Detalle.notificacion.Mensaje, StringFormat='Mensaje: {0}'}" FontSize="Large">
-                
-            </Label>
-         
-            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Margin="15">
-                <cards:SfCardView BackgroundColor="{StaticResource ThirdOrange}" HorizontalOptions="CenterAndExpand" CornerRadius="10,10,10,10">
+                    <Label>
+                        <Label.Margin>
+                            <Thickness Left="8" />
+                        </Label.Margin>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Mensaje: " FontSize="Medium" TextColor="Black" FontAttributes="Bold"/>
+                                <Span Text="{Binding Mensaje}" TextColor="Black" FontSize="Small" FontAttributes="Italic" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <Label>
+                        <Label.Margin>
+                            <Thickness Left="8" />
+                        </Label.Margin>
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Estado: " FontSize="Medium" TextColor="Black" FontAttributes="Bold"/>
+                                <Span Text="{Binding IsAccepted}" TextColor="Black" FontSize="Small" FontAttributes="Italic" />
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                </StackLayout>
+            </cards:SfCardView>
+        <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Margin="15">
+                <cards:SfCardView BackgroundColor="#7d71c4" HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsVisible}" CornerRadius="10,10,10,10">
                     <buttons:SfButton  Text="Aceptar" FontSize="20" TextColor="White" FontAttributes="Bold"
-                              Command="{Binding AceptarContratoCommand}" 
+                              Command="{Binding AceptarContratoCommand}" IsVisible="{Binding IsVisible}"
                                        BorderWidth="2" BackgroundColor="Transparent"
                                       ImageWidth="30" ImageAlignment="End" 
                                       ShowIcon="True" ImageSource="icon_check.png"/>
                 </cards:SfCardView>
-                <cards:SfCardView BackgroundColor="Gray" HorizontalOptions="CenterAndExpand" CornerRadius="10,10,10,10">
+                <cards:SfCardView BackgroundColor="#f8c2ab" HorizontalOptions="CenterAndExpand" IsVisible="{Binding IsVisible}" CornerRadius="10,10,10,10">
                     <buttons:SfButton Text="Rechazar" FontSize="20" TextColor="White" FontAttributes="Bold"
-                              Command="{Binding RechazarContratoCommand}" 
+                              Command="{Binding RechazarContratoCommand}"  IsVisible="{Binding IsVisible}"
                                        BorderWidth="2" BackgroundColor="Transparent"
                                       ImageWidth="30" ImageAlignment="End"
                                       ShowIcon="True" ImageSource="remove.png"/>

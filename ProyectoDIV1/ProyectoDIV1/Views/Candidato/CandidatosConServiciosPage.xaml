@@ -9,7 +9,8 @@
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations" 
              xmlns:pullToRefresh="clr-namespace:Syncfusion.SfPullToRefresh.XForms;assembly=Syncfusion.SfPullToRefresh.XForms"
              xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
-             x:Class="ProyectoDIV1.Views.Candidato.CandidatosConServiciosPage">
+             x:Class="ProyectoDIV1.Views.Candidato.CandidatosConServiciosPage"
+             Title="Servicios por candidato">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Ayuda"
                  Order="Secondary"/>

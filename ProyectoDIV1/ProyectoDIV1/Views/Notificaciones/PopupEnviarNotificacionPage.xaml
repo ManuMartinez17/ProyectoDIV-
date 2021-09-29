@@ -11,7 +11,7 @@
                     <Label Text="Enviar Mensaje" TextColor="Black" FontSize="Large" FontAttributes="Bold" Padding="20" HorizontalTextAlignment="Center" 
                        VerticalTextAlignment="Center" />
                     <inputLayout:SfTextInputLayout Hint="Mensaje">
-                        <Editor AutoSize="TextChanges" BackgroundColor="{StaticResource Secondary}" Text= "{Binding Mensaje}" />
+                        <Editor AutoSize="TextChanges" TextColor="Black" BackgroundColor="{StaticResource Secondary}" Text= "{Binding Mensaje}" />
                     </inputLayout:SfTextInputLayout>
                     <Button Command="{Binding EnviarMensajeCommand}" BackgroundColor="{StaticResource ThirdOrange}" CornerRadius="4"
                         TextColor="White" HorizontalOptions="Center" VerticalOptions="EndAndExpand" Text="Enviar">

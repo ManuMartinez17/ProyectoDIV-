@@ -13,11 +13,9 @@ namespace ProyectoDIV1.DTOs
         public EEmpresa EmpresaEmisor { get; set; } = new EEmpresa();
         public EEmpresa EmpresaReceptor { get; set; } = new EEmpresa();
         public string FullNameCandidato => $"De: {CandidatoEmisor.Nombre} {CandidatoEmisor.Apellido}";
-        public string IsVisto => Notificacion.Estado == false ? "icon_noView.png" : "icon_view.png";
-    }
-    public class NotificacionSalidaDTO
-    {
-        public ENotificacion notificacion { get; set; } = new ENotificacion();
-        public string FullName { get; set; }
+        public string IsVisto => Notificacion.EstadoVisto == false ? "icon_noView.png" : "icon_view.png";
+        public string IsAccepted => Notificacion.EstadoAceptado == false ? "Pendiente" : "Aceptado";
+
+        public string IconIsAccepted => Notificacion.EstadoAceptado == false ? "icon_pending.png" : "icon_checked.png";
     }
 }

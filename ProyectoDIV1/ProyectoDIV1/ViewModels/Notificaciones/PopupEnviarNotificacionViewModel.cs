@@ -45,10 +45,13 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                 {
                     UserDialogs.Instance.ShowLoading("Enviando...");
                     ENotificacion notificacion = new ENotificacion();
-                    
+
                     if (_candidatoReceptor != null)
                     {
-                        _candidatoReceptor.Notificaciones = new List<ENotificacion>();
+                        if (_candidatoReceptor.Notificaciones == null)
+                        {
+                            _candidatoReceptor.Notificaciones = new List<ENotificacion>();
+                        }
                         notificacion.Id = Guid.NewGuid();
                         notificacion.EmisorId = _candidatoEmisor.UsuarioId;
                         notificacion.Fecha = DateTime.Now;
@@ -60,7 +63,10 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     }
                     else if (_empresaReceptor != null)
                     {
-                        _empresaEmisor.Notificaciones = new List<ENotificacion>();
+                        if (_empresaReceptor.Notificaciones == null)
+                        {
+                            _empresaReceptor.Notificaciones = new List<ENotificacion>();
+                        }
                         notificacion.Id = Guid.NewGuid();
                         notificacion.EmisorId = _empresaEmisor.UsuarioId;
                         notificacion.Fecha = DateTime.Now;
@@ -71,7 +77,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                         await _empresaService.UpdateAsync(_empresaReceptor, Constantes.COLLECTION_EMPRESA, query);
                     }
                     UserDialogs.Instance.HideLoading();
-                    Toasts. Success("Enviado.", 2000);
+                    Toasts.Success("Enviado.", 2000);
                     await PopupNavigation.Instance.PopAllAsync();
 
                 }

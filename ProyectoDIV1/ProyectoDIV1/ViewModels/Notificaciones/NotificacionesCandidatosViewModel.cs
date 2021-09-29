@@ -29,8 +29,46 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
             _candidato = JsonConvert.DeserializeObject<ECandidato>(Settings.Usuario);
             _notificacionesService = new NotificacionesService();
             MoreInformationCommand = new Command<object>(NotificacionSelected, CanNavigate);
+            RefreshCommand = new Command(async () => await RefreshNotificaciones());
         }
+
+        private async Task RefreshNotificaciones()
+        {
+            List<NotificacionDTO> lista = new List<NotificacionDTO>();
+            IsBusy = true;
+            try
+            {
+
+                if (_candidato != null)
+                {
+                    var notificaciones = await _notificacionesService.GetNotificacionesCandidatos(_candidato.UsuarioId);
+
+                    await notificaciones.ParallelForEachAsync(async item =>
+                    {
+                        var candidatoEmisor = await insertarCandidatoEmisor(item.EmisorId);
+
+                        lista.Add(new NotificacionDTO()
+                        {
+                            CandidatoEmisor = candidatoEmisor,
+                            Notificacion = item
+                        });
+                    }, maxDegreeOfParallelism: 10);
+
+                    Notificaciones = new ObservableCollection<NotificacionDTO>(lista);
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex);
+            }
+            finally
+            {
+                IsBusy = false;
+            }
+        }
+
         public Command MoreInformationCommand { get; }
+        public Command RefreshCommand { get; }
         private bool CanNavigate(object argument)
         {
             return true;

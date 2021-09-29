@@ -9,7 +9,8 @@
              xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms" 
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             x:Class="ProyectoDIV1.Views.Empresa.EmpresasConServiciosPage">
+             x:Class="ProyectoDIV1.Views.Empresa.EmpresasConServiciosPage"
+             Title="Servicios por empresa">
     <ContentPage.ToolbarItems>
         <ToolbarItem Text="Ayuda"
                  Order="Secondary"/>
