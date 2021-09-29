@@ -105,15 +105,11 @@ namespace ProyectoDIV1.ViewModels.Candidato
                 candidatos.Remove(candidatoIam);
             }
             List<CandidatoDTO> candidatoDTOs = new List<CandidatoDTO>();
-
-            Parallel.ForEach(candidatos,
-                item =>
-                {
-                    candidatoDTOs.Add(new CandidatoDTO
-                    {
-                        Candidato = item
-                    });
-                });
+            candidatos.ForEach(x => candidatoDTOs.Add(new CandidatoDTO
+            {
+                Candidato = x
+            }));
+           
             Candidatos = new ObservableCollection<CandidatoDTO>(candidatoDTOs);
         }
 
@@ -137,15 +133,10 @@ namespace ProyectoDIV1.ViewModels.Candidato
                     await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
                     var candidatos = await _candidatoService.GetCandidatosPorServicio(profesion);
                     List<CandidatoDTO> candidatoDTOs = new List<CandidatoDTO>();
-
-                    Parallel.ForEach(candidatos,
-                        item =>
-                        {
-                            candidatoDTOs.Add(new CandidatoDTO
-                            {
-                                Candidato = item
-                            });
-                        });
+                    candidatos.ForEach(x => candidatoDTOs.Add(new CandidatoDTO
+                    {
+                        Candidato = x
+                    }));
                     Candidatos = new ObservableCollection<CandidatoDTO>(candidatoDTOs);
                     await PopupNavigation.Instance.PopAsync();
                 }

@@ -23,6 +23,15 @@ namespace ProyectoDIV1.ViewModels.Candidato
             CheckWhetherTheUserIsSignIn();
         }
 
+        public async void RefreshCandidato(Guid id)
+        {
+            var candidato = await _candidatoService.GetCandidatoAsync(id);
+            CandidatoDTO candidatoDTO = new CandidatoDTO()
+            {
+                Candidato = candidato
+            };
+            Candidato = candidatoDTO;
+        }
         private async void CheckWhetherTheUserIsSignIn()
         {
             try

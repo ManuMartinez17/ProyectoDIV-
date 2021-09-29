@@ -60,7 +60,7 @@ namespace ProyectoDIV1.Services.FirebaseServices
                         RutaArchivoRegistro = item.Object.Rutas.RutaArchivoRegistro
                     } : item.Object.Rutas,
                     Notificaciones = item.Object.Notificaciones
-                }).FirstOrDefault(x => x.UsuarioId == id);
+                }).FirstOrDefault(x => x.UsuarioId.Equals(id));
                 return empresa;
             }
             catch (Exception ex)

@@ -51,6 +51,16 @@ namespace ProyectoDIV1.ViewModels.Empresa
             }
         }
 
+        public async void RefreshEmpresa(Guid id)
+        {
+            var empresa = await _empresaService.GetEmpresaAsync(id);
+            EmpresaDTO empresaDTO = new EmpresaDTO()
+            {
+                Empresa = empresa
+            };
+            Empresa = empresaDTO;
+        }
+
         private async Task<EEmpresa> BuscarIdEmpresa(string email)
         {
             try

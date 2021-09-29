@@ -168,7 +168,7 @@ namespace ProyectoDIV1.Services.FirebaseServices
             UsuarioId = item.Object.UsuarioId,
             Expectativa = item.Object.Expectativa,
             Notificaciones = item.Object.Notificaciones
-        }).FirstOrDefault(x => x.UsuarioId == id);
+        }).FirstOrDefault(x => x.UsuarioId.Equals(id));
         }
 
         public async Task<bool> GetCandidatoByEmail(string value)

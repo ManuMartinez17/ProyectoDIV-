@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms" 
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
+             xmlns:notificaciones="clr-namespace:ProyectoDIV1.ViewModels.Notificaciones" x:DataType="notificaciones:InfoNotificacionViewModel"
+             x:Class="ProyectoDIV1.Views.Notificaciones.InfoNotificacionPage">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Ayuda"
+                 Order="Secondary"/>
+        <ToolbarItem Text="Cerrar Sesión" Command="{Binding OnSignOutCommand}"
+                 Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+        <StackLayout Spacing="10" Margin="15" Padding="20" VerticalOptions="CenterAndExpand">
+
+            <Label FontSize="Body" TextColor="Black" FontAttributes="Bold"
+                                       Text="{Binding Detalle.FullName}">
+
+            </Label>
+            <Label Text="{Binding Detalle.notificacion.Fecha, StringFormat='Fecha: {0}'}" FontSize="Large">
+
+            </Label>
+            <Label Text="{Binding Detalle.notificacion.Mensaje, StringFormat='Mensaje: {0}'}" FontSize="Large">
+                
+            </Label>
+         
+            <StackLayout Orientation="Horizontal" VerticalOptions="EndAndExpand" Margin="15">
+                <cards:SfCardView BackgroundColor="{StaticResource ThirdOrange}" HorizontalOptions="CenterAndExpand" CornerRadius="10,10,10,10">
+                    <buttons:SfButton  Text="Aceptar" FontSize="20" TextColor="White" FontAttributes="Bold"
+                              Command="{Binding AceptarContratoCommand}" 
+                                       BorderWidth="2" BackgroundColor="Transparent"
+                                      ImageWidth="30" ImageAlignment="End" 
+                                      ShowIcon="True" ImageSource="icon_check.png"/>
+                </cards:SfCardView>
+                <cards:SfCardView BackgroundColor="Gray" HorizontalOptions="CenterAndExpand" CornerRadius="10,10,10,10">
+                    <buttons:SfButton Text="Rechazar" FontSize="20" TextColor="White" FontAttributes="Bold"
+                              Command="{Binding RechazarContratoCommand}" 
+                                       BorderWidth="2" BackgroundColor="Transparent"
+                                      ImageWidth="30" ImageAlignment="End"
+                                      ShowIcon="True" ImageSource="remove.png"/>
+                </cards:SfCardView>
+            </StackLayout>
+
+        </StackLayout>
+    </ContentPage.Content>
+</ContentPage>

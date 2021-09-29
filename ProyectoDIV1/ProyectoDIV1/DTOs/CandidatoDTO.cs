@@ -10,6 +10,6 @@ namespace ProyectoDIV1.DTOs
         public string ItLives => $"Vivo en {Candidato.Departamento} en la ciudad de: {Candidato.Ciudad}";
         public int? CantidadCalificaciones => Candidato.Calificaciones?.Count();
         public float Calificacion => Candidato.Calificaciones == null ? 0 : Candidato.Calificaciones.Average();
-        public int? CantidadNotificaciones => Candidato.Notificaciones?.Count();
+        public int? CantidadNotificaciones => Candidato.Notificaciones?.Count(x => x.Estado == false) > 0 ? Candidato.Notificaciones?.Count(x => x.Estado == false) : null;
     }
 }
