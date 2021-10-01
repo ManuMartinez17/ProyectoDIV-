@@ -83,7 +83,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
             get { return _isvisible; }
             set { SetProperty(ref _isvisible, value); }
         }
-        private async void ActualizarEstadoNotificacion(bool acepto = false)
+        private async void ActualizarEstadoNotificacion(bool acepto = false, bool rechazo = false)
         {
             try
             {
@@ -95,7 +95,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     var queryEmpresa = await empresaService.GetEmpresaFirebaseObjectAsync(id);
                     if (query != null)
                     {
-                        var candidato =  await candidatoService.GetCandidatoAsync(id);
+                        var candidato = await candidatoService.GetCandidatoAsync(id);
                         foreach (var item in candidato.Notificaciones)
                         {
                             if (item.Id == idNotificacion)
@@ -103,6 +103,10 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                                 if (acepto)
                                 {
                                     item.EstadoAceptado = true;
+                                }
+                                else if (rechazo)
+                                {
+                                    item.EstadoRechazado = true;
                                 }
                                 item.EstadoVisto = true;
                                 break;
@@ -121,15 +125,15 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                                 {
                                     x.EstadoAceptado = true;
                                 }
+                                else if (rechazo)
+                                {
+                                    x.EstadoRechazado = true;
+                                }
                                 x.EstadoVisto = true;
                                 return;
                             }
                         });
                         await notificacionService.UpdateAsync(empresa, Constantes.COLLECTION_EMPRESA, queryEmpresa);
-                    }
-                    if (acepto)
-                    {
-                        await Shell.Current.GoToAsync("..");
                     }
                 }
             }
@@ -142,7 +146,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
 
         private async void AceptarContratoClicked(object obj)
         {
-            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage("enviando notficación..."));
+            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage("enviando notificación..."));
             try
             {
                 await EnviarNotificacion(true);
@@ -156,7 +160,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
             {
                 await PopupNavigation.Instance.PopAsync();
                 Toasts.Success("Aceptado.", 2000);
-
+                await Shell.Current.GoToAsync("..");
             }
 
         }
@@ -174,7 +178,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                 notificacion.Id = Guid.NewGuid();
                 notificacion.EmisorId = _notificacion.CandidatoReceptor.UsuarioId;
                 notificacion.Fecha = DateTime.Now;
-                notificacion.EstadoVisto = true;
+                notificacion.EstadoVisto = false;
                 if (SiAcepto)
                 {
                     notificacion.EstadoAceptado = true;
@@ -182,6 +186,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                 }
                 else
                 {
+                    notificacion.EstadoRechazado = true;
                     notificacion.Mensaje = "Solicitud Rechazada.";
                 }
                 _notificacion.CandidatoEmisor.Notificaciones.Add(notificacion);
@@ -197,13 +202,15 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                 notificacion.Id = Guid.NewGuid();
                 notificacion.EmisorId = _notificacion.CandidatoReceptor.UsuarioId;
                 notificacion.Fecha = DateTime.Now;
-                notificacion.EstadoVisto = true;
+                notificacion.EstadoVisto = false;
                 if (SiAcepto)
                 {
+                    notificacion.EstadoAceptado = true;
                     notificacion.Mensaje = "Solicitud Aceptada.";
                 }
                 else
                 {
+                    notificacion.EstadoRechazado = true;
                     notificacion.Mensaje = "Solicitud Rechazada.";
                 }
                 _notificacion.EmpresaEmisor.Notificaciones.Add(notificacion);
@@ -218,7 +225,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
             try
             {
                 await EnviarNotificacion(false);
-                ActualizarEstadoNotificacion();
+                ActualizarEstadoNotificacion(false, true);
             }
             catch (Exception ex)
             {
@@ -228,6 +235,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
             {
                 await PopupNavigation.Instance.PopAsync();
                 Toasts.Error("Rechazado.", 2000);
+                await Shell.Current.GoToAsync("..");
             }
         }
 
@@ -243,10 +251,12 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     if (help.Collection.Equals(Constantes.COLLECTION_CANDIDATO))
                     {
                         _notificacion.CandidatoReceptor = await candidatoService.GetCandidatoAsync(id);
+
                     }
                     else if (help.Collection.Equals(Constantes.COLLECTION_EMPRESA))
                     {
                         _notificacion.EmpresaReceptor = await empresaService.GetEmpresaAsync(id);
+
                     }
                 }
 
@@ -274,9 +284,16 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     FullName = $"{_notificacion.CandidatoEmisor.Nombre} {_notificacion.CandidatoEmisor.Apellido}";
                     Fecha = _notificacion.Notificacion.Fecha;
                     Mensaje = _notificacion.Notificacion.Mensaje;
-                    IsAccepted = _notificacion.Notificacion.EstadoAceptado == false ? "Pendiente" : "Aceptado";
-                    IconIsAccepted = _notificacion.Notificacion.EstadoAceptado == false ? "icon_pending.png" : "icon_checked.png";
-                    IsVisible = _notificacion.Notificacion.EstadoAceptado == false ? true : false;
+                    IsAccepted = _notificacion.Notificacion.EstadoAceptado == false && _notificacion.Notificacion.EstadoRechazado == false
+                       ? "Pendiente" : _notificacion.Notificacion.EstadoRechazado
+                        == true ? "rechazado" : "Aceptado";
+                    IconIsAccepted = _notificacion.Notificacion.EstadoAceptado == false && _notificacion.Notificacion.EstadoRechazado 
+                        == false ? "icon_pending.png" : _notificacion.Notificacion.EstadoRechazado
+                        == true ? "icon_rechazing.png" : "icon_checked.png";
+                    IsVisible = _notificacion.Notificacion.EstadoAceptado == false ||
+                       _notificacion.Notificacion.EstadoRechazado == true ? true : _notificacion.Notificacion.EstadoRechazado == false
+                       || _notificacion.Notificacion.EstadoRechazado == true ? false : true;
+                    _notificacion.EmpresaEmisor = null;
                 }
                 else if (help.Collection.Equals(Constantes.COLLECTION_EMPRESA))
                 {
@@ -287,9 +304,16 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     FullName = $"{_notificacion.EmpresaEmisor.RazonSocial} Nit: {_notificacion.EmpresaEmisor.Nit}";
                     Fecha = _notificacion.Notificacion.Fecha;
                     Mensaje = _notificacion.Notificacion.Mensaje;
-                    IsAccepted = _notificacion.Notificacion.EstadoAceptado == false ? "Pendiente" : "Aceptado";
-                    IconIsAccepted = _notificacion.Notificacion.EstadoAceptado == false ? "icon_pending.png" : "icon_checked.png";
-                    IsVisible = _notificacion.Notificacion.EstadoAceptado == false ? true : false;
+                    IsAccepted = _notificacion.Notificacion.EstadoAceptado == false && _notificacion.Notificacion.EstadoRechazado == false
+                        ? "Pendiente" : _notificacion.Notificacion.EstadoRechazado
+                         == true ? "rechazado" : "Aceptado";
+                    IconIsAccepted = _notificacion.Notificacion.EstadoAceptado == false && 
+                        _notificacion.Notificacion.EstadoRechazado == false ? "icon_pending.png" : _notificacion.Notificacion.EstadoRechazado
+                        == true ? "icon_rechazing.png" : "icon_checked.png";
+                    IsVisible = _notificacion.Notificacion.EstadoAceptado == false ||
+                        _notificacion.Notificacion.EstadoRechazado == true ? true : _notificacion.Notificacion.EstadoRechazado == false 
+                        || _notificacion.Notificacion.EstadoRechazado == true ? false : true;
+                    _notificacion.CandidatoEmisor = null;
                 }
             }
             catch (Exception ex)

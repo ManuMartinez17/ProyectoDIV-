@@ -12,5 +12,6 @@ namespace ProyectoDIV1.Entidades.Models
         public DateTime Fecha { get; set; }
         public string Mensaje { get; set; }
         public bool EstadoAceptado { get; set; }
+        public bool EstadoRechazado { get; set; }
     }
 }
