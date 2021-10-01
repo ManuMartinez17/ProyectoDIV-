@@ -78,8 +78,6 @@ namespace ProyectoDIV1.ViewModels.Empresa
 
         private void LoadEmpresa(EEmpresa empresa)
         {
-            empresa.Rutas.RutaImagenRegistro = string.IsNullOrEmpty(empresa.Rutas.RutaImagenRegistro) ?
-               "https://i.postimg.cc/zDkX2Zh7/logo.png" : empresa.Rutas.RutaImagenRegistro;
             EmpresaDTO empresaDTO = new EmpresaDTO()
             {
                 Empresa = empresa

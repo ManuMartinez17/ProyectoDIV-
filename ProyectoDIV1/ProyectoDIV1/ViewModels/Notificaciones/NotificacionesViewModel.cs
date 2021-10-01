@@ -35,13 +35,12 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
 
             candidatoService = new CandidatoService();
             _empresaService = new EmpresaService();
-            Deserializarusuario();
             _notificacionesService = new NotificacionesService();
             MoreInformationCommand = new Command<object>(NotificacionSelected, CanNavigate);
             RefreshCommand = new Command(async () => await RefreshNotificaciones());
         }
 
-        private void Deserializarusuario()
+        private async void Deserializarusuario()
         {
             JObject Jobject = JObject.Parse(Settings.Usuario);
             try
@@ -51,10 +50,28 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                 if (objetoCandidato is ECandidato)
                 {
                     _candidato = objetoCandidato as ECandidato;
+                    var query = await candidatoService.GetCandidatoAsync(_candidato.UsuarioId);
+                    if (query != null)
+                    {
+                        _candidato = query;
+                    }
+                    else
+                    {
+                        _candidato = null;
+                    }
                 }
-                else if (objetoEmpresa is EEmpresa)
+                if (objetoEmpresa is EEmpresa)
                 {
                     _empresa = objetoEmpresa as EEmpresa;
+                    var query = await _empresaService.GetEmpresaAsync(_empresa.UsuarioId);
+                    if (query != null)
+                    {
+                        _empresa = query;
+                    }
+                    else
+                    {
+                        _empresa = null;
+                    }
                 }
             }
             catch (Exception ex)
@@ -84,7 +101,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                 }
                 else if (_empresa != null)
                 {
-                    await InsertarListadoNotificaciones(_empresa.UsuarioId, Constantes.COLLECTION_CANDIDATO);
+                    await InsertarListadoNotificaciones(_empresa.UsuarioId, Constantes.COLLECTION_EMPRESA);
                 }
 
             }
@@ -181,7 +198,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     help.UsuarioEmisorId = notificacion.EmpresaEmisor.UsuarioId.ToString();
                     help.Collection = Constantes.COLLECTION_EMPRESA;
                 }
-               
+
             }
             else if (_empresa != null)
             {
@@ -204,6 +221,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
 
         public void OnAppearing()
         {
+            Deserializarusuario();
             LoadNotificaciones();
         }
 
@@ -218,7 +236,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                 }
                 else if (_empresa != null)
                 {
-                    await InsertarListadoNotificaciones(_empresa.UsuarioId, Constantes.COLLECTION_CANDIDATO);
+                    await InsertarListadoNotificaciones(_empresa.UsuarioId, Constantes.COLLECTION_EMPRESA);
                 }
             }
             catch (Exception ex)

@@ -10,7 +10,7 @@
        xmlns:notificaciones="clr-namespace:ProyectoDIV1.Views.Notificaciones"
        x:Class="ProyectoDIV1.MasterEmpresaPage"
        xmlns:badge="clr-namespace:Xam.Shell.Badge;assembly=Xam.Shell.Badge"
-       xmlns:sys="clr-namespace:System;assembly=netstandard"
+       xmlns:sys="clr-namespace:System;assembly=netstandard" xmlns:empresa1="clr-namespace:ProyectoDIV1.ViewModels.Empresa" x:DataType="empresa1:MasterEmpresaViewModel"
        FlyoutBackgroundImage="backgroundMasterC.jpg"
        FlyoutBackgroundImageAspect="AspectFit">
 
@@ -85,7 +85,7 @@
         <Tab Title="Notificaciones"
              Icon="icon_bell.png"  
              badge:Badge.BackgroundColor="Red"
-             badge:Badge.Text="{Binding Candidato.CantidadNotificaciones, TargetNullValue=''}">
+             badge:Badge.Text="{Binding Empresa.CantidadNotificaciones, TargetNullValue=''}">
             <ShellContent Title="Candidatos"
                           Icon="_user.png" 
                           ContentTemplate="{DataTemplate notificaciones:NotificacionesPage}" />

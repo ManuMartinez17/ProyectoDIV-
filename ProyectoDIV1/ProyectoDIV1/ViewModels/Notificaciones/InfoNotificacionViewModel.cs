@@ -176,7 +176,8 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     _notificacion.CandidatoEmisor.Notificaciones = new List<ENotificacion>();
                 }
                 notificacion.Id = Guid.NewGuid();
-                notificacion.EmisorId = _notificacion.CandidatoReceptor.UsuarioId;
+               
+                notificacion.EmisorId = new Guid(help.UsuarioId);
                 notificacion.Fecha = DateTime.Now;
                 notificacion.EstadoVisto = false;
                 if (SiAcepto)
@@ -200,7 +201,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     _notificacion.EmpresaEmisor.Notificaciones = new List<ENotificacion>();
                 }
                 notificacion.Id = Guid.NewGuid();
-                notificacion.EmisorId = _notificacion.CandidatoReceptor.UsuarioId;
+                notificacion.EmisorId = new Guid(help.UsuarioId);
                 notificacion.Fecha = DateTime.Now;
                 notificacion.EstadoVisto = false;
                 if (SiAcepto)
@@ -221,7 +222,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
 
         private async void RechazarContratoClicked(object obj)
         {
-            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage("enviando notficación..."));
+            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage("enviando notificación..."));
             try
             {
                 await EnviarNotificacion(false);
@@ -290,9 +291,9 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     IconIsAccepted = _notificacion.Notificacion.EstadoAceptado == false && _notificacion.Notificacion.EstadoRechazado 
                         == false ? "icon_pending.png" : _notificacion.Notificacion.EstadoRechazado
                         == true ? "icon_rechazing.png" : "icon_checked.png";
-                    IsVisible = _notificacion.Notificacion.EstadoAceptado == false ||
-                       _notificacion.Notificacion.EstadoRechazado == true ? true : _notificacion.Notificacion.EstadoRechazado == false
-                       || _notificacion.Notificacion.EstadoRechazado == true ? false : true;
+                    IsVisible = _notificacion.Notificacion.EstadoAceptado == false &&
+                       _notificacion.Notificacion.EstadoRechazado == false ? true : _notificacion.Notificacion.EstadoRechazado == true
+                       || _notificacion.Notificacion.EstadoAceptado == true ? false : true;
                     _notificacion.EmpresaEmisor = null;
                 }
                 else if (help.Collection.Equals(Constantes.COLLECTION_EMPRESA))
@@ -310,9 +311,9 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     IconIsAccepted = _notificacion.Notificacion.EstadoAceptado == false && 
                         _notificacion.Notificacion.EstadoRechazado == false ? "icon_pending.png" : _notificacion.Notificacion.EstadoRechazado
                         == true ? "icon_rechazing.png" : "icon_checked.png";
-                    IsVisible = _notificacion.Notificacion.EstadoAceptado == false ||
-                        _notificacion.Notificacion.EstadoRechazado == true ? true : _notificacion.Notificacion.EstadoRechazado == false 
-                        || _notificacion.Notificacion.EstadoRechazado == true ? false : true;
+                    IsVisible = _notificacion.Notificacion.EstadoAceptado == false &&
+                         _notificacion.Notificacion.EstadoRechazado == false ? true : _notificacion.Notificacion.EstadoRechazado == true
+                         || _notificacion.Notificacion.EstadoAceptado == true ? false : true;
                     _notificacion.CandidatoEmisor = null;
                 }
             }
