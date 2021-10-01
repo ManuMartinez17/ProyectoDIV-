@@ -130,7 +130,7 @@ namespace ProyectoDIV1.ViewModels.Empresa
             }
             catch (Exception ex)
             {
-                await Application.Current.MainPage.DisplayAlert("error", ex.Message, "Aceptar");
+                Toasts.Error(ex.Message, 2000);
                 return;
             }
         }

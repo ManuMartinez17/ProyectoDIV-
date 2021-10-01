@@ -3,13 +3,10 @@ using Android.App;
 using Android.Content.PM;
 using Android.OS;
 using Android.Runtime;
-using AndroidX.Core.App;
-using AndroidX.Core.Content;
 using Plugin.CurrentActivity;
 using Plugin.Permissions;
 using Plugin.Permissions.Abstractions;
 using ProyectoDIV1.Droid.Helpers;
-using System;
 using Xam.Shell.Badge.Droid;
 
 namespace ProyectoDIV1.Droid

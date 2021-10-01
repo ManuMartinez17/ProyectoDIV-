@@ -39,12 +39,12 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
             AceptarContratoCommand = new Command(AceptarContratoClicked);
             RechazarContratoCommand = new Command(RechazarContratoClicked);
             LoadReceptor();
-            ActualizarEstadoNotificacion();
         }
 
         public void OnApperaing()
         {
             LoadNotificacion();
+            ActualizarEstadoNotificacion();
         }
         public Command AceptarContratoCommand { get; }
         public Command RechazarContratoCommand { get; }
@@ -91,10 +91,12 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                 {
                     Guid id = new Guid(help.UsuarioId);
                     Guid idNotificacion = new Guid(help.IdNotificacion);
-                    if (help.Collection.Equals(Constantes.COLLECTION_CANDIDATO))
+                    var query = await candidatoService.GetCandidatoFirebaseObjectAsync(id);
+                    var queryEmpresa = await empresaService.GetEmpresaFirebaseObjectAsync(id);
+                    if (query != null)
                     {
-                        var query = await candidatoService.GetCandidatoFirebaseObjectAsync(id);
-                        foreach (var item in _notificacion.CandidatoReceptor.Notificaciones)
+                        var candidato =  await candidatoService.GetCandidatoAsync(id);
+                        foreach (var item in candidato.Notificaciones)
                         {
                             if (item.Id == idNotificacion)
                             {
@@ -106,16 +108,12 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                                 break;
                             }
                         }
-                        await notificacionService.UpdateAsync(_notificacion.CandidatoReceptor, help.Collection, query);
-                        if (acepto)
-                        {
-                            await Shell.Current.GoToAsync("..");
-                        }
+                        await notificacionService.UpdateAsync(candidato, Constantes.COLLECTION_CANDIDATO, query);
                     }
-                    else if (help.Collection.Equals(Constantes.COLLECTION_EMPRESA))
+                    else if (queryEmpresa != null)
                     {
-                        var query = await empresaService.GetEmpresaFirebaseObjectAsync(id);
-                        _notificacion.EmpresaReceptor.Notificaciones.ForEach(x =>
+                        var empresa = await empresaService.GetEmpresaAsync(id);
+                        empresa.Notificaciones.ForEach(x =>
                         {
                             if (x.Id == idNotificacion)
                             {
@@ -127,14 +125,13 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                                 return;
                             }
                         });
-                        await notificacionService.UpdateAsync(_notificacion.EmpresaReceptor, help.Collection, query);
-                        if (acepto)
-                        {
-                            await Shell.Current.GoToAsync("..");
-                        }
+                        await notificacionService.UpdateAsync(empresa, Constantes.COLLECTION_EMPRESA, queryEmpresa);
+                    }
+                    if (acepto)
+                    {
+                        await Shell.Current.GoToAsync("..");
                     }
                 }
-
             }
             catch (Exception ex)
             {
@@ -191,14 +188,14 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                 var query = await candidatoService.GetCandidatoFirebaseObjectAsync(_notificacion.CandidatoEmisor.UsuarioId);
                 await candidatoService.UpdateAsync(_notificacion.CandidatoEmisor, Constantes.COLLECTION_CANDIDATO, query);
             }
-            else if (_notificacion.EmpresaReceptor != null)
+            else if (_notificacion.EmpresaEmisor != null)
             {
-                if (_notificacion.EmpresaReceptor.Notificaciones == null)
+                if (_notificacion.EmpresaEmisor.Notificaciones == null)
                 {
-                    _notificacion.EmpresaReceptor.Notificaciones = new List<ENotificacion>();
+                    _notificacion.EmpresaEmisor.Notificaciones = new List<ENotificacion>();
                 }
                 notificacion.Id = Guid.NewGuid();
-                notificacion.EmisorId = _notificacion.EmpresaEmisor.UsuarioId;
+                notificacion.EmisorId = _notificacion.CandidatoReceptor.UsuarioId;
                 notificacion.Fecha = DateTime.Now;
                 notificacion.EstadoVisto = true;
                 if (SiAcepto)
@@ -209,9 +206,9 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                 {
                     notificacion.Mensaje = "Solicitud Rechazada.";
                 }
-                _notificacion.EmpresaReceptor.Notificaciones.Add(notificacion);
-                var query = await empresaService.GetEmpresaFirebaseObjectAsync(_notificacion.EmpresaReceptor.UsuarioId);
-                await empresaService.UpdateAsync(_notificacion.EmpresaReceptor, Constantes.COLLECTION_EMPRESA, query);
+                _notificacion.EmpresaEmisor.Notificaciones.Add(notificacion);
+                var query = await empresaService.GetEmpresaFirebaseObjectAsync(_notificacion.EmpresaEmisor.UsuarioId);
+                await empresaService.UpdateAsync(_notificacion.EmpresaEmisor, Constantes.COLLECTION_EMPRESA, query);
             }
         }
 

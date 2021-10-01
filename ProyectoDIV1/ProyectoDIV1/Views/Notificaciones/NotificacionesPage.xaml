@@ -1,0 +1,47 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms" xmlns:pullToRefresh="clr-namespace:Syncfusion.SfPullToRefresh.XForms;assembly=Syncfusion.SfPullToRefresh.XForms"
+             x:Class="ProyectoDIV1.Views.Notificaciones.NotificacionesPage"
+             Title="Notificaciones">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem Text="Ayuda"
+                 Order="Secondary"/>
+        <ToolbarItem Text="Cerrar Sesión" Command="{Binding OnSignOutCommand}"
+                 Order="Secondary"/>
+    </ContentPage.ToolbarItems>
+    <ContentPage.Content>
+
+        <pullToRefresh:SfPullToRefresh x:Name="pullToRefresh"
+                               ProgressBackgroundColor="{StaticResource ThirdOrange}" ProgressStrokeColor = "White" RefreshContentHeight="50" 
+                               RefreshContentWidth="50" TransitionMode="Push"  RefreshCommand="{Binding RefreshCommand}"  IsRefreshing="{Binding IsBusy}">
+            <pullToRefresh:SfPullToRefresh.PullableContent>
+                <syncfusion:SfListView  x:Name="LV_notficaciones" ItemsSource="{Binding Notificaciones}" TapCommand="{Binding MoreInformationCommand}"
+                                    AutoFitMode="Height" SelectionBackgroundColor="Transparent" >
+                    <syncfusion:SfListView.ItemTemplate>
+                        <DataTemplate>
+                            <Frame Margin="5,10,5,10" CornerRadius="10" BackgroundColor="AliceBlue">
+                                <StackLayout Orientation="Horizontal" VerticalOptions="StartAndExpand">
+                                    <StackLayout VerticalOptions="CenterAndExpand">
+                                        <Label Text="{Binding FullName}" FontSize="Body" FontAttributes="Bold" 
+                                           TextColor="{StaticResource ThirdOrange}"/>
+                                        <Label Text="{Binding Notificacion.Fecha}" FontSize="Small"
+                                           TextColor="Black"/>
+                                    </StackLayout>
+                                    <StackLayout HorizontalOptions="CenterAndExpand">
+                                        <Label Text="{Binding IsAccepted}" FontSize="Body" HorizontalOptions="Center"  FontAttributes="Bold" 
+                                           TextColor="Black"/>
+                                        <Image Source="{Binding IconIsAccepted}" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="30">
+
+                                        </Image>
+                                    </StackLayout>
+                                    <Image Source="{Binding IsVisto}" Aspect="AspectFit" WidthRequest="40"/>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                    </syncfusion:SfListView.ItemTemplate>
+                </syncfusion:SfListView>
+            </pullToRefresh:SfPullToRefresh.PullableContent>
+        </pullToRefresh:SfPullToRefresh>
+    </ContentPage.Content>
+</ContentPage>

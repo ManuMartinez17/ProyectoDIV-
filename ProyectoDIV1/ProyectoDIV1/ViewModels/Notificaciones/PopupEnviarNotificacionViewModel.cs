@@ -55,7 +55,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                         notificacion.Id = Guid.NewGuid();
                         notificacion.EmisorId = _candidatoEmisor.UsuarioId;
                         notificacion.Fecha = DateTime.Now;
-                        notificacion.Estado = false;
+                        notificacion.EstadoVisto = false;
                         notificacion.Mensaje = Mensaje;
                         _candidatoReceptor.Notificaciones.Add(notificacion);
                         var query = await _candidatoService.GetCandidatoFirebaseObjectAsync(_candidatoReceptor.UsuarioId);
@@ -70,7 +70,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                         notificacion.Id = Guid.NewGuid();
                         notificacion.EmisorId = _empresaEmisor.UsuarioId;
                         notificacion.Fecha = DateTime.Now;
-                        notificacion.Estado = false;
+                        notificacion.EstadoVisto = false;
                         notificacion.Mensaje = Mensaje;
                         _empresaReceptor.Notificaciones.Add(notificacion);
                         var query = await _empresaService.GetEmpresaFirebaseObjectAsync(_empresaReceptor.UsuarioId);

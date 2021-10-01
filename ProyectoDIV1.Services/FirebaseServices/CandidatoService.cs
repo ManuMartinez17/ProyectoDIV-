@@ -11,7 +11,7 @@ namespace ProyectoDIV1.Services.FirebaseServices
 {
     public class CandidatoService : FirebaseHelper
     {
-        private static string UrlDefault = "https://i.postimg.cc/BQmWRFDZ/iconuser.jpg";
+        private static string UrlDefault = "icon_user.png";
         public CandidatoService()
         {
             firebase = new FirebaseClient("https://proyectodiv-d53ed-default-rtdb.firebaseio.com/");

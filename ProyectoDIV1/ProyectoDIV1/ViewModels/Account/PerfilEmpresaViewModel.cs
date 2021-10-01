@@ -219,57 +219,66 @@ namespace ProyectoDIV1.ViewModels.Account
 
         private async void CambiarImagenAsync()
         {
-            await CrossMedia.Current.Initialize();
-
-            string source = await Application.Current.MainPage.DisplayActionSheet(
-                "¿Donde quieres tomar tu foto?",
-                "Cancelar",
-                null,
-                "Galería",
-               "Cámara");
-
-            if (source == "Cancelar")
+            try
             {
-                _ImagenArchivo = null;
+                await CrossMedia.Current.Initialize();
+
+                string source = await Application.Current.MainPage.DisplayActionSheet(
+                    "¿Donde quieres tomar tu foto?",
+                    "Cancelar",
+                    null,
+                    "Galería",
+                   "Cámara");
+
+                if (source == "Cancelar")
+                {
+                    _ImagenArchivo = null;
+                    return;
+                }
+
+                if (source == "Cámara")
+                {
+                    if (!CrossMedia.Current.IsCameraAvailable)
+                    {
+                        await App.Current.MainPage.DisplayAlert("error", "No soporta la Cámara.", "Aceptar");
+                        return;
+                    }
+
+                    _ImagenArchivo = await CrossMedia.Current.TakePhotoAsync(
+                        new StoreCameraMediaOptions
+                        {
+                            Directory = "Sample",
+                            Name = "test.jpg",
+                            PhotoSize = PhotoSize.Small,
+                        }
+                    );
+                }
+                else
+                {
+                    if (!CrossMedia.Current.IsPickPhotoSupported)
+                    {
+                        await App.Current.MainPage.DisplayAlert("error", "No hay galeria.", "Aceptar");
+                        return;
+                    }
+
+                    _ImagenArchivo = await CrossMedia.Current.PickPhotoAsync();
+                }
+
+                if (_ImagenArchivo != null)
+                {
+                    Imagen = ImageSource.FromStream(() =>
+                    {
+                        Stream stream = _ImagenArchivo.GetStream();
+                        return stream;
+                    });
+                }
+            }
+            catch (Exception ex)
+            {
+                Toasts.Error(ex.Message, 2000);
                 return;
             }
-
-            if (source == "Cámara")
-            {
-                if (!CrossMedia.Current.IsCameraAvailable)
-                {
-                    await App.Current.MainPage.DisplayAlert("error", "No soporta la Cámara.", "Aceptar");
-                    return;
-                }
-
-                _ImagenArchivo = await CrossMedia.Current.TakePhotoAsync(
-                    new StoreCameraMediaOptions
-                    {
-                        Directory = "Sample",
-                        Name = "test.jpg",
-                        PhotoSize = PhotoSize.Small,
-                    }
-                );
-            }
-            else
-            {
-                if (!CrossMedia.Current.IsPickPhotoSupported)
-                {
-                    await App.Current.MainPage.DisplayAlert("error", "No hay galeria.", "Aceptar");
-                    return;
-                }
-
-                _ImagenArchivo = await CrossMedia.Current.PickPhotoAsync();
-            }
-
-            if (_ImagenArchivo != null)
-            {
-                Imagen = ImageSource.FromStream(() =>
-                {
-                    Stream stream = _ImagenArchivo.GetStream();
-                    return stream;
-                });
-            }
+            
         }
 
 

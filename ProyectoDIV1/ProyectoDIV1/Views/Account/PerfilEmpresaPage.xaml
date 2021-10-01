@@ -117,7 +117,7 @@
                     <Label Text="{Binding  Empresa.Celular.Errors,  Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding  Empresa.Celular.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
-                    <inputLayout:SfTextInputLayout Hint="Celular"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                    <inputLayout:SfTextInputLayout Hint="Celular y/o teléfono"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
                         <Entry Text="{Binding Empresa.Celular.Value}" TextColor="Black" 
                          Keyboard="Telephone"  MaxLength="10">
                             <Entry.Behaviors>

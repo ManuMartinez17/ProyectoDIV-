@@ -11,6 +11,7 @@ namespace ProyectoDIV1.Services.FirebaseServices
 {
     public class EmpresaService : FirebaseHelper
     {
+        private static string UrlDefault = "icon_logo.png";
         public async Task<EEmpresa> GetIdXEmail(string email)
         {
             return (await firebase
@@ -20,7 +21,7 @@ namespace ProyectoDIV1.Services.FirebaseServices
             UsuarioId = item.Object.UsuarioId,
             Rutas = string.IsNullOrWhiteSpace(item.Object.Rutas.RutaImagenRegistro) ? new Archivos()
             {
-                RutaImagenRegistro = "https://i.postimg.cc/zDkX2Zh7/logo.png",
+                RutaImagenRegistro = UrlDefault,
                 NombreArchivoRegistro = item.Object.Rutas.NombreArchivoRegistro,
                 NombreImagenRegistro = item.Object.Rutas.NombreImagenRegistro,
                 RutaArchivoRegistro = item.Object.Rutas.RutaArchivoRegistro
@@ -54,7 +55,7 @@ namespace ProyectoDIV1.Services.FirebaseServices
                     Departamento = item.Object.Departamento,
                     Rutas = string.IsNullOrWhiteSpace(item.Object.Rutas.RutaImagenRegistro) ? new Archivos()
                     {
-                        RutaImagenRegistro = "https://i.postimg.cc/zDkX2Zh7/logo.png",
+                        RutaImagenRegistro = UrlDefault,
                         NombreArchivoRegistro = item.Object.Rutas.NombreArchivoRegistro,
                         NombreImagenRegistro = item.Object.Rutas.NombreImagenRegistro,
                         RutaArchivoRegistro = item.Object.Rutas.RutaArchivoRegistro
@@ -86,7 +87,7 @@ namespace ProyectoDIV1.Services.FirebaseServices
                     Departamento = item.Object.Departamento,
                     Rutas = string.IsNullOrWhiteSpace(item.Object.Rutas.RutaImagenRegistro) ? new Archivos()
                     {
-                        RutaImagenRegistro = "https://i.postimg.cc/zDkX2Zh7/logo.png",
+                        RutaImagenRegistro = UrlDefault,
                         NombreArchivoRegistro = item.Object.Rutas.NombreArchivoRegistro,
                         NombreImagenRegistro = item.Object.Rutas.NombreImagenRegistro,
                         RutaArchivoRegistro = item.Object.Rutas.RutaArchivoRegistro
@@ -111,7 +112,7 @@ namespace ProyectoDIV1.Services.FirebaseServices
                    Departamento = item.Object.Departamento,
                    Rutas = string.IsNullOrWhiteSpace(item.Object.Rutas.RutaImagenRegistro) ? new Archivos()
                    {
-                       RutaImagenRegistro = "https://i.postimg.cc/zDkX2Zh7/logo.png",
+                       RutaImagenRegistro = UrlDefault,
                        NombreArchivoRegistro = item.Object.Rutas.NombreArchivoRegistro,
                        NombreImagenRegistro = item.Object.Rutas.NombreImagenRegistro,
                        RutaArchivoRegistro = item.Object.Rutas.RutaArchivoRegistro
@@ -121,9 +122,18 @@ namespace ProyectoDIV1.Services.FirebaseServices
         }
         public async Task<FirebaseObject<EEmpresa>> GetEmpresaFirebaseObjectAsync(Guid id)
         {
-            return (await firebase
+            try
+            {
+                var query = (await firebase
            .Child(Constantes.COLLECTION_EMPRESA)
            .OnceAsync<EEmpresa>().ConfigureAwait(false)).FirstOrDefault(x => x.Object.UsuarioId == id);
+                return query;
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+                return null;
+            }
         }
     }
 }

@@ -20,54 +20,52 @@
                  Order="Secondary"/>
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
-        <StackLayout>
+        <StackLayout Padding="20">
             <StackLayout BackgroundColor="{StaticResource Primary}" Orientation="Horizontal">
                 <buttons:SfButton BackgroundColor="Transparent" HorizontalOptions="Start" Margin="10" VerticalOptions="CenterAndExpand"
                                       ShowIcon="True" ImageSource="backarrow.png" Command="{Binding BackCommand}"/>
                 <Label Text="Editar Datos" FontSize="20" TextColor="White" FontAttributes="Bold" VerticalOptions="CenterAndExpand"/>
             </StackLayout>
-            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand">
+            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Fill">
                 <ScrollView>
-                    <StackLayout Spacing="10">
-                        <cards:SfCardView Margin="20,20,20,20" Padding="15" CornerRadius="30,30,30,30">
-                            <StackLayout>
-                                <inputLayout:SfTextInputLayout Hint="Email" IsEnabled="False" FocusedColor="Black"
+                    <cards:SfCardView BackgroundColor="#edf8f6" CornerRadius="10">
+                        <StackLayout>
+                            <inputLayout:SfTextInputLayout Hint="Email" IsEnabled="False" FocusedColor="Black"
                                                     ContainerBackgroundColor="#edf8f6">
-                                    <Entry Text="{Binding Empresa.Email}" TextColor="Black" />
-                                </inputLayout:SfTextInputLayout>
-                                <Label Text="{Binding RazonSocial.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                                <Entry Text="{Binding Empresa.Email}" TextColor="Black" />
+                            </inputLayout:SfTextInputLayout>
+                            <Label Text="{Binding RazonSocial.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                                        IsVisible="{Binding RazonSocial.IsValid, Converter={StaticResource InverseBoolConverter}}"
                                         Style="{StaticResource ErrorTextStyle}"/>
-                                <inputLayout:SfTextInputLayout Hint="Razón Social"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                                    <Entry Text="{Binding RazonSocial.Value}" TextColor="Black" MaxLength="60">
-                                        <Entry.Behaviors>
-                                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding RazonSocial.IsValid}"/>
-                                        </Entry.Behaviors>
-                                    </Entry>
-                                </inputLayout:SfTextInputLayout>
-                                <inputLayout:SfTextInputLayout Hint="Nit" IsEnabled="False" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                                    <Entry Text="{Binding Empresa.Nit}" TextColor="Black" />
-                                </inputLayout:SfTextInputLayout>
-                                <inputLayout:SfTextInputLayout Hint="Departamento" IsEnabled="False" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                                    <Entry Text="{Binding Empresa.Departamento}" TextColor="Black" />
-                                </inputLayout:SfTextInputLayout>
-                                <inputLayout:SfTextInputLayout Hint="Ciudad" IsEnabled="False" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                                    <Entry Text="{Binding Empresa.Ciudad}" TextColor="Black" />
-                                </inputLayout:SfTextInputLayout>
-                                <Label Text="{Binding Telefono.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
+                            <inputLayout:SfTextInputLayout Hint="Razón Social"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                                <Entry Text="{Binding RazonSocial.Value}" TextColor="Black" MaxLength="60">
+                                    <Entry.Behaviors>
+                                        <behaviour:EntryLineValidationBehaviour IsValid="{Binding RazonSocial.IsValid}"/>
+                                    </Entry.Behaviors>
+                                </Entry>
+                            </inputLayout:SfTextInputLayout>
+                            <inputLayout:SfTextInputLayout Hint="Nit" IsEnabled="False" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                                <Entry Text="{Binding Empresa.Nit}" TextColor="Black" />
+                            </inputLayout:SfTextInputLayout>
+                            <inputLayout:SfTextInputLayout Hint="Departamento" IsEnabled="False" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                                <Entry Text="{Binding Empresa.Departamento}" TextColor="Black" />
+                            </inputLayout:SfTextInputLayout>
+                            <inputLayout:SfTextInputLayout Hint="Ciudad" IsEnabled="False" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                                <Entry Text="{Binding Empresa.Ciudad}" TextColor="Black" />
+                            </inputLayout:SfTextInputLayout>
+                            <Label Text="{Binding Telefono.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                                        IsVisible="{Binding Telefono.IsValid, Converter={StaticResource InverseBoolConverter}}"
                                         Style="{StaticResource ErrorTextStyle}"/>
-                                <inputLayout:SfTextInputLayout Hint="Teléfono" HorizontalOptions="FillAndExpand" FocusedColor="Black"
+                            <inputLayout:SfTextInputLayout Hint="Teléfono" HorizontalOptions="FillAndExpand" FocusedColor="Black"
                                                     ContainerBackgroundColor="#edf8f6">
-                                    <Entry Text="{Binding Telefono.Value}" TextColor="Black" Keyboard="Telephone" MaxLength="10">
-                                        <Entry.Behaviors>
-                                            <behaviour:EntryLineValidationBehaviour IsValid="{Binding Telefono.IsValid}"/>
-                                        </Entry.Behaviors>
-                                    </Entry>
-                                </inputLayout:SfTextInputLayout>
-                            </StackLayout>
-                        </cards:SfCardView>
-                    </StackLayout>
+                                <Entry Text="{Binding Telefono.Value}" TextColor="Black" Keyboard="Telephone" MaxLength="10">
+                                    <Entry.Behaviors>
+                                        <behaviour:EntryLineValidationBehaviour IsValid="{Binding Telefono.IsValid}"/>
+                                    </Entry.Behaviors>
+                                </Entry>
+                            </inputLayout:SfTextInputLayout>
+                        </StackLayout>
+                    </cards:SfCardView>
                 </ScrollView>
                 <Button FontFamily="Lato"
 						FontAttributes="Bold"

@@ -90,7 +90,7 @@
              badge:Badge.Text="{Binding Candidato.CantidadNotificaciones, TargetNullValue=''}">
             <ShellContent Title="Candidatos"
                           Icon="_user.png" 
-                          ContentTemplate="{DataTemplate notificaciones:NotificacionesCandidatosPage}" />
+                          ContentTemplate="{DataTemplate notificaciones:NotificacionesPage}" />
         </Tab>
         <ShellContent Title="Perfil"
                       Icon="icon_settings.png"

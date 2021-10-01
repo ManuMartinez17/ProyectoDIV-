@@ -40,7 +40,7 @@ namespace ProyectoDIV1
             routes.Add(nameof(BusquedaSkillsPage), typeof(BusquedaSkillsPage));
             routes.Add(nameof(CandidatoPage), typeof(CandidatoPage));
             routes.Add(nameof(EditarDatosPage), typeof(EditarDatosPage));
-            routes.Add(nameof(NotificacionesCandidatosPage), typeof(NotificacionesCandidatosPage));
+            routes.Add(nameof(NotificacionesPage), typeof(NotificacionesPage));
             routes.Add(nameof(VerHojaDeVidaPage), typeof(VerHojaDeVidaPage));
             routes.Add(nameof(EmpresaPage), typeof(EmpresaPage));
             routes.Add(nameof(EditarHojaDeVidaPage), typeof(EditarHojaDeVidaPage));
