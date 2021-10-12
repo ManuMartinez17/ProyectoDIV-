@@ -53,7 +53,15 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                             _candidatoReceptor.Notificaciones = new List<ENotificacion>();
                         }
                         notificacion.Id = Guid.NewGuid();
-                        notificacion.EmisorId = _candidatoEmisor.UsuarioId;
+                        if (_candidatoEmisor != null)
+                        {
+                            notificacion.EmisorId = _candidatoEmisor.UsuarioId;
+                        }
+                        else if (_empresaEmisor != null)
+                        {
+                            notificacion.EmisorId = _empresaEmisor.UsuarioId;
+
+                        }
                         notificacion.Fecha = DateTime.Now;
                         notificacion.EstadoVisto = false;
                         notificacion.Mensaje = Mensaje;
@@ -68,7 +76,15 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                             _empresaReceptor.Notificaciones = new List<ENotificacion>();
                         }
                         notificacion.Id = Guid.NewGuid();
-                        notificacion.EmisorId = _empresaEmisor.UsuarioId;
+                        if (_empresaEmisor != null)
+                        {
+                            notificacion.EmisorId = _empresaEmisor.UsuarioId;
+
+                        }
+                        else if (_candidatoEmisor != null)
+                        {
+                            notificacion.EmisorId = _candidatoEmisor.UsuarioId;
+                        }
                         notificacion.Fecha = DateTime.Now;
                         notificacion.EstadoVisto = false;
                         notificacion.Mensaje = Mensaje;
@@ -143,7 +159,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
             }
         }
 
-        private void CargarEmisor()
+        private async void CargarEmisor()
         {
             JObject Jobject = JObject.Parse(Settings.Usuario);
             try
@@ -153,10 +169,28 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                 if (objetoCandidato is ECandidato)
                 {
                     _candidatoEmisor = objetoCandidato as ECandidato;
+                    var query = await _candidatoService.GetCandidatoAsync(_candidatoEmisor.UsuarioId);
+                    if (query != null)
+                    {
+                        _candidatoEmisor = query;
+                    }
+                    else
+                    {
+                        _candidatoEmisor = null;
+                    }
                 }
-                else if (objetoEmpresa is EEmpresa)
+                if (objetoEmpresa is EEmpresa)
                 {
                     _empresaEmisor = objetoEmpresa as EEmpresa;
+                    var query = await _empresaService.GetEmpresaAsync(_empresaEmisor.UsuarioId);
+                    if (query != null)
+                    {
+                        _empresaEmisor = query;
+                    }
+                    else
+                    {
+                        _empresaEmisor = null;
+                    }
                 }
             }
             catch (Exception ex)

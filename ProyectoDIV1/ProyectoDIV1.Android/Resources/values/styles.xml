@@ -6,8 +6,19 @@
   <style name="MyTheme.Splash" parent="Theme.AppCompat.Light.NoActionBar">
     <item name="android:windowBackground">@drawable/splash_screen</item>
     <item name="android:windowNoTitle">true</item>
+    <item name="android:datePickerDialogTheme">@style/AppCompatDialogStyle</item>
+
     <item name="android:windowFullscreen">true</item>
     <item name="android:windowContentOverlay">@null</item>
     <item name="android:windowActionBar">true</item>
+  </style>
+  <style name="AppCompatDialogStyle" parent="Theme.AppCompat.Light.Dialog">
+    <item name="colorAccent">@color/colorDatePicker</item>
+    <item name="android:datePickerStyle">@style/MyPickerDateStyle</item>
+  </style>
+  <style name="MyPickerDateStyle" parent="@android:style/Widget.Material.Light.DatePicker">
+   
+    <item name="android:headerBackground">@color/colorDatePicker</item>
+    <item name="android:textColorPrimary">#000000</item>
   </style>
 </resources>

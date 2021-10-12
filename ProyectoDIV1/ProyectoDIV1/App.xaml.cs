@@ -21,7 +21,11 @@ namespace ProyectoDIV1
             }
             else
             {
-                if (Settings.IsLogin)
+                if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+                {
+                    MainPage = new NoInternetConnectionPage();
+                }
+                else if (Settings.IsLogin)
                 {
                     string rol = Settings.TipoUsuario;
                     if (rol.Equals(Constantes.ROL_CANDIDATO))

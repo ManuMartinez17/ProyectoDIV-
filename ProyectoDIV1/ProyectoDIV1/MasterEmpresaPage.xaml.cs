@@ -1,4 +1,5 @@
 ﻿using ProyectoDIV1.ViewModels.Empresa;
+using ProyectoDIV1.Views;
 using ProyectoDIV1.Views.Buscadores;
 using ProyectoDIV1.Views.Candidato;
 using ProyectoDIV1.Views.Empresa;
@@ -6,6 +7,7 @@ using ProyectoDIV1.Views.Notificaciones;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -25,8 +27,34 @@ namespace ProyectoDIV1
             InitializeComponent();
             RegisterRoutes();
             BindingContext = _viewModel = new MasterEmpresaViewModel();
+            Connectivity.ConnectivityChanged += ConnectivityChangedHandler;
         }
+        private void ConnectivityChangedHandler(object sender, ConnectivityChangedEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+                {
+                    if (Current.Navigation.NavigationStack.Count > 0)
+                    {
+                        Current.Navigation.PopAsync();
+                    }
+                    else if (Current.Navigation.ModalStack.Count > 0)
+                    {
+                        Current.Navigation.PopAsync();
+                    }
+                    else if (Application.Current.MainPage.Navigation.NavigationStack.Count > 0)
+                    {
+                        Application.Current.MainPage.Navigation.PopAsync();
+                    }
+                }
+                else
+                {
+                    Current.Navigation.PushAsync(new NoInternetConnectionPage());
+                }
 
+            });
+        }
         private void RegisterRoutes()
         {
             routes.Add(nameof(BusquedaJobPage), typeof(BusquedaJobPage));
@@ -35,6 +63,7 @@ namespace ProyectoDIV1
             routes.Add(nameof(EmpresaPage), typeof(EmpresaPage));
             routes.Add(nameof(NotificacionesPage), typeof(NotificacionesPage));
             routes.Add(nameof(InfoNotificacionPage), typeof(InfoNotificacionPage));
+            routes.Add(nameof(NoInternetConnectionPage), typeof(NoInternetConnectionPage));
 
             foreach (var item in routes)
             {

@@ -1,5 +1,6 @@
 ﻿using ProyectoDIV1.ViewModels.Candidato;
 using ProyectoDIV1.ViewModels.Notificaciones;
+using ProyectoDIV1.Views;
 using ProyectoDIV1.Views.Account;
 using ProyectoDIV1.Views.Buscadores;
 using ProyectoDIV1.Views.Candidato;
@@ -10,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
 
@@ -27,8 +29,34 @@ namespace ProyectoDIV1
             InitializeComponent();
             RegisterRoutes();
             BindingContext = _viewModel = new MasterCandidatoViewModel();
-        }
+            Connectivity.ConnectivityChanged += ConnectivityChangedHandler;
 
+        }
+        private void ConnectivityChangedHandler(object sender, ConnectivityChangedEventArgs e)
+        {
+            Device.BeginInvokeOnMainThread(() =>
+            {
+                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+                {
+                    if (Current.Navigation.NavigationStack.Count > 0)
+                    {
+                        Current.Navigation.PopAsync();
+                    }
+                    else if (Current.Navigation.ModalStack.Count > 0)
+                    {
+                        Current.Navigation.PopAsync();
+                    }
+                    else if (Application.Current.MainPage.Navigation.NavigationStack.Count > 0)
+                    {
+                        Application.Current.MainPage.Navigation.PopAsync();
+                    }
+                }
+                else
+                {
+                    Current.Navigation.PushAsync(new NoInternetConnectionPage());
+                }
+            });
+        }
         private void RegisterRoutes()
         {
             routes.Add(nameof(BusquedaJobPage), typeof(BusquedaJobPage));
@@ -45,6 +73,7 @@ namespace ProyectoDIV1
             routes.Add(nameof(EmpresaPage), typeof(EmpresaPage));
             routes.Add(nameof(EditarHojaDeVidaPage), typeof(EditarHojaDeVidaPage));
             routes.Add(nameof(InfoNotificacionPage), typeof(InfoNotificacionPage));
+            routes.Add(nameof(NoInternetConnectionPage), typeof(NoInternetConnectionPage));
             foreach (var item in routes)
             {
                 Routing.RegisterRoute(item.Key, item.Value);
@@ -56,54 +85,31 @@ namespace ProyectoDIV1
         {
             try
             {
-                //InfoNotificacionViewModel info = new InfoNotificacionViewModel();
-                //base.OnNavigating(args);
-                //var page = args.Target?.Location.OriginalString;
-                //if (page.Equals(nameof(InfoNotificacionPage)))
-                //{
-                //    info.OnApperaing();
-                //    Task.Delay(2000);
-                //}
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            finally
-            {
                 if (_viewModel != null)
                 {
                     _viewModel.RefreshCandidato(_viewModel.Candidato.Candidato.UsuarioId);
                 }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+           
         }
 
         protected override void OnNavigating(ShellNavigatingEventArgs args)
         {
             try
             {
-                //InfoNotificacionViewModel info = new InfoNotificacionViewModel();
-                //base.OnNavigating(args);
-                //var page = args.Target?.Location.OriginalString;
-                //if (page.Equals(nameof(InfoNotificacionPage)))
-                //{
-                //    info.OnApperaing();
-                //    Task.Delay(2000);
-                //}
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            finally
-            {
                 if (_viewModel != null)
                 {
                     _viewModel.RefreshCandidato(_viewModel.Candidato.Candidato.UsuarioId);
                 }
             }
-
-
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
     }
 }

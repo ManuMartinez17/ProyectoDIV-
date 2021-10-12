@@ -2,6 +2,7 @@
 <resources>
   <color name="launcher_background">#FFFFFF</color>
   <color name="colorPrimary">#3F51B5</color>
+  <color name="colorDatePicker">#55669F</color>
   <color name="colorAccent">#55669F</color>
   <color name="splash_background">#252832</color>
 </resources>

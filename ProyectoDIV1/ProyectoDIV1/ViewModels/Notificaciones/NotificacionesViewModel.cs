@@ -22,11 +22,10 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
     public class NotificacionesViewModel : BaseViewModel
     {
         private NotificacionesService _notificacionesService;
-        private ObservableCollection<NotificacionDTO> _notificaciones;
+        private ObservableCollection<NotificacionDTO> _notificaciones = new ObservableCollection<NotificacionDTO>();
         private ECandidato _candidato;
         private EEmpresa _empresa;
         private CandidatoService candidatoService;
-        private string _mensaje;
         private string _noLeidas;
         private EmpresaService _empresaService;
 
@@ -80,11 +79,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
             }
         }
 
-        public string Mensaje
-        {
-            get { return _mensaje; }
-            set { SetProperty(ref _mensaje, value); }
-        }
+        public string Mensaje { get; set; }
         public string NoLeidas
         {
             get { return _noLeidas; }
@@ -128,46 +123,50 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
             {
                 notificaciones = await _notificacionesService.GetNotificacionesEmpresas(usuarioId);
             }
-            if (notificaciones.Count > 0)
-            {
-                await notificaciones.ParallelForEachAsync(async item =>
-                {
-                    var candidatoEmisor = await insertarCandidatoEmisor(item.EmisorId);
-                    if (candidatoEmisor == null)
-                    {
-                        var empresaEmisor = await insertarEmpresaEmisor(item.EmisorId);
-                        if (empresaEmisor != null)
-                        {
-                            lista.Add(new NotificacionDTO()
-                            {
-                                IdEmisor = empresaEmisor.UsuarioId,
-                                EmpresaEmisor = empresaEmisor,
-                                Notificacion = item,
-                                FullName = $"De: {empresaEmisor.RazonSocial}: {empresaEmisor.Nit}"
-                            });
-                        }
-                    }
-                    else
-                    {
-                        lista.Add(new NotificacionDTO()
-                        {
-                            IdEmisor = candidatoEmisor.UsuarioId,
-                            CandidatoEmisor = candidatoEmisor,
-                            Notificacion = item,
-                            FullName = $"De: {candidatoEmisor.Nombre} {candidatoEmisor.Apellido}"
-                        });
-                    }
-
-                }, maxDegreeOfParallelism: 10);
-                Notificaciones = new ObservableCollection<NotificacionDTO>(lista);
-                NoLeidas = notificaciones.Count(x => x.EstadoVisto == false).ToString();
-                Mensaje = $"Tiene {NoLeidas} sin leer.";
-
-            }
-            else
+            if (notificaciones == null)
             {
                 Mensaje = "No tiene notificaciones por el momento.";
             }
+            else
+            {
+                if (notificaciones.Count > 0)
+                {
+                    await notificaciones.ParallelForEachAsync(async item =>
+                    {
+                        var candidatoEmisor = await insertarCandidatoEmisor(item.EmisorId);
+                        if (candidatoEmisor == null)
+                        {
+                            var empresaEmisor = await insertarEmpresaEmisor(item.EmisorId);
+                            if (empresaEmisor != null)
+                            {
+                                lista.Add(new NotificacionDTO()
+                                {
+                                    IdEmisor = empresaEmisor.UsuarioId,
+                                    EmpresaEmisor = empresaEmisor,
+                                    Notificacion = item,
+                                    FullName = $"De: {empresaEmisor.RazonSocial}: {empresaEmisor.Nit}"
+                                });
+                            }
+                        }
+                        else
+                        {
+                            lista.Add(new NotificacionDTO()
+                            {
+                                IdEmisor = candidatoEmisor.UsuarioId,
+                                CandidatoEmisor = candidatoEmisor,
+                                Notificacion = item,
+                                FullName = $"De: {candidatoEmisor.Nombre} {candidatoEmisor.Apellido}"
+                            });
+                        }
+
+                    }, maxDegreeOfParallelism: 10);
+                    Notificaciones = new ObservableCollection<NotificacionDTO>(lista.OrderBy(x => x.Notificacion.Fecha));
+                    NoLeidas = notificaciones.Count(x => x.EstadoVisto == false).ToString();
+                    Mensaje = $"Tiene {NoLeidas} sin leer.";
+
+                }
+            }
+
         }
 
         public Command MoreInformationCommand { get; }
@@ -223,6 +222,10 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
         {
             Deserializarusuario();
             LoadNotificaciones();
+            if (Notificaciones.Count == 0)
+            {
+                Mensaje = "No tiene notificaciones por el momento.";
+            }
         }
 
         private async void LoadNotificaciones()

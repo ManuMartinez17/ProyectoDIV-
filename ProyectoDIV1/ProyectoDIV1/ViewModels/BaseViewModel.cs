@@ -10,12 +10,26 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Web;
+using Xamarin.Essentials;
 using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels
 {
     public class BaseViewModel : INotifyPropertyChanged
     {
+
+        public BaseViewModel()
+        {
+            VerificarConexion();
+        }
+
+        private void VerificarConexion()
+        {
+            if (Connectivity.NetworkAccess != NetworkAccess.Internet)
+            {
+
+            }
+        }
 
         string title = string.Empty;
         public string Title
