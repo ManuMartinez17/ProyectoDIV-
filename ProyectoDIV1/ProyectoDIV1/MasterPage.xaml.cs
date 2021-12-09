@@ -3,6 +3,7 @@ using ProyectoDIV1.Views.Account;
 using ProyectoDIV1.Views.Buscadores;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -25,28 +26,35 @@ namespace ProyectoDIV1
 
         private void ConnectivityChangedHandler(object sender, ConnectivityChangedEventArgs e)
         {
-            Device.BeginInvokeOnMainThread(() =>
+            try
             {
-                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+                Device.BeginInvokeOnMainThread(() =>
                 {
-                    if (Current.Navigation.NavigationStack.Count > 0)
+                    if (Connectivity.NetworkAccess == NetworkAccess.Internet)
                     {
-                        Current.Navigation.PopAsync();
+                        if (Current.Navigation.NavigationStack.Count > 0)
+                        {
+                            Current.Navigation.PopAsync();
+                        }
+                        else if (Current.Navigation.ModalStack.Count > 0)
+                        {
+                            Current.Navigation.PopAsync();
+                        }
+                        else if (Application.Current.MainPage.Navigation.NavigationStack.Count > 0)
+                        {
+                            Application.Current.MainPage.Navigation.PopAsync();
+                        }
                     }
-                    else if (Current.Navigation.ModalStack.Count > 0)
+                    else
                     {
-                        Current.Navigation.PopAsync();
+                        Current.Navigation.PushAsync(new NoInternetConnectionPage());
                     }
-                    else if (Application.Current.MainPage.Navigation.NavigationStack.Count > 0)
-                    {
-                        Application.Current.MainPage.Navigation.PopAsync();
-                    }
-                }
-                else
-                {
-                    Current.Navigation.PushAsync(new NoInternetConnectionPage());
-                }
-            });
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }     
         }
 
         private void RegisterRoutes()

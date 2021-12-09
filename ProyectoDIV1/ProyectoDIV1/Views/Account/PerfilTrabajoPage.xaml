@@ -17,81 +17,80 @@
     </ContentPage.Resources>
     <ContentPage.Content>
         <StackLayout AbsoluteLayout.LayoutBounds="0,0,1,1"
-                     AbsoluteLayout.LayoutFlags="All" Margin="1,0"
+                     AbsoluteLayout.LayoutFlags="All" Margin="10"
                        Padding="20,20,20,0" Spacing="5">
+            <ScrollView>
+                <StackLayout Spacing="15">
+                    <Label Text="Ingrese Los Datos" TextColor="WhiteSmoke" FontAttributes="Bold" HorizontalTextAlignment="Center" FontSize="Large">
 
-            <StackLayout Spacing="15">
-                <Label Text="Ingrese Los Datos" TextColor="WhiteSmoke" FontAttributes="Italic" HorizontalTextAlignment="Center" FontSize="Large">
+                    </Label>
+                    <Label HorizontalTextAlignment="Start">
+                        <Label.FormattedText>
+                            <FormattedString>
 
-                </Label>
-                <Label HorizontalTextAlignment="Start">
-                    <Label.FormattedText>
-                        <FormattedString>
+                                <Span Text="¡Hola!" TextColor="WhiteSmoke" FontAttributes="Bold" FontSize="Large"/>
+                                <Span Text=" "/>
+                                <Span Text="{Binding CandidatoReceived.Nombre}" FontSize="Medium" TextColor="WhiteSmoke" FontAttributes="Bold" />
+                                <Span Text=" "/>
+                                <Span Text="{Binding CandidatoReceived.Apellido}" FontSize="Medium" TextColor="WhiteSmoke" FontAttributes="Bold"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <inputLayout:SfTextInputLayout Hint="Expectativas" FocusedColor="Black"  ContainerBackgroundColor="#edf8f6">
+                        <Editor AutoSize="TextChanges" Text="{Binding CandidatoReceived.Expectativa}" TextColor="Black" />
+                    </inputLayout:SfTextInputLayout>
+                    <button:SfButton  ImageAlignment="End" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                                  BackgroundColor="#edf8f6" CornerRadius="4" HeightRequest="50" TextColor="Black" 
+                                 FontAttributes="Bold" FontSize="18" ImageWidth="35" Text="Buscar Profesión"
+                                              ImageSource="icon_buscar.png" ShowIcon="True" Command="{Binding SearchJobCommand}">
+                    </button:SfButton>
 
-                            <Span Text="Hola" TextColor="WhiteSmoke"/>
-                            <Span Text=" "/>
-                            <Span Text="{Binding CandidatoReceived.Nombre}" TextColor="WhiteSmoke" FontAttributes="Bold" />
-                            <Span Text=" "/>
-                            <Span Text="{Binding CandidatoReceived.Apellido}" TextColor="WhiteSmoke" FontAttributes="Bold"/>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
+                    <Label HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Profesión escogida:" TextColor="WhiteSmoke" FontSize="Large" FontAttributes="Bold"/>
+                                <Span Text=" "/>
+                                <Span Text="{Binding CandidatoReceived.Profesion}" FontSize="Medium" TextColor="WhiteSmoke" FontAttributes="Bold"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
 
-                <inputLayout:SfTextInputLayout Hint="Expectativas" FocusedColor="Black"  ContainerBackgroundColor="#edf8f6">
-                    <Editor AutoSize="TextChanges" Text="{Binding CandidatoReceived.Expectativa}" TextColor="Black" />
-                </inputLayout:SfTextInputLayout>
 
-                <SearchBar Placeholder="Busqueda de Profesión" BackgroundColor="#edf8f6"
-                               x:Name="searchJob" Text="{Binding TextoJob}"
-                               SearchCommand="{Binding SearchJobCommand}"
-                               SearchCommandParameter="{Binding Text, Source={x:Reference searchJob}}"
-                               >
-
-                </SearchBar>
-
-                <Label HorizontalTextAlignment="Center">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Profesión escogida:" TextColor="WhiteSmoke" FontSize="Medium" FontAttributes="Bold"/>
-                            <Span Text=" "/>
-                            <Span Text="{Binding CandidatoReceived.Profesion}" TextColor="WhiteSmoke" FontAttributes="Bold"/>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-
-                <SearchBar Placeholder="Busqueda de habilidades" BackgroundColor="#edf8f6"
-                               x:Name="searchSkills"
-                               SearchCommand="{Binding SearchSkillsCommand}"
-                           Text="{Binding TextoSkill}"
-                               SearchCommandParameter="{Binding Text, Source={x:Reference searchSkills}}"
-                               >
-                </SearchBar>
-                <Label HorizontalTextAlignment="Center">
-                    <Label.FormattedText>
-                        <FormattedString>
-                            <Span Text="Habilidades escogidas: " FontSize="Medium" TextColor="WhiteSmoke" FontAttributes="Bold"/>
-                            <Span Text=" "/>
-                            <Span Text="{Binding Habilidades.Count, TargetNullValue=0}" TextColor="WhiteSmoke" FontAttributes="Bold"/>
-                        </FormattedString>
-                    </Label.FormattedText>
-                </Label>
-                <syncfusion:SfListView ItemsSource="{Binding Habilidades}" AutoFitMode="Height" ItemSpacing="5,5,5,5"
+                    <button:SfButton ImageAlignment="End" HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand"
+                                                  BackgroundColor="#edf8f6" CornerRadius="4" HeightRequest="50" TextColor="Black" 
+                                 FontAttributes="Bold" FontSize="18" ImageWidth="35"
+                                 Text="Buscar Habilidades"
+                                              ImageSource="icon_buscar.png" ShowIcon="True" Command="{Binding SearchSkillsCommand}">
+                    </button:SfButton>
+                    <Label HorizontalTextAlignment="Center">
+                        <Label.FormattedText>
+                            <FormattedString>
+                                <Span Text="Habilidades escogidas: " FontSize="Medium" TextColor="WhiteSmoke" FontAttributes="Bold"/>
+                                <Span Text=" "/>
+                                <Span Text="{Binding Habilidades.Count, TargetNullValue=0}" TextColor="WhiteSmoke" FontAttributes="Bold"/>
+                            </FormattedString>
+                        </Label.FormattedText>
+                    </Label>
+                    <syncfusion:SfListView ItemsSource="{Binding Habilidades}" AutoFitMode="Height" ItemSpacing="5,5,5,5"
                                        SelectionBackgroundColor="Transparent">
-                    <syncfusion:SfListView.ItemTemplate>
-                        <DataTemplate>
-                            <Frame Margin="10,10,10,0" CornerRadius="10" BackgroundColor="AliceBlue">
-                                <StackLayout Orientation="Horizontal">
-                                    <Label Text="{Binding Nombre}" FontAttributes="Bold"   TextColor="Black" VerticalOptions="Center" FontSize="Default" />
-                                    <button:SfButton ImageSource="remove.png" ShowIcon="True" HorizontalOptions="EndAndExpand" HorizontalTextAlignment="Center" VerticalOptions="Center"
-                                                         BackgroundColor="Transparent"
-                                                         Clicked="BorrarSkill_Clicked">
-                                    </button:SfButton>
-                                </StackLayout>
-                            </Frame>
-                        </DataTemplate>
-                    </syncfusion:SfListView.ItemTemplate>
-                </syncfusion:SfListView>
-            </StackLayout>
+                        <syncfusion:SfListView.ItemTemplate>
+                            <DataTemplate>
+                                <Frame Margin="10,10,10,0" CornerRadius="10" BackgroundColor="AliceBlue">
+                                    <StackLayout Orientation="Horizontal">
+                                        <Label Text="{Binding Nombre}" FontAttributes="Bold" TextColor="Black" VerticalOptions="Center" FontSize="Default" />
+                                        <button:SfButton ImageSource="remove.png" ShowIcon="True" HorizontalOptions="EndAndExpand" 
+                                                     HorizontalTextAlignment="Center" VerticalOptions="Center"
+                                                         BackgroundColor="Transparent" Clicked="BorrarSkill_Clicked">
+                                        </button:SfButton>
+                                    </StackLayout>
+                                </Frame>
+                            </DataTemplate>
+                        </syncfusion:SfListView.ItemTemplate>
+                    </syncfusion:SfListView>
+               
+                </StackLayout>
+                
+            </ScrollView>
             <Button x:Name="insertar"
 						FontFamily="Lato"
 						FontAttributes="Bold"

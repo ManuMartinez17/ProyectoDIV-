@@ -25,7 +25,6 @@ namespace ProyectoDIV1.ViewModels.Account
     public class PerfilCandidatoViewModel : BaseViewModel
     {
         #region Attributes
-        private FirebaseStorageHelper _firebaseStorage;
         private List<JsonColombia> colombia;
         private ImageSource _imagen;
         private MediaFile _ImagenArchivo;
@@ -44,8 +43,7 @@ namespace ProyectoDIV1.ViewModels.Account
 
         #region Constructor
         public PerfilCandidatoViewModel()
-        {
-            _firebaseStorage = new FirebaseStorageHelper();
+        {      
             _archivos = new ArchivosDTO();
             _candidato = new CandidatoModel();
             _departamento = new ValidatableObject<string>();
@@ -175,7 +173,7 @@ namespace ProyectoDIV1.ViewModels.Account
             Candidato.Email.Validations.Add(new IsValidEmailRule<string> { ValidationMessage = "Email invalido." });
             //Password Validation Rules
             Candidato.Password.Item1.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Contraseña Requerida." });
-            Candidato.Password.Item1.Validations.Add(new IsValidPasswordRule<string> { ValidationMessage = "Contraseña entre 8-20 caracteres; debe contener al menos una letra minúscula, una letra mayúscula, un dígito numérico y un carácter especial." });
+            Candidato.Password.Item1.Validations.Add(new IsValidPasswordRule<string> { ValidationMessage = "Contraseña entre 8-20 caracteres; debe contener al menos una letra minúscula, una letra mayúscula y un dígito numérico." });
             Candidato.Password.Item2.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Confirme la contraseña requerida." });
             Candidato.Password.Validations.Add(new MatchPairValidationRule<string> { ValidationMessage = "La contraseña y la contraseña de confirmación no coinciden." });
 
@@ -225,7 +223,7 @@ namespace ProyectoDIV1.ViewModels.Account
         private async void VerHelpClicked()
         {
             await PopupNavigation.Instance.PushAsync(new PopupVerAyudaPage("Contraseña entre 8-20 caracteres; debe contener al menos una letra minúscula," +
-                " una letra mayúscula, un dígito numérico y un carácter especial"));
+                " una letra mayúscula y un dígito numérico."));
         }
         private async void UploadCurriculum()
         {
@@ -380,7 +378,7 @@ namespace ProyectoDIV1.ViewModels.Account
                             Nombre = Candidato.Nombre.Value,
                             Apellido = Candidato.Apellido.Value,
                             Email = Candidato.Email.Value,
-                            Ciudad = Ciudad.Value,
+                            Ciudad = ciudad,
                             Celular = Candidato.Celular.Value,
                             Edad = age,
                             Rutas =

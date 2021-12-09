@@ -8,13 +8,11 @@
        xmlns:empresa="clr-namespace:ProyectoDIV1.Views.Empresa"
        xmlns:notificaciones="clr-namespace:ProyectoDIV1.Views.Notificaciones"
        xmlns:account="clr-namespace:ProyectoDIV1.Views.Account"
-       xmlns:local="clr-namespace:ProyectoDIV1.Views"
        xmlns:sys="clr-namespace:System;assembly=netstandard"
        xmlns:badge="clr-namespace:Xam.Shell.Badge;assembly=Xam.Shell.Badge"
        x:Class="ProyectoDIV1.MasterCandidatoPage"
-       FlyoutBackgroundImage="backgroundMasterC.jpg"
-       FlyoutBackgroundImageAspect="AspectFit"    
-       Navigating="Shell_Navigating">
+       FlyoutBackgroundImage="backgroundMasterC.jpg" 
+       FlyoutBackgroundImageAspect="AspectFit">
     <Shell.Resources>
         <ResourceDictionary>
             <Style x:Key="BaseStyle" TargetType="Element">

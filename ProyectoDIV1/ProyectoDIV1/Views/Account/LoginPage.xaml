@@ -46,7 +46,7 @@
 				FontSize="14"
 				TextColor="#ffffff"
 				AbsoluteLayout.LayoutBounds="57.5,253,227,53"
-				Text="Registrate y descubre las mejores oportunidades de empleo"
+				Text="Registrate y descubre las mejores oportunidades de empleo con div"
 			 />
                     <Label
                         Text="{Binding EmailValid.Errors, Converter={StaticResource FirstValidationErrorConverter}}"

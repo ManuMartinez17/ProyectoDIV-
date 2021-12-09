@@ -48,59 +48,37 @@ namespace ProyectoDIV1.ViewModels.Account
             _archivos = JsonConvert.DeserializeObject<ArchivosDTO>(Settings.Archivos);
             CandidatoReceived = JsonConvert.DeserializeObject<ECandidato>(Settings.Candidato);
             RegisterCommand = new Command(RegistrarClicked);
-            SearchJobCommand = new Command(async (text) => await ExecuteBusquedaJob(text));
-            SearchSkillsCommand = new Command(async (text) => await ExecuteBusquedaSkills(text));
+            SearchJobCommand = new Command(ExecuteBusquedaJob);
+            SearchSkillsCommand = new Command(ExecuteBusquedaSkills);
         }
 
-        private async Task ExecuteBusquedaJob(object text)
+        private async void ExecuteBusquedaJob()
         {
-            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
-            var texto = text as string;
             try
             {
-                if (!string.IsNullOrWhiteSpace(texto))
-                {
-                    Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
-                       _textoJob = texto;
-                    texto = HttpUtility.UrlEncode(texto);
-                    await Shell.Current.GoToAsync($"{nameof(BusquedaJobPage)}?{nameof(BusquedaJobViewModel.Texto)}={texto}");
-
-                }
-            }
-            catch (Exception ex)
-            {
-                Debug.WriteLine(ex.Message);
-            }
-            finally
-            {
-                await PopupNavigation.Instance.PopAsync();
-            }
-        }
-
-        private async Task ExecuteBusquedaSkills(object text)
-        {
-            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
-            var texto = text as string;
-            try
-            {
-                if (!string.IsNullOrWhiteSpace(texto))
-                {
-                    Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
-                    _textoSkill = texto;
-                    texto = HttpUtility.UrlEncode(texto);
-                    await Shell.Current.GoToAsync($"{nameof(BusquedaSkillsPage)}?{nameof(BusquedaSkillsViewModel.Texto)}={texto}");
-
-                }
+                Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
+                await PopupNavigation.Instance.PushAsync(new BuscadorPage(Constantes.SEARCH_JOB));
             }
             catch (Exception ex)
             {
 
                 Debug.WriteLine(ex.Message);
             }
-            finally
+        }
+
+        private async void ExecuteBusquedaSkills()
+        {
+            try
             {
-                await PopupNavigation.Instance.PopAsync();
+                Settings.Candidato = JsonConvert.SerializeObject(CandidatoReceived);
+                await PopupNavigation.Instance.PushAsync(new BuscadorPage(Constantes.SEARCH_SKILL));
             }
+            catch (Exception ex)
+            {
+
+                Debug.WriteLine(ex.Message);
+            }
+
         }
 
         private void BuscarToken()
@@ -187,57 +165,69 @@ namespace ProyectoDIV1.ViewModels.Account
 
         private async void RegistrarClicked()
         {
-            try
+            if (ValidarFormulario())
             {
-                if (string.IsNullOrWhiteSpace(CandidatoReceived.Expectativa))
+                try
                 {
-                    UserDialogs.Instance.Alert("Ingrese una expectativa.");
-                    return;
-                }
-                if (string.IsNullOrWhiteSpace(CandidatoReceived.Profesion) || CandidatoReceived.Habilidades.Count == 0)
-                {
-                    UserDialogs.Instance.Alert("Tiene que tener una profesión, y una habilidad.");
-                    return;
-                }
-                UserDialogs.Instance.ShowLoading("cargando...");
-                CandidatoReceived.Habilidades = new List<Lista>();
-                foreach (var item in Habilidades)
-                {
-                    CandidatoReceived.Habilidades.Add(item);
-                }
-                var authService = DependencyService.Resolve<IAuthenticationService>();
-                if (await authService.Register($"{CandidatoReceived.Nombre} {CandidatoReceived.Apellido}",
-                    CandidatoReceived.Email, _archivos.Password))
-                {
-                    if (_archivos.ImagenPerfil != null)
+                    UserDialogs.Instance.ShowLoading("cargando...");
+                    CandidatoReceived.Habilidades = new List<Lista>();
+                    foreach (var item in Habilidades)
                     {
-                        Stream stream = new MemoryStream(_archivos.ImagenPerfil);
-                        CandidatoReceived.Rutas.RutaImagenRegistro = await _FirebaseStorageHelper.UploadFile(stream,
-                            CandidatoReceived.Rutas.NombreImagenRegistro, Constantes.CARPETA_IMAGENES_PERFIL);
+                        CandidatoReceived.Habilidades.Add(item);
                     }
-                    if (_archivos.Archivo != null)
+                    var authService = DependencyService.Resolve<IAuthenticationService>();
+                    if (await authService.Register($"{CandidatoReceived.Nombre} {CandidatoReceived.Apellido}",
+                        CandidatoReceived.Email, _archivos.Password))
                     {
-                        Stream stream = new MemoryStream(_archivos.Archivo);
-                        CandidatoReceived.Rutas.RutaArchivoRegistro = await _FirebaseStorageHelper.UploadFile(stream,
-                            CandidatoReceived.Rutas.NombreArchivoRegistro, Constantes.CARPETA_HOJASDEVIDA);
+                        if (_archivos.ImagenPerfil != null)
+                        {
+                            Stream stream = new MemoryStream(_archivos.ImagenPerfil);
+                            CandidatoReceived.Rutas.RutaImagenRegistro = await _FirebaseStorageHelper.UploadFile(stream,
+                                CandidatoReceived.Rutas.NombreImagenRegistro, Constantes.CARPETA_IMAGENES_PERFIL);
+                        }
+                        if (_archivos.Archivo != null)
+                        {
+                            Stream stream = new MemoryStream(_archivos.Archivo);
+                            CandidatoReceived.Rutas.RutaArchivoRegistro = await _FirebaseStorageHelper.UploadFile(stream,
+                                CandidatoReceived.Rutas.NombreArchivoRegistro, Constantes.CARPETA_HOJASDEVIDA);
+                        }
+                        await _firebase.CrearAsync(CandidatoReceived, Constantes.COLLECTION_CANDIDATO);
+                        UserDialogs.Instance.HideLoading();
+                        Toasts.Success("Se ha registrado satisfactoriamente", 2000);
+                        await Task.Delay(1000);
+                        Settings.Candidato = null;
+                        Settings.IsLogin = true;
+                        Settings.TipoUsuario = Constantes.ROL_CANDIDATO;
+                        Application.Current.MainPage = new MasterCandidatoPage();
+                        await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
                     }
-                    await _firebase.CrearAsync(CandidatoReceived, Constantes.COLLECTION_CANDIDATO);
+                }
+                catch (Exception ex)
+                {
                     UserDialogs.Instance.HideLoading();
-                    Toasts.Success("Se ha registrado satisfactoriamente", 2000);
-                    await Task.Delay(1000);
-                    Settings.Candidato = null;
-                    Settings.IsLogin = true;
-                    Settings.TipoUsuario = Constantes.ROL_CANDIDATO;
-                    Application.Current.MainPage = new MasterCandidatoPage();
-                    await Shell.Current.GoToAsync($"//{nameof(AboutPage)}");
+                    Debug.WriteLine(ex.Message);
                 }
             }
-            catch (Exception ex)
-            {
-                UserDialogs.Instance.HideLoading();
-                Debug.WriteLine(ex.Message);
-            }
+        }
 
+        private bool ValidarFormulario()
+        {
+            if (string.IsNullOrWhiteSpace(CandidatoReceived.Expectativa))
+            {
+                Toasts.Error("Ingrese una expectativa", 2000);
+                return false;
+            }
+            else if (string.IsNullOrWhiteSpace(CandidatoReceived.Profesion))
+            {
+                Toasts.Error("Es requerida una profesión", 2000);
+                return false;
+            }
+            else if (CandidatoReceived.Habilidades == null || CandidatoReceived.Habilidades.Count == 0)
+            {
+                Toasts.Error("Es requerida una habilidad.", 2000);
+                return false;
+            }
+            return true;
         }
         #endregion
     }

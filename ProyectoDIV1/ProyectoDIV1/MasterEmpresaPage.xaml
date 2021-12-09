@@ -10,7 +10,8 @@
        xmlns:notificaciones="clr-namespace:ProyectoDIV1.Views.Notificaciones"
        x:Class="ProyectoDIV1.MasterEmpresaPage"
        xmlns:badge="clr-namespace:Xam.Shell.Badge;assembly=Xam.Shell.Badge"
-       xmlns:sys="clr-namespace:System;assembly=netstandard" xmlns:empresa1="clr-namespace:ProyectoDIV1.ViewModels.Empresa" x:DataType="empresa1:MasterEmpresaViewModel"
+       xmlns:sys="clr-namespace:System;assembly=netstandard" xmlns:empresa1="clr-namespace:ProyectoDIV1.ViewModels.Empresa" 
+       x:DataType="empresa1:MasterEmpresaViewModel"
        FlyoutBackgroundImage="backgroundMasterC.jpg"
        FlyoutBackgroundImageAspect="AspectFit">
 

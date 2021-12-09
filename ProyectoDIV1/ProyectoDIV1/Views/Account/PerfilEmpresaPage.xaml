@@ -46,7 +46,7 @@
                                       WidthRequest="4" BorderWidth="2" BorderColor="Black" ImageWidth="40" Command="{Binding UploadcamaraDeComercioCommand}"
                                       ShowIcon="True" BackgroundColor="#cdfff4" Margin="50,5,50,15" ImageSource="iconUpload.png"/>
 
-                    <!--nit-->
+                    <!--nombre-->
                     <Label Text="{Binding Empresa.Nombre.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding Empresa.Nombre.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
@@ -58,13 +58,13 @@
                         </Entry>
                     </inputLayout:SfTextInputLayout>
 
-                    <!--/nit-->
+                    <!--/nombre-->
                     <!--nit-->
                     <Label Text="{Binding Empresa.Nit.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 
                         IsVisible="{Binding Empresa.Nit.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="NIT"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Entry Keyboard="Numeric" Text="{Binding Empresa.Nit.Value}" TextColor="Black">
+                        <Entry Keyboard="Numeric" Text="{Binding Empresa.Nit.Value}"  MaxLength="20" TextColor="Black">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding Empresa.Nit.IsValid}"/>
                             </Entry.Behaviors>
@@ -78,7 +78,7 @@
                         IsVisible="{Binding  Empresa.Email.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Email" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
-                        <Entry Text="{Binding Empresa.Email.Value}" TextColor="Black">
+                        <Entry Text="{Binding Empresa.Email.Value}" TextColor="Black"  MaxLength="60">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding  Empresa.Email.IsValid}"/>
                             </Entry.Behaviors>
@@ -91,7 +91,7 @@
                     <Label Text="{Binding  Empresa.Departamento.Errors, Converter={StaticResource FirstValidationErrorConverter}}"
                         IsVisible="{Binding  Empresa.Departamento.IsValid, Converter={StaticResource InverseBoolConverter}}"
                         Style="{StaticResource ErrorTextStyle}"/>
-                    <inputLayout:SfTextInputLayout Hint="Departamento" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                    <inputLayout:SfTextInputLayout Hint="Departamento"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
                         <Picker
                                 ItemsSource="{Binding DepartamentosLista}"  TextColor="Black"
                                 SelectedItem="{Binding Departamento}"
@@ -133,7 +133,7 @@
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Contraseña"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6"
                                                    EnablePasswordVisibilityToggle="true">
-                        <Entry Text="{Binding Empresa.Password.Item1.Value}" IsPassword="True" TextColor="Black">
+                        <Entry Text="{Binding Empresa.Password.Item1.Value}" MaxLength="30" IsPassword="True" TextColor="Black">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding Empresa.Password.Item1.IsValid}"/>
                             </Entry.Behaviors>
@@ -148,7 +148,7 @@
                     <inputLayout:SfTextInputLayout Hint="confirmar contraseña"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6"
                                                    EnablePasswordVisibilityToggle="true"
                                                    >
-                        <Entry Text="{Binding Empresa.Password.Item2.Value}" IsPassword="True" TextColor="Black">
+                        <Entry Text="{Binding Empresa.Password.Item2.Value}"  MaxLength="30" IsPassword="True" TextColor="Black">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding Empresa.Password.Item2.IsValid}"/>
                             </Entry.Behaviors>

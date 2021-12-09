@@ -13,5 +13,6 @@ namespace ProyectoDIV1.Entidades.Models
         public string Mensaje { get; set; }
         public bool EstadoAceptado { get; set; }
         public bool EstadoRechazado { get; set; }
+        public bool ContratoTerminado { get; set; }
     }
 }

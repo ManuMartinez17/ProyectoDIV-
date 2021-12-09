@@ -190,6 +190,8 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     notificacion.EstadoRechazado = true;
                     notificacion.Mensaje = "Solicitud Rechazada.";
                 }
+
+
                 _notificacion.CandidatoEmisor.Notificaciones.Add(notificacion);
                 var query = await candidatoService.GetCandidatoFirebaseObjectAsync(_notificacion.CandidatoEmisor.UsuarioId);
                 await candidatoService.UpdateAsync(_notificacion.CandidatoEmisor, Constantes.COLLECTION_CANDIDATO, query);
@@ -287,10 +289,11 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     Mensaje = _notificacion.Notificacion.Mensaje;
                     IsAccepted = _notificacion.Notificacion.EstadoAceptado == false && _notificacion.Notificacion.EstadoRechazado == false
                        ? "Pendiente" : _notificacion.Notificacion.EstadoRechazado
-                        == true ? "rechazado" : "Aceptado";
+                        == true ? "rechazado" : _notificacion.Notificacion.ContratoTerminado == false ? "Aceptado." : "Contrato finalizado.";
                     IconIsAccepted = _notificacion.Notificacion.EstadoAceptado == false && _notificacion.Notificacion.EstadoRechazado 
                         == false ? "icon_pending.png" : _notificacion.Notificacion.EstadoRechazado
-                        == true ? "icon_rechazing.png" : "icon_checked.png";
+                        == true ? "icon_rechazing.png" : _notificacion.Notificacion.ContratoTerminado == false ? "icon_checked.png" :
+                        "icon_finished.png";
                     IsVisible = _notificacion.Notificacion.EstadoAceptado == false &&
                        _notificacion.Notificacion.EstadoRechazado == false ? true : _notificacion.Notificacion.EstadoRechazado == true
                        || _notificacion.Notificacion.EstadoAceptado == true ? false : true;
@@ -307,10 +310,11 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                     Mensaje = _notificacion.Notificacion.Mensaje;
                     IsAccepted = _notificacion.Notificacion.EstadoAceptado == false && _notificacion.Notificacion.EstadoRechazado == false
                         ? "Pendiente" : _notificacion.Notificacion.EstadoRechazado
-                         == true ? "rechazado" : "Aceptado";
+                         == true ? "rechazado" : _notificacion.Notificacion.ContratoTerminado == false ? "Aceptado." : "Contrato finalizado.";
                     IconIsAccepted = _notificacion.Notificacion.EstadoAceptado == false && 
                         _notificacion.Notificacion.EstadoRechazado == false ? "icon_pending.png" : _notificacion.Notificacion.EstadoRechazado
-                        == true ? "icon_rechazing.png" : "icon_checked.png";
+                        == true ? "icon_rechazing.png" : _notificacion.Notificacion.ContratoTerminado == false ? "icon_checked.png" :
+                        "icon_finished.png";
                     IsVisible = _notificacion.Notificacion.EstadoAceptado == false &&
                          _notificacion.Notificacion.EstadoRechazado == false ? true : _notificacion.Notificacion.EstadoRechazado == true
                          || _notificacion.Notificacion.EstadoAceptado == true ? false : true;

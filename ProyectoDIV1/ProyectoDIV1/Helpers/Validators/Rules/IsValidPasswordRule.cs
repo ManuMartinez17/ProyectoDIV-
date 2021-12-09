@@ -6,11 +6,14 @@ namespace ProyectoDIV1.Validators.Rules
     public class IsValidPasswordRule<T> : IValidationRule<T>
     {
         public string ValidationMessage { get; set; }
-        public Regex RegexPassword { get; set; } = new Regex("(?=.*[A-Z])(?=.*\\d)(?=.*[¡!@#$%*¿?\\-_.\\(\\)])[A-Za-z\\d¡!@#$%*¿?\\-\\(\\)&]{8,20}");
 
         public bool Check(T value)
         {
-            return RegexPassword.IsMatch($"{value}");
+            var hasNumber = new Regex(@"[0-9]+");
+            var hasUpperChar = new Regex(@"[A-Z]+");
+            var hasMinimum8Chars = new Regex(@".{8,30}");
+            var isValidated = hasNumber.IsMatch($"{value}") && hasUpperChar.IsMatch($"{value}") && hasMinimum8Chars.IsMatch($"{value}");
+            return isValidated;
         }
     }
 }

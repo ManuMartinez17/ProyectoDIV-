@@ -8,10 +8,16 @@ namespace ProyectoDIV1.Views.Empresa
     [XamlCompilation(XamlCompilationOptions.Compile)]
     public partial class EmpresasConServiciosPage : ContentPage
     {
+        private EmpresasConServiciosViewModel _viewModel;
         public EmpresasConServiciosPage()
         {
             InitializeComponent();
-            BindingContext = new EmpresasConServiciosViewModel();
+            BindingContext = _viewModel =  new EmpresasConServiciosViewModel();
+        }
+        protected override void OnAppearing()
+        {
+            base.OnAppearing();
+            _viewModel.OnAppearing();
         }
     }
 }

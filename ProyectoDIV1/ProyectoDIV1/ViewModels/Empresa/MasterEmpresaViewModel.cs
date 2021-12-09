@@ -54,6 +54,10 @@ namespace ProyectoDIV1.ViewModels.Empresa
         public async void RefreshEmpresa(Guid id)
         {
             var empresa = await _empresaService.GetEmpresaAsync(id);
+            if (empresa == null)
+            {
+                return;
+            }
             EmpresaDTO empresaDTO = new EmpresaDTO()
             {
                 Empresa = empresa

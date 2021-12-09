@@ -5,7 +5,7 @@ using Xamarin.Forms;
 
 namespace ProyectoDIV1.ViewModels
 {
-    class PopupVerAyudaViewModel: BaseViewModel
+    class PopupVerAyudaViewModel : BaseViewModel
     {
         private string _texto;
         public string Texto

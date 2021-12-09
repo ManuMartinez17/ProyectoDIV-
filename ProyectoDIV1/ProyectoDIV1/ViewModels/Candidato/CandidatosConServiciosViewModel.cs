@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Acr.UserDialogs;
+using Newtonsoft.Json;
 using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
@@ -22,7 +23,6 @@ namespace ProyectoDIV1.ViewModels.Candidato
         private CandidatoService _candidatoService;
         public CandidatosConServiciosViewModel()
         {
-            LoadCandidatos();
             _candidatoService = new CandidatoService();
             MostrarListadoCandidatosCommand = new Command((param) => ExecuteListadoCandidatosPorServicio(param));
             MoreInformationCommand = new Command<object>(CandidatoSelected, CanNavigate);
@@ -75,7 +75,7 @@ namespace ProyectoDIV1.ViewModels.Candidato
 
         private async void LoadCandidatos()
         {
-            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
+            UserDialogs.Instance.ShowLoading("Cargando...");
             try
             {
                 await MostrarCandidatos();
@@ -86,7 +86,7 @@ namespace ProyectoDIV1.ViewModels.Candidato
             }
             finally
             {
-                await PopupNavigation.Instance.PopAllAsync();
+                UserDialogs.Instance.HideLoading();
             }
         }
 
@@ -116,6 +116,7 @@ namespace ProyectoDIV1.ViewModels.Candidato
         public void OnAppearing()
         {
             LoadProfesiones();
+            LoadCandidatos();
         }
         private async void LoadProfesiones()
         {

@@ -1,4 +1,5 @@
 ﻿using Newtonsoft.Json;
+using Plugin.XamarinFormsSaveOpenPDFPackage;
 using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Services.FirebaseServices;
@@ -11,6 +12,7 @@ using Rg.Plugins.Popup.Services;
 using System;
 using System.Diagnostics;
 using System.IO;
+using System.Net.Http;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 
@@ -55,7 +57,7 @@ namespace ProyectoDIV1.ViewModels.Candidato
 
         private async void VerHojaDeVida(object obj)
         {
-
+            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
             try
             {
                 if (string.IsNullOrWhiteSpace(_candidato.Candidato.Rutas.RutaArchivoRegistro))
@@ -71,15 +73,26 @@ namespace ProyectoDIV1.ViewModels.Candidato
                 }
                 else if (extension.Contains("pdf"))
                 {
-                    await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
-                    Settings.Url = JsonConvert.SerializeObject(_candidato.Candidato.Rutas.RutaArchivoRegistro);
-                    await Shell.Current.GoToAsync(nameof(VerHojaDeVidaPage));
-                    await PopupNavigation.Instance.PopAllAsync();
+                    var httpClient = new HttpClient();
+                    var stream = await httpClient.GetStreamAsync(_candidato.Candidato.Rutas.RutaArchivoRegistro);
+
+                    using (var memoryStream = new MemoryStream())
+                    {
+                        await stream.CopyToAsync(memoryStream);
+
+                        await CrossXamarinFormsSaveOpenPDFPackage.Current.SaveAndView($"HojaDeVida{_candidato.Candidato.Nombre}.pdf", "application/pdf", memoryStream, 
+                            PDFOpenContext.InApp);
+                    }
                 }
             }
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
+                Toasts.Error("No se pudo abrir el archivo", 3000);
+            }
+            finally
+            {
+                await PopupNavigation.Instance.PopAllAsync();
             }
         }
 

@@ -7,7 +7,9 @@ using ProyectoDIV1.Services.ExternalServices;
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.Services.Interfaces;
+using ProyectoDIV1.Views;
 using ProyectoDIV1.Views.Candidato;
+using Rg.Plugins.Popup.Services;
 using System;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -87,6 +89,7 @@ namespace ProyectoDIV1.ViewModels.Buscadores
 
         private async void LoadSkills(string value)
         {
+            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
             try
             {
                 var token = JsonConvert.DeserializeObject<Token>(Settings.Token);
@@ -104,7 +107,7 @@ namespace ProyectoDIV1.ViewModels.Buscadores
                 }
                 string palabra = await _traductor.TraducirPalabra(value, Constantes.CodigoISOEnglish, Constantes.CodigoISOSpanish);
                 string palabraTraducida = ParsearUrlConCodigoPorciento(palabra);
-                var lista = await serviceJobsandSkills.GetListJobsRelatedSkills($"skills/versions/latest/skills?q=.{palabraTraducida}&limit=10",
+                var lista = await serviceJobsandSkills.GetListJobsRelatedSkills($"skills/versions/latest/skills?q=.{palabraTraducida}&limit=100",
                     token.access_token);
                 var listadotraducido = await _traductor.TraducirSkills(lista.data);
                 TiposDeKills = new ObservableCollection<Skill>(listadotraducido);
@@ -113,6 +116,11 @@ namespace ProyectoDIV1.ViewModels.Buscadores
             {
                 Debug.WriteLine(ex.Message);
             }
+            finally
+            {
+                await PopupNavigation.Instance.PopAllAsync();
+            }
+
         }
 
         private async void OnGuardarClicked()

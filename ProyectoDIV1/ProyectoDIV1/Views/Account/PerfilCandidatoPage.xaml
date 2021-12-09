@@ -6,10 +6,9 @@
              xmlns:converter="clr-namespace:ProyectoDIV1.Helpers.Converters" 
              xmlns:ffimageloading="clr-namespace:FFImageLoading.Forms;assembly=FFImageLoading.Forms"
              xmlns:fftransformations="clr-namespace:FFImageLoading.Transformations;assembly=FFImageLoading.Transformations"
-             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" xmlns:syncfusion="clr-namespace:Syncfusion.XForms.Pickers;assembly=Syncfusion.SfPicker.XForms"
+             xmlns:buttons="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms" 
              x:Class="ProyectoDIV1.Views.Account.PerfilCandidatoPage" BackgroundImage="registro.jpg" 
-               Shell.FlyoutBehavior="Disabled"
-               Shell.BackgroundColor="{StaticResource Primary}" Title="Registro de candidato">
+             Shell.FlyoutBehavior="Disabled" Shell.BackgroundColor="{StaticResource Primary}" Title="Registro de candidato">
 
     <ContentPage.ToolbarItems>
         <ToolbarItem IconImageSource="icon_info.png" Priority="0" Command="{Binding VerAyuda}" Order="Primary"/>
@@ -147,7 +146,7 @@
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="Contraseña"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6"
                                                    EnablePasswordVisibilityToggle="true">
-                        <Entry Text="{Binding Candidato.Password.Item1.Value}" IsPassword="True" MaxLength="60" TextColor="Black">
+                        <Entry Text="{Binding Candidato.Password.Item1.Value}" IsPassword="True" MaxLength="30" TextColor="Black">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Password.Item1.IsValid}"/>
                             </Entry.Behaviors>
@@ -161,7 +160,7 @@
                         Style="{StaticResource ErrorTextStyle}"/>
                     <inputLayout:SfTextInputLayout Hint="confirmar contraseña"  FocusedColor="Black" ContainerBackgroundColor="#edf8f6"
                                                    EnablePasswordVisibilityToggle="true">
-                        <Entry Text="{Binding Candidato.Password.Item2.Value}" IsPassword="True" TextColor="Black">
+                        <Entry Text="{Binding Candidato.Password.Item2.Value}" IsPassword="True"  MaxLength="30" TextColor="Black">
                             <Entry.Behaviors>
                                 <behaviour:EntryLineValidationBehaviour IsValid="{Binding Candidato.Password.Item2.IsValid}"/>
                             </Entry.Behaviors>

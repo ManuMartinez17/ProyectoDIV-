@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json;
+﻿using Acr.UserDialogs;
+using Newtonsoft.Json;
 using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
@@ -20,6 +21,13 @@ namespace ProyectoDIV1.ViewModels.Empresa
 
         #region Attributes
         private ObservableCollection<EmpresaDTO> _empresas;
+
+        public  void OnAppearing()
+        {
+            LoadEmpresasBusqueda();
+            LoadEmpresas();
+        }
+
         private ObservableCollection<EEmpresa> _empresasBusqueda;
         private EmpresaService _empresaService;
         #endregion
@@ -28,8 +36,6 @@ namespace ProyectoDIV1.ViewModels.Empresa
         public EmpresasConServiciosViewModel()
         {
             _empresaService = new EmpresaService();
-            LoadEmpresasBusqueda();
-            LoadEmpresas();
             MoreInformationCommand = new Command<object>(EmpresaSelected, CanNavigate);
             MostrarListadoEmpresasCommand = new Command((param) => ExecuteListadoEmpresas(param));
             LoadEmpresasCommand = new Command(async () => await RefreshEmpresas());
@@ -71,7 +77,7 @@ namespace ProyectoDIV1.ViewModels.Empresa
         #region Methods
         private async void LoadEmpresas()
         {
-            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage());
+            UserDialogs.Instance.ShowLoading("Cargando...");
             try
             {
                 if (Empresas != null)
@@ -98,12 +104,35 @@ namespace ProyectoDIV1.ViewModels.Empresa
             }
             finally
             {
-                await PopupNavigation.Instance.PopAsync();
+                UserDialogs.Instance.HideLoading();
             }
         }
-        private Task RefreshEmpresas()
+        private async Task RefreshEmpresas()
         {
-            throw new NotImplementedException();
+            try
+            {
+                if (Empresas != null)
+                {
+                    Empresas.Clear();
+                }
+                var empresas = await _empresaService.GetEmpresas();
+                var user = JsonConvert.DeserializeObject<EEmpresa>(Settings.Usuario);
+                var empresaIam = empresas.Find(x => x.UsuarioId == user.UsuarioId);
+                if (empresaIam != null)
+                {
+                    empresas.Remove(empresaIam);
+                }
+                List<EmpresaDTO> empresasDTOs = new List<EmpresaDTO>();
+                empresas.ForEach(x => empresasDTOs.Add(new EmpresaDTO
+                {
+                    Empresa = x
+                }));
+                Empresas = new ObservableCollection<EmpresaDTO>(empresasDTOs);
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
         }
 
         private async void ExecuteListadoEmpresas(object param)

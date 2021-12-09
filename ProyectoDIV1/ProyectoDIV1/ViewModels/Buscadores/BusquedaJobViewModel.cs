@@ -119,7 +119,7 @@ namespace ProyectoDIV1.ViewModels.Buscadores
                 }
                 string palabra = await _traductor.TraducirPalabra(value, Constantes.CodigoISOEnglish, Constantes.CodigoISOSpanish);
                 string palabraTraducida = ParsearUrlConCodigoPorciento(palabra);
-                var lista = await serviceJobsandSkills.GetListJobsAsync($"titles/versions/latest/titles?q=.{palabraTraducida}&limit=10", token.access_token);
+                var lista = await serviceJobsandSkills.GetListJobsAsync($"titles/versions/latest/titles?q=.{palabraTraducida}&limit=100", token.access_token);
                 var listadotraducido = await _traductor.TraducirJobs(lista.data);
                 TiposDeJobs = new ObservableCollection<Job>(listadotraducido);
             }

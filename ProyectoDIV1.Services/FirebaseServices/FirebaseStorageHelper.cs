@@ -51,7 +51,6 @@ namespace ProyectoDIV1.Services.FirebaseServices
         {
             try
             {
-
                 await firebaseStorage
                  .Child(carpeta)
                  .Child(fileName)

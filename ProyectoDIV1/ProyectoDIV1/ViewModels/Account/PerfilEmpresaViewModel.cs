@@ -128,6 +128,7 @@ namespace ProyectoDIV1.ViewModels.Account
         #region Validaciones y carga de listas
         public void AddValidationRules()
         {
+            Empresa.Nombre.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Razón Social requerida." });
             Empresa.Departamento.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Departamento requerido." });
             Empresa.Ciudad.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Ciudad requerida." });
             Empresa.Celular.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Celular requerido." });
@@ -137,7 +138,7 @@ namespace ProyectoDIV1.ViewModels.Account
                 MinimunLenght = 7,
                 ValidationMessage = "El teléfono y/o celular debe tener minimo 7 y maximo 10 digitos."
             });
-            Empresa.Nit.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Celular requerido." });
+            Empresa.Nit.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Nit requerido." });
             //Email Validation Rules
             Empresa.Email.Validations.Add(new IsNotNullOrEmptyRule<string> { ValidationMessage = "Email Requerido." });
             Empresa.Email.Validations.Add(new IsValidEmailRule<string> { ValidationMessage = "Email invalido." });
@@ -151,13 +152,14 @@ namespace ProyectoDIV1.ViewModels.Account
 
         bool ValidarFormulario()
         {
+            bool isNombreValid = Empresa.Nombre.Validate();
             bool isNitValid = Empresa.Nit.Validate();
             bool isPhoneNumberValid = Empresa.Celular.Validate();
             bool isDepartamentValid = Empresa.Departamento.Validate();
             bool isCiudadValid = Empresa.Ciudad.Validate();
             bool isEmailValid = Empresa.Email.Validate();
             bool isPasswordValid = Empresa.Password.Validate();
-            return isNitValid && isDepartamentValid && isCiudadValid
+            return isNombreValid && isNitValid && isDepartamentValid && isCiudadValid
                    && isPhoneNumberValid && isEmailValid && isPasswordValid;
         }
         private async void LoadDepartamentos()
@@ -191,7 +193,7 @@ namespace ProyectoDIV1.ViewModels.Account
                 new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
                 {
                      { DevicePlatform.iOS, new[] { "com.adobe.pdf" , "com.microsoft.word.doc" } }, // or general UTType values
-                     { DevicePlatform.Android, new[] { "application/pdf", "application/msword", 
+                     { DevicePlatform.Android, new[] { "application/pdf", "application/msword",
                          "application/vnd.openxmlformats-officedocument.wordprocessingml.document" } },
                      { DevicePlatform.UWP, new[] { ".pdf" ,".doc"} },
                      { DevicePlatform.Tizen, new[] { "*/*" } },
@@ -278,7 +280,7 @@ namespace ProyectoDIV1.ViewModels.Account
                 Toasts.Error(ex.Message, 2000);
                 return;
             }
-            
+
         }
 
 
@@ -314,7 +316,7 @@ namespace ProyectoDIV1.ViewModels.Account
                         if (_archivocamaraDeComercio != null)
                         {
                             nombrecamaraDeComercio = $"{Empresa.UsuarioId}{Path.GetExtension(_camaraDeComercio.FileName)}";
-                            RutaArchivo = await _firebaseStorage.UploadFile(_archivocamaraDeComercio, nombrecamaraDeComercio, 
+                            RutaArchivo = await _firebaseStorage.UploadFile(_archivocamaraDeComercio, nombrecamaraDeComercio,
                                 Constantes.CARPETA_CAMARADECOMERCIO);
                         }
                         var entidad = new EEmpresa

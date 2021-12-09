@@ -1,7 +1,9 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml" 
-             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms" xmlns:pullToRefresh="clr-namespace:Syncfusion.SfPullToRefresh.XForms;assembly=Syncfusion.SfPullToRefresh.XForms" xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms"
+             xmlns:syncfusion="clr-namespace:Syncfusion.ListView.XForms;assembly=Syncfusion.SfListView.XForms" 
+             xmlns:pullToRefresh="clr-namespace:Syncfusion.SfPullToRefresh.XForms;assembly=Syncfusion.SfPullToRefresh.XForms"
+             xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms" xmlns:button="clr-namespace:Syncfusion.XForms.Buttons;assembly=Syncfusion.Buttons.XForms"
              x:Class="ProyectoDIV1.Views.Notificaciones.NotificacionesPage"
              Title="Notificaciones">
     <ContentPage.ToolbarItems>
@@ -12,7 +14,7 @@
     </ContentPage.ToolbarItems>
     <ContentPage.Content>
         <Grid RowSpacing="0" ColumnSpacing="0" Padding="0" Margin="5,20,5,10">
-                 <Grid.RowDefinitions>
+            <Grid.RowDefinitions>
                 <RowDefinition Height="60"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
@@ -29,21 +31,39 @@
                         <syncfusion:SfListView.ItemTemplate>
                             <DataTemplate>
                                 <Frame Margin="5,10,5,10" CornerRadius="10" BackgroundColor="AliceBlue">
-                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
-                                        <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Start">
-                                            <Label Text="{Binding FullName}" FontSize="Body" FontAttributes="Bold" 
+                                    <StackLayout>
+                                        <StackLayout Orientation="Horizontal" HorizontalOptions="Fill">
+                                            <StackLayout VerticalOptions="CenterAndExpand" HorizontalOptions="Start">
+                                                <Label Text="{Binding FullName, StringFormat='De: {0}'}" FontSize="Body" FontAttributes="Bold" 
                                            TextColor="{StaticResource ThirdOrange}"/>
-                                            <Label Text="{Binding Notificacion.Fecha}" FontSize="Small"
+                                                <Label Text="{Binding Notificacion.Fecha}" FontSize="Small"
                                            TextColor="Black"/>
+                                                
+                                            </StackLayout>
+                                            <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand">
+                                                
+                                            </StackLayout>
+                                            <Image Source="{Binding IsVisto}" HorizontalOptions="EndAndExpand" Aspect="AspectFit" WidthRequest="30"/>
                                         </StackLayout>
-                                        <StackLayout HorizontalOptions="CenterAndExpand" VerticalOptions="CenterAndExpand">
-                                            <Label Text="{Binding IsAccepted}" FontSize="Body" HorizontalOptions="Center"  FontAttributes="Bold" 
+                                        <StackLayout Orientation="Horizontal" VerticalOptions="Center" HorizontalOptions="Fill">
+                                            <Label Text="{Binding IsAccepted}" FontSize="Body" HorizontalOptions="FillAndExpand" FontAttributes="Bold" 
                                            TextColor="Black"/>
-                                            <Image Source="{Binding IconIsAccepted}" HorizontalOptions="Center" Aspect="AspectFit" WidthRequest="30">
-
-                                            </Image>
+                                            <Image Source="{Binding IconIsAccepted}"  Aspect="AspectFit" WidthRequest="30"/>
                                         </StackLayout>
-                                        <Image Source="{Binding IsVisto}" HorizontalOptions="EndAndExpand" Aspect="AspectFit" WidthRequest="30"/>
+                                        <Button x:Name="BtnTerminar" Clicked="BtnTerminar_Clicked" BackgroundColor="{StaticResource ThirdOrange}"
+                                                CornerRadius="4" IsVisible="{Binding TerminarContrato}" 
+                                                IsEnabled="{Binding Notificacion.EstadoAceptado}"
+                                                TextColor="White" HorizontalOptions="Center" VerticalOptions="EndAndExpand" 
+                                                Text="Finalizar Contrato.">
+                                        </Button>
+                                        
+                                        <button:SfButton  x:Name="BtnCalificar" Clicked="BtnCalificar_Clicked" 
+                                                          IsVisible="{Binding IsCalificated}" IsEnabled="{Binding IsCalificated}"
+                                                CornerRadius="4" ImageSource="icon_star.png" ShowIcon="True" 
+                                                     HorizontalTextAlignment="Center" HorizontalOptions="Center" VerticalOptions="EndAndExpand"
+                                                         BackgroundColor="{StaticResource ThirdOrange}" TextColor="White" FontSize="18" Text="Calificar" 
+                                                          FontAttributes="Bold" ImageWidth="35">
+                                        </button:SfButton>
                                     </StackLayout>
                                 </Frame>
                             </DataTemplate>

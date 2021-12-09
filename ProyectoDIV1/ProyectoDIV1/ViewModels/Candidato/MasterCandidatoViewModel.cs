@@ -1,11 +1,9 @@
-﻿using Acr.UserDialogs;
-using Newtonsoft.Json;
+﻿using Newtonsoft.Json;
 using ProyectoDIV1.DTOs;
 using ProyectoDIV1.Entidades.Models;
 using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Services.FirebaseServices;
 using ProyectoDIV1.Services.Interfaces;
-using ProyectoDIV1.Views.Account;
 using System;
 using System.Diagnostics;
 using System.Threading.Tasks;
@@ -26,6 +24,10 @@ namespace ProyectoDIV1.ViewModels.Candidato
         public async void RefreshCandidato(Guid id)
         {
             var candidato = await _candidatoService.GetCandidatoAsync(id);
+            if (candidato == null)
+            {
+                return;
+            }
             CandidatoDTO candidatoDTO = new CandidatoDTO()
             {
                 Candidato = candidato

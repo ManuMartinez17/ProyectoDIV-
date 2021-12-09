@@ -54,6 +54,12 @@
                                         </Entry.Behaviors>
                                     </Entry>
                                 </inputLayout:SfTextInputLayout>
+                                <inputLayout:SfTextInputLayout Hint="Departamento" IsEnabled="False" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                                    <Entry Text="{Binding Candidato.Departamento}" TextColor="Black" />
+                                </inputLayout:SfTextInputLayout>
+                                <inputLayout:SfTextInputLayout Hint="Ciudad" IsEnabled="False" FocusedColor="Black" ContainerBackgroundColor="#edf8f6">
+                                    <Entry Text="{Binding Candidato.Ciudad}" TextColor="Black" />
+                                </inputLayout:SfTextInputLayout>
                                 <!--/apellido-->
                                 <StackLayout Orientation="Horizontal" HorizontalOptions="FillAndExpand" Padding="10,10,10,10">
                                     <Label Text="{Binding Profesion.Errors, Converter={StaticResource FirstValidationErrorConverter}}" 

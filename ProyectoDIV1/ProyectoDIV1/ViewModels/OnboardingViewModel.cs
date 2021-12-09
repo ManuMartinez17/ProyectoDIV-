@@ -33,20 +33,20 @@ namespace ProyectoDIV1.ViewModels
                 new OnboardingModel
                 {
                     Title = "Bienvenido a \n DIV",
-                    Content = "Tabia helps you build habits that stick.",
-                    ImageUrl = "healthy_habits.svg"
+                    Content = "Aplicativo para certificar horas de trabajo.",
+                    ImageUrl = "ilust1.svg"
                 },
                 new OnboardingModel
                 {
-                    Title = "Reminder",
-                    Content = "Reminder helps you execute your habits each day.",
-                    ImageUrl = "time.svg"
+                    Title = "Registrate como Candidato y/o Empresa",
+                    Content = " hacer uso de tus habilidades y profesión, para candidatos o empresas que requieran un trabajo.",
+                    ImageUrl = "ilust2.svg"
                 },
                 new OnboardingModel
                 {
-                    Title = "Track your progress",
-                    Content = "Charts help you visualize your efforts over time.",
-                    ImageUrl = "visual_data.svg"
+                    Title = "Califica y Notifica",
+                    Content = "Califica y notifica a candidatos y/o empresas.",
+                    ImageUrl = "ilust3.svg"
                 }
             };
         }

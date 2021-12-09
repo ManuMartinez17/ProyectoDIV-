@@ -1,0 +1,28 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<pages:PopupPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:pages="clr-namespace:Rg.Plugins.Popup.Pages;assembly=Rg.Plugins.Popup"
+                 xmlns:cards="clr-namespace:Syncfusion.XForms.Cards;assembly=Syncfusion.Cards.XForms" xmlns:rating="clr-namespace:Syncfusion.SfRating.XForms;assembly=Syncfusion.SfRating.XForms"
+                 x:Class="ProyectoDIV1.Views.PopupCalificarPage"  CloseWhenBackgroundIsClicked="True">
+    <ContentPage.Content>
+        <StackLayout HorizontalOptions="Center" Margin="20" VerticalOptions="Center">
+            <cards:SfCardView BackgroundColor="{StaticResource PurpleDark}" Padding="40">
+                <StackLayout>
+                    <Label Text="{Binding Texto,StringFormat='Califique según desee en las estrellas a {0} por su trabajo'}" 
+                       TextColor="White" FontSize="Medium" Padding="20" HorizontalTextAlignment="Center" 
+                       VerticalTextAlignment="Center" FontAttributes="Italic" />
+                    <rating:SfRating
+                                     ItemSize="40" Margin="0,15,0,15"
+                                     Precision="Half" VerticalOptions="CenterAndExpand" HorizontalOptions="CenterAndExpand"
+                                     Value="{Binding Calificacion}">
+                        <rating:SfRating.RatingSettings>
+                            <rating:SfRatingSettings RatedFill="Yellow" UnRatedFill="Gray" RatedStrokeWidth="3" UnRatedStrokeWidth="2"/>
+                        </rating:SfRating.RatingSettings>
+                    </rating:SfRating>
+                    <Button Text="Enviar Calificación" Command="{Binding EnviarCalificacionCommand}" CornerRadius="4" HorizontalOptions="Center"
+                            VerticalOptions="EndAndExpand" TextColor="White"  BackgroundColor="{StaticResource ThirdOrange}"></Button>
+                </StackLayout>
+            </cards:SfCardView>
+        </StackLayout>
+    </ContentPage.Content>
+</pages:PopupPage>

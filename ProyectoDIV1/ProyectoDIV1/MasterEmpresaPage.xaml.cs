@@ -31,29 +31,37 @@ namespace ProyectoDIV1
         }
         private void ConnectivityChangedHandler(object sender, ConnectivityChangedEventArgs e)
         {
-            Device.BeginInvokeOnMainThread(() =>
+            try
             {
-                if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+                Device.BeginInvokeOnMainThread(() =>
                 {
-                    if (Current.Navigation.NavigationStack.Count > 0)
+                    if (Connectivity.NetworkAccess == NetworkAccess.Internet)
                     {
-                        Current.Navigation.PopAsync();
+                        if (Current.Navigation.NavigationStack.Count > 0)
+                        {
+                            Current.Navigation.PopAsync();
+                        }
+                        else if (Current.Navigation.ModalStack.Count > 0)
+                        {
+                            Current.Navigation.PopAsync();
+                        }
+                        else if (Application.Current.MainPage.Navigation.NavigationStack.Count > 0)
+                        {
+                            Application.Current.MainPage.Navigation.PopAsync();
+                        }
                     }
-                    else if (Current.Navigation.ModalStack.Count > 0)
+                    else
                     {
-                        Current.Navigation.PopAsync();
+                        Current.Navigation.PushAsync(new NoInternetConnectionPage());
                     }
-                    else if (Application.Current.MainPage.Navigation.NavigationStack.Count > 0)
-                    {
-                        Application.Current.MainPage.Navigation.PopAsync();
-                    }
-                }
-                else
-                {
-                    Current.Navigation.PushAsync(new NoInternetConnectionPage());
-                }
 
-            });
+                });
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+           
         }
         private void RegisterRoutes()
         {
@@ -70,15 +78,15 @@ namespace ProyectoDIV1
                 Routing.RegisterRoute(item.Key, item.Value);
             }
         }
-        private void Shell_Navigating(object sender, ShellNavigatingEventArgs e)
+        protected override void OnNavigating(ShellNavigatingEventArgs args)
         {
+            base.OnNavigating(args);
             try
             {
                 if (_viewModel != null)
                 {
                     _viewModel.RefreshEmpresa(_viewModel.Empresa.Empresa.UsuarioId);
                 }
-
             }
             catch (Exception ex)
             {

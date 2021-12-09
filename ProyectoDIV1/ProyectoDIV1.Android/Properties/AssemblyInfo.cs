@@ -1,7 +1,7 @@
-﻿using System.Reflection;
-using System.Runtime.CompilerServices;
+﻿using Android.App;
+using System.Reflection;
 using System.Runtime.InteropServices;
-using Android.App;
+using Xamarin.Forms;
 
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
@@ -14,6 +14,7 @@ using Android.App;
 [assembly: AssemblyCopyright("Copyright ©  2014")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
+[assembly: ExportFont("fontello.ttf")]
 [assembly: ComVisible(false)]
 
 // Version information for an assembly consists of the following four values:

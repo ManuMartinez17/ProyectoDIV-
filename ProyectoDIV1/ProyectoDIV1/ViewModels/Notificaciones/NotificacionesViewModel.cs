@@ -28,7 +28,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
         private CandidatoService candidatoService;
         private string _noLeidas;
         private EmpresaService _empresaService;
-
+        private bool _isEnabled;
         public NotificacionesViewModel()
         {
 
@@ -37,6 +37,184 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
             _notificacionesService = new NotificacionesService();
             MoreInformationCommand = new Command<object>(NotificacionSelected, CanNavigate);
             RefreshCommand = new Command(async () => await RefreshNotificaciones());
+        }
+
+        public Command TerminarContratoCommand
+        {
+            get
+            {
+                return new Command<NotificacionDTO>((param) => TerminarContratoClicked(param));
+            }
+        }
+
+        public Command CalificarCommand
+        {
+            get
+            {
+                return new Command<NotificacionDTO>((param) => CalificarClicked(param));
+            }
+        }
+
+        private void CalificarClicked(NotificacionDTO notificacion)
+        {
+
+            try
+            {
+                if (notificacion != null)
+                {
+                    if (_candidato != null)
+                    {
+                        CalificarCandidato(notificacion);
+                      
+                    }
+                    else if (_empresa != null)
+                    {
+                        CalificarEmpresa(notificacion);
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+        }
+
+        private async void CalificarEmpresa(NotificacionDTO notificacion)
+        {
+            await PopupNavigation.Instance.PushAsync(new PopupCalificarPage(notificacion.Notificacion.EmisorId,
+                            notificacion.Notificacion.Id, _empresa.UsuarioId, notificacion.FullName));
+        }
+
+        private async void CalificarCandidato(NotificacionDTO notificacion)
+        {
+            await PopupNavigation.Instance.PushAsync(new PopupCalificarPage(notificacion.Notificacion.EmisorId,
+                            notificacion.Notificacion.Id, _candidato.UsuarioId, notificacion.FullName));
+        }
+
+        private async void TerminarContratoClicked(NotificacionDTO notificacion)
+        {
+            string fullName = string.Empty;
+            string isUser = string.Empty;
+            await PopupNavigation.Instance.PushAsync(new PopupLoadingPage("Enviando..."));
+            try
+            {
+                if (notificacion != null)
+                {
+                    if (_candidato != null)
+                    {
+                        var candidatoActual = await candidatoService.GetCandidatoAsync(_candidato.UsuarioId);
+                        foreach (var item in candidatoActual.Notificaciones)
+                        {
+                            if (item.Id == notificacion.Notificacion.Id)
+                            {
+                                if (item.EstadoAceptado)
+                                {
+                                    item.ContratoTerminado = true;
+                                    break;
+                                }
+                            }
+                        }
+                        var query = await candidatoService.GetCandidatoFirebaseObjectAsync(_candidato.UsuarioId);
+                        await candidatoService.UpdateAsync(candidatoActual, Constantes.COLLECTION_CANDIDATO, query);
+                    }
+                    else if (_empresa != null)
+                    {
+                        var empresaActual = await _empresaService.GetEmpresaAsync(_empresa.UsuarioId);
+                        foreach (var item in empresaActual.Notificaciones)
+                        {
+                            if (item.Id == notificacion.Notificacion.Id)
+                            {
+                                if (item.EstadoAceptado)
+                                {
+                                    item.ContratoTerminado = true;
+                                    break;
+                                }
+                            }
+                        }
+                        var query = await _empresaService.GetEmpresaFirebaseObjectAsync(_empresa.UsuarioId);
+                        await _empresaService.UpdateAsync(empresaActual, Constantes.COLLECTION_EMPRESA, query);
+                    }
+
+                    var candidatoReceptor = await candidatoService.GetCandidatoFirebaseObjectAsync(notificacion.Notificacion.EmisorId);
+                    var EmpresaReceptor = await _empresaService.GetEmpresaFirebaseObjectAsync(notificacion.Notificacion.EmisorId);
+                    if (candidatoReceptor != null)
+                    {
+                        ENotificacion notificacionTerminada = new ENotificacion();
+
+                        var candidato = await candidatoService.GetCandidatoAsync(notificacion.Notificacion.EmisorId);
+                        notificacionTerminada.Id = Guid.NewGuid();
+                        if (_candidato != null)
+                        {
+                            notificacionTerminada.EmisorId = _candidato.UsuarioId;
+                            fullName = $"{_candidato.Nombre} {_candidato.Apellido}";
+                            isUser = "el usuario";
+                        }
+                        else if (_empresa != null)
+                        {
+
+                            notificacionTerminada.EmisorId = _empresa.UsuarioId;
+                            fullName = $"{_empresa.RazonSocial} NIT: {_empresa.Nit}";
+                            isUser = "la empresa";
+                        }
+                        notificacionTerminada.Fecha = DateTime.Now;
+                        notificacionTerminada.EstadoVisto = false;
+                        notificacionTerminada.ContratoTerminado = true;
+                        notificacionTerminada.Mensaje = "Califiqueme por favor.";
+                        notificacionTerminada.EstadoAceptado = true;
+                        if (candidato.Notificaciones == null)
+                        {
+                            candidato.Notificaciones = new List<ENotificacion>();
+                        }
+                        candidato.Notificaciones.Add(notificacionTerminada);
+                        await candidatoService.UpdateAsync(candidato, Constantes.COLLECTION_CANDIDATO, candidatoReceptor);
+
+                        new CorreoHelper().enviarCorreo(candidato.Email, notificacion.FullName, "Ya puede calificar.", $"el trabajo por {isUser} " +
+                            $"{fullName} ha terminado califique por favor.");
+                    }
+                    else if (EmpresaReceptor != null)
+                    {
+                        var empresa = await _empresaService.GetEmpresaAsync(notificacion.Notificacion.EmisorId);
+                        ENotificacion notificacionTerminada = new ENotificacion();
+                        notificacionTerminada.Id = Guid.NewGuid();
+                        if (_candidato != null)
+                        {
+                            notificacionTerminada.EmisorId = _candidato.UsuarioId;
+                            fullName = $"{_candidato.Nombre} {_candidato.Apellido}";
+                            isUser = "el usuario";
+                        }
+                        else if (_empresa != null)
+                        {
+
+                            notificacionTerminada.EmisorId = _empresa.UsuarioId;
+                            fullName = $"{_empresa.RazonSocial} NIT: {_empresa.Nit}";
+                            isUser = "la empresa";
+                        }
+                        notificacionTerminada.Fecha = DateTime.Now;
+                        notificacionTerminada.EstadoVisto = false;
+                        notificacionTerminada.ContratoTerminado = true;
+                        notificacionTerminada.Mensaje = "Califiqueme por favor.";
+                        notificacionTerminada.EstadoAceptado = true;
+                        if (empresa.Notificaciones == null)
+                        {
+                            empresa.Notificaciones = new List<ENotificacion>();
+                        }
+                        empresa.Notificaciones.Add(notificacionTerminada);
+                        await _empresaService.UpdateAsync(empresa, Constantes.COLLECTION_EMPRESA, EmpresaReceptor);
+                        new CorreoHelper().enviarCorreo(empresa.Email, notificacion.FullName, "Ya puede calificar.", $"el trabajo por {isUser} " +
+                            $"{fullName} ha terminado califique por favor.");
+                    }
+                    await Task.Delay(3000);
+                    LoadNotificaciones();
+                }
+            }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+            finally
+            {
+                await PopupNavigation.Instance.PopAsync();
+            }
         }
 
         private async void Deserializarusuario()
@@ -84,6 +262,12 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
         {
             get { return _noLeidas; }
             set { SetProperty(ref _noLeidas, value); }
+        }
+
+        public bool IsEnabled
+        {
+            get { return _isEnabled; }
+            set { SetProperty(ref _isEnabled, value); }
         }
         private async Task RefreshNotificaciones()
         {
@@ -144,7 +328,7 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                                     IdEmisor = empresaEmisor.UsuarioId,
                                     EmpresaEmisor = empresaEmisor,
                                     Notificacion = item,
-                                    FullName = $"De: {empresaEmisor.RazonSocial}: {empresaEmisor.Nit}"
+                                    FullName = $"{empresaEmisor.RazonSocial}: Nit: {empresaEmisor.Nit}"
                                 });
                             }
                         }
@@ -155,15 +339,15 @@ namespace ProyectoDIV1.ViewModels.Notificaciones
                                 IdEmisor = candidatoEmisor.UsuarioId,
                                 CandidatoEmisor = candidatoEmisor,
                                 Notificacion = item,
-                                FullName = $"De: {candidatoEmisor.Nombre} {candidatoEmisor.Apellido}"
+                                FullName = $"{candidatoEmisor.Nombre} {candidatoEmisor.Apellido}"
                             });
                         }
 
                     }, maxDegreeOfParallelism: 10);
+                    Notificaciones.Clear();
                     Notificaciones = new ObservableCollection<NotificacionDTO>(lista.OrderBy(x => x.Notificacion.Fecha));
                     NoLeidas = notificaciones.Count(x => x.EstadoVisto == false).ToString();
                     Mensaje = $"Tiene {NoLeidas} sin leer.";
-
                 }
             }
 

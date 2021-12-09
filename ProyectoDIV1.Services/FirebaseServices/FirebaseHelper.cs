@@ -3,6 +3,7 @@ using Firebase.Database.Query;
 using System;
 using System.Linq;
 using System.Threading.Tasks;
+using Xamarin.Essentials;
 
 namespace ProyectoDIV1.Services.FirebaseServices
 {
@@ -13,7 +14,14 @@ namespace ProyectoDIV1.Services.FirebaseServices
         {
             firebase = new FirebaseClient("https://proyectodiv-d53ed-default-rtdb.firebaseio.com/");
         }
-
+        public bool ValidarInternet()
+        {
+            if (Connectivity.NetworkAccess == NetworkAccess.Internet)
+            {
+                return true;
+            }
+            return false;
+        }
         public async Task CrearAsync<T>(T modelo, string nombreCollection)
         {
             await firebase

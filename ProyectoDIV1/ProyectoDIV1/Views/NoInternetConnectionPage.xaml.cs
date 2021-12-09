@@ -1,10 +1,7 @@
 ﻿using ProyectoDIV1.Helpers;
+using ProyectoDIV1.Services.Helpers;
 using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Xamarin.Essentials;
 using Xamarin.Forms;
 using Xamarin.Forms.Xaml;
@@ -38,7 +35,23 @@ namespace ProyectoDIV1.Views
                     }
                     else
                     {
-                        Application.Current.MainPage = new MasterPage();                     
+                        if (Settings.IsLogin)
+                        {
+                            string rol = Settings.TipoUsuario;
+                            if (rol.Equals(Constantes.ROL_CANDIDATO))
+                            {
+                                Application.Current.MainPage = new MasterCandidatoPage();
+                            }
+                            else if (rol.Equals(Constantes.ROL_EMPRESA))
+                            {
+                                Application.Current.MainPage = new MasterEmpresaPage();
+                            }
+                        }
+                        else
+                        {
+                            Application.Current.MainPage = new MasterPage();
+                        }
+
                     }
                 }
                 else
@@ -49,7 +62,7 @@ namespace ProyectoDIV1.Views
             catch (Exception ex)
             {
                 Debug.WriteLine(ex.Message);
-            }       
+            }
         }
     }
 }

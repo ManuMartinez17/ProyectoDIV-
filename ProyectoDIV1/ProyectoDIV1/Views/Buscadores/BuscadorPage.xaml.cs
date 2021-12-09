@@ -1,4 +1,5 @@
 ﻿using Acr.UserDialogs;
+using ProyectoDIV1.Helpers;
 using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.ViewModels.Buscadores;
 using Rg.Plugins.Popup.Services;
@@ -24,10 +25,15 @@ namespace ProyectoDIV1.Views.Buscadores
         {
             try
             {
+                await PopupNavigation.Instance.PopAllAsync(true);
                 UserDialogs.Instance.ShowLoading("cargando..");
-                await PopupNavigation.Instance.PopAsync(true);
                 SearchBar searchBar = (SearchBar)sender;
                 string texto = searchBar.Text;
+                if (texto.Length < 2)
+                {
+                    Toasts.Error("Ingrese un minimo de dos caracteres.", 4000);
+                    return;
+                }
                 texto = HttpUtility.UrlEncode(texto);
                 if (_buscador.Equals(Constantes.SEARCH_JOB))
                 {
