@@ -45,7 +45,7 @@ namespace ProyectoDIV1.Services
                 RestClient apiClient = new RestClient($"https://emsiservices.com/{rutaSolicitud}");
                 var request = new RestRequest(Method.GET);
                 request.AddHeader("Authorization", $"Bearer {token}");
-                IRestResponse response = apiClient.Execute(request);
+                IRestResponse response = await apiClient.ExecuteAsync(request);
 
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
@@ -76,7 +76,7 @@ namespace ProyectoDIV1.Services
                 RestClient apiClient = new RestClient($"https://emsiservices.com/{rutaSolicitud}");
                 var request = new RestRequest(Method.GET);
                 request.AddHeader("Authorization", $"Bearer {token}");
-                IRestResponse response = apiClient.Execute(request);
+                IRestResponse response = await apiClient.ExecuteAsync(request);
                 if (response.StatusCode == System.Net.HttpStatusCode.Unauthorized)
                 {
                     var mensaje = JsonConvert.DeserializeObject<Mensaje>(response.Content);

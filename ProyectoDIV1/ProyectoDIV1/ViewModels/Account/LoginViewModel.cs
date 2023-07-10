@@ -6,7 +6,6 @@ using ProyectoDIV1.Services.Helpers;
 using ProyectoDIV1.Services.Interfaces;
 using ProyectoDIV1.Validators;
 using ProyectoDIV1.Validators.Rules;
-using ProyectoDIV1.Views;
 using ProyectoDIV1.Views.Account;
 using System;
 using System.Diagnostics;
@@ -20,6 +19,7 @@ namespace ProyectoDIV1.ViewModels.Account
         #region Atributos
         private string _email;
         private string _password;
+        private static LoginViewModel _instance;
         private FirebaseHelper _firebaseHelper;
         public ValidatableObject<string> EmailValid { get; set; } = new ValidatableObject<string>();
         #endregion
@@ -34,6 +34,7 @@ namespace ProyectoDIV1.ViewModels.Account
         #region Constructor
         public LoginViewModel()
         {
+            _instance = this;
             _firebaseHelper = new FirebaseHelper();
             LoginCommand = new Command(OnLoginClicked, ValidateSave);
             InicioRegistroCommand = new Command(OnRegistroClicked);
@@ -42,6 +43,8 @@ namespace ProyectoDIV1.ViewModels.Account
             ForgotPasswordCommand = new Command(OnForgotPassword);
             AddValidationRules();
         }
+
+
         #endregion
 
         #region Properties
